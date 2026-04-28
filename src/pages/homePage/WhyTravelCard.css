@@ -1,0 +1,32 @@
+.why-us-card {
+    width: 100%;
+    position: relative;
+    background: #f9f5ea;
+}
+.travl-card-pico-box {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.why-us-content {
+    width: 100%;
+    position: relative;
+    text-align: center;
+    padding: 30px 20px;
+}
+.why-travel-main-box {
+    margin-top: 40px;
+}
+.why-us-content h4 {
+    font-size: 20px;
+    font-family: 'Libre Baskerville';
+    font-weight: 600;
+    color: #686868;
+    margin-bottom: 20px;
+}
+.why-us-card:hover img {
+    transform: scale(1.1);
+    transition: 0.5s;
+    opacity: 0.8;
+    cursor: pointer; 
+}

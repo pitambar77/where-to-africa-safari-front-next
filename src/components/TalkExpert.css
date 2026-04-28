@@ -1,0 +1,46 @@
+section.speack_to_expert-sec {
+    width: 100%;
+    position: relative;
+    background: #f9f5ea;
+    padding: 70px 0px;
+}
+h3.contac_bbb {
+    width: 100%;
+    position: relative;
+    margin: 30px 0px 0px 0px;
+    font-size: 20px;
+    font-weight: 700;
+}
+h3.contac_bbb span {
+    font-weight: 100;
+}
+.expert_member {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.expert_member h3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 20px;
+}
+.expert_member:before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    background: #0d000033;
+}
+.expert_member:hover img {
+    transform: scale(1.1);
+    transition: 0.5s;
+}

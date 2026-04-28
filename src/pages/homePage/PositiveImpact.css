@@ -1,0 +1,46 @@
+section.positive_impact_secsec {
+    width: 100%;
+    position: relative;
+    margin: 70px 0px;
+}
+.common-heading.positive-imp-coon {
+    position: absolute;
+    top: 50%;
+    left: 32%;
+    transform: translate(-50%, -50%);
+    text-align: left;
+    width: 50%;
+    color: #fff;
+    padding-left: 70px;
+}
+.common-heading.positive-imp-coon h6 {
+    font-size: 15px;
+    font-family: 'Montserrat';
+    font-weight: 600;
+}
+.common-heading.positive-imp-coon h2 {
+    color: #fff;
+}
+.common-heading.positive-imp-coon h5 {
+    color: #fff;
+}
+section.positive_impact_secsec:before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    background: #00000063;
+}
+h2.moving-text {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    transform: rotate(270deg) translateY(-50%);
+    transform-origin: left top;
+    width: auto;
+    color: #aaa086 !important;
+    margin-bottom: 0px;
+    padding: 0px;
+}

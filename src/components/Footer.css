@@ -1,0 +1,77 @@
+section.footer-sec {
+    width: 100%;
+    position: relative;
+    background: #201e1f;
+    padding: 70px 0px 30px 0px;
+}
+.footer_list_box {
+    width: 100%;
+    position: relative;
+    text-align: left;
+}
+.footer_list_box h3 {
+    font-size: 20px;
+    color: #c9c8c8;
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+ul.footer_list {
+    width: 100%;
+    position: relative;
+    padding: 0px;
+    margin: 20px 0px 0px 0px;
+    list-style: none;
+}
+ul.footer_list li a {
+    color: #c9c8c8;
+    text-decoration: none;
+    font-family: "Quicksand", sans-serif;
+    font-size: 15px;
+}
+ul.footer_list li {
+    margin-bottom: 6px;
+}
+.footer_parent_list {
+    padding-left: 50px;
+}
+section.copywrite-sec {
+    width: 100%;
+    position: relative;
+    background: #000;
+    padding: 15px 0px;
+}
+.copyy-write {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+ul.list_copy {
+    display: flex;
+    gap: 10px;
+    padding: 0px;
+    margin: 0px;
+}
+.copyy-write p {
+    color: #fff;
+    padding: 0px;
+    margin: 0px;
+    font-size: 14px;
+}
+ul.list_copy li {
+    padding-right: 20px;
+}
+ul.list_copy li a {
+    text-decoration: none;
+    color: #ab8c50;
+    font-size: 14px;
+}
+a.write_teram {
+    color: #fff !important;
+}
+ul.list_copy li::marker {
+    color: #fff;
+}

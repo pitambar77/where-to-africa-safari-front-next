@@ -1,0 +1,67 @@
+section.hero-sec {
+    width: 100%;
+    position: relative;
+}
+.hero_banner_con {
+    position: absolute;      
+    top: 50%;                
+    left: 5%;               
+    transform: translateY(-50%); 
+    color: #fff;            
+    padding: 20px;              
+}
+
+.hero_banner_con h1 {
+    font-size: 35px;
+    text-transform: uppercase;
+}
+.hero_banner_con input {
+    padding: 7px 10px;
+    width: 60%;
+    font-family: 'Montserrat', sans-serif;
+    border: none;
+    margin-right: 10px;
+    outline: none;
+}
+.serch-box button {
+    padding: 7px 10px;
+    border: none;
+    margin-right: 10px;
+    text-transform: uppercase;
+    background: #aaa086;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+}
+.serch-box {
+    width: 100%;
+    position: relative;
+    margin-top: 60px;
+}
+section.home-pack-sec {
+    width: 100%;
+    position: relative;
+    background: #f9f5ea;
+    padding: 60px 0;
+}
+
+.common-heading {
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+}
+.common-heading h2 {
+    color: #aaa086;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-family: "Cormorant Garamond", serif;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+.common-heading h5 {
+    color: #686868;
+    font-size: 36px;
+    margin: 20px 0px;
+    font-family: "Cormorant Garamond", serif;
+    line-height: 1.5;
+    font-weight: 600;
+}

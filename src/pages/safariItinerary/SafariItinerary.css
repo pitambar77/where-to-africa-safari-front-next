@@ -1,0 +1,115 @@
+.common-itineray-heading h2 {
+    color: #aaa086;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    font-family: 'Avenir-Book', sans-serif;
+}
+.common-itineray-heading h5 {
+    color: #686868;
+    font-size: 64px;
+    margin: 20px 0px;
+    font-family: "Libre Baskerville", serif;
+    line-height: 1.3;
+    font-weight: 500;
+}
+.common-itineray-heading p {
+    text-transform: uppercase;
+    color: #aaa086;
+    font-size: 14px;
+    letter-spacing: 2.8px;
+}.common-itineray-heading {
+    width: 70%;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+}
+.smal-short-box h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #aaa086;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    padding-bottom: 0px;
+    margin-bottom: 15px;
+}
+.smal-short-box h5 {
+    color: #686868;
+    font-family: 'Avenir-Book';
+    font-weight: 600;
+    font-size: 30px;
+    padding: 0px;
+    margin: 0px 0px 10px 0px;
+}
+.smal-short-box {
+    flex: 1 1 calc(16.66% - 15px);
+    position: relative;
+    padding: 0px 10px;
+}
+.itineray-short-del {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 70px 0px;
+}
+.smal-short-box:after {
+    content: "";
+    position: absolute;
+    border-right: 1px solid #d1d1d1;
+    display: block;
+    height: calc(100% + 10px);
+    top: -10px;
+    right: 0;
+}
+.smal-short-box:first-child {
+    flex: 0 0 calc(12% - 15px);
+}
+.smal-short-box:last-child::after {
+  border-right: none;
+}
+
+.smal-short-box p {
+    font-family: 'Avenir-Light';
+    color: #686868;
+}
+.smal-short-box h6 {
+    color: #686868;
+}
+section.safari-welcome-sec {
+    width: 100%;
+    position: relative;
+    padding: 70px 0px;
+}
+section.safari_itineray_map_sec {
+    width: 100%;
+    position: relative;
+    background: #f9f5ea;
+    padding: 70px 0px;
+}
+.map-box-iti {
+    width: 100%;
+    position: relative;
+    margin-top: 50px;
+}
+section.tours-heigh-sec {
+    width: 100%;
+    position: relative;
+    padding: 70px 0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

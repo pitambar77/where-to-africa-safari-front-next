@@ -1,0 +1,13 @@
+section.partner-sec {
+    width: 100%;
+    position: relative;
+    padding: 70px 0px;
+}
+.partner_iteam {
+    width: 100%;
+    position: relative;
+    margin: 50px 0px;
+}
+section.partner-sec .swiper-pagination-bullet-active {
+    background: #aaa086 !important;
+}

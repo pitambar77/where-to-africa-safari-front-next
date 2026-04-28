@@ -1,0 +1,18 @@
+section.founder-sec {
+    width: 100%;
+    position: relative;
+    padding: 70px 0px;
+}
+.common-heading.left-side-commn {
+    width: 100%;
+    position: relative;
+    text-align: left;
+}
+.common-heading.left-side-commn.padd_bbsbs_pp {
+    padding-right: 70px;
+}
+.common-heading.left-side-commn h6 {
+    font-size: 15px;
+    font-family: 'Montserrat';
+    font-weight: 600;
+}

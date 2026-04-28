@@ -1,0 +1,40 @@
+.tesmoni-crad {
+    width: 100%;
+    position: relative;
+}
+.rev_pico {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.review_main_rig_con {
+    width: 100%;
+    position: relative;
+    padding-left: 10px;
+}
+.review_main_rig_con h4 {
+    font-size: 25px;
+    font-family: "Cormorant Garamond", serif;
+    padding-bottom: 15px;
+    margin-bottom: 0px;
+}
+.review_main_rig_con h5 {
+    font-size: 15px;
+    font-family:"Cormorant Garamond", serif;
+    font-weight: 700;
+    color: #aaa086;
+}
+ul.rating-star_review {
+    width: 100%;
+    position: relative;
+    display: flex;
+    padding: 0px;
+    margin: 20px 0px;
+    list-style: none;
+}
+.row.review-main-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
