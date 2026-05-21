@@ -42,7 +42,7 @@ const ExperienceDetails = ({ experience, destinationName }) => {
           subtitle={experience.overview.subTitle}
           description={experience.overview.description}
         />
-        <Include includes={experience.includes} />
+        <Include includes={experience.includes} bookNowUrl={experience.bookNowUrl} />
       </div>
       {/* <GameDriveOption 
       gameDrives={experience.gameDrives}   /> */}

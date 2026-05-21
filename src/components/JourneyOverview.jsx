@@ -75,6 +75,7 @@ const JourneyOverview = ({
             {cities}
           </p>
         </div> */}
+       
         </div>
       </div>
 

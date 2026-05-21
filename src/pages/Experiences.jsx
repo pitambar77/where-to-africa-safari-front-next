@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import {
@@ -17,6 +17,7 @@ const Experiences = () => {
   const [bannersubtitle, setBannerSubtitle] = useState("");
   const [highlightheading, setHighlightHeading] = useState("");
   const [imageheading, setImageHeading] = useState("");
+  const [bookNowUrl, setBookNowUrl] = useState("");
 
   const [bannerImage, setBannerImage] = useState(null);
   const [galleryDescription, setGalleryDescription] = useState("");
@@ -87,6 +88,7 @@ const Experiences = () => {
     setHighlightHeading(exp.highlightheading || "");
     setImageHeading(exp.imageheading || "");
     setBannerImage(null); // keep existing unless replaced
+    setBookNowUrl(exp.bookNowUrl || "");
 
     // Gallery
     setGalleryDescription(exp.galleryDescription || "");
@@ -174,6 +176,7 @@ const Experiences = () => {
     formData.append("bannersubtitle", bannersubtitle);
     formData.append("highlightheading", highlightheading);
     formData.append("imageheading", imageheading);
+    formData.append("bookNowUrl", bookNowUrl);
 
     // Uploads
     if (bannerImage) formData.append("bannerImage", bannerImage);
@@ -242,9 +245,6 @@ const Experiences = () => {
 
     setEditId(null);
     fetchExperiences();
-
-    // fetchExperiences();
-    alert("Experience created successfully!");
   };
 
   // Helpers for dynamic fields
@@ -324,6 +324,7 @@ const Experiences = () => {
             value={bannerDescription}
             onChange={(e) => setBannerDescription(e.target.value)}
           />
+      
           <input
             type="file"
             className="border p-2 w-full mt-2"
@@ -380,6 +381,13 @@ const Experiences = () => {
                 })
               }
             />
+                <input
+            type="text"
+            placeholder="Book Now URL"
+            className="border p-2 w-full mt-2"
+            value={bookNowUrl}
+            onChange={(e) => setBookNowUrl(e.target.value)}
+          />
           </div>
         </div>
 
