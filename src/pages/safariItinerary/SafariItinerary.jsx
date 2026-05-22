@@ -11,7 +11,7 @@ import JourneysCarousel from "../Accomodation/AccomodationDetails/JourneysCarous
 import Itinerary from "./itinerary/Itinerary";
 import ItinenaryForm from "../../components/ItinenaryForm";
 import IncludeExl from "./IncludeExl";
-import ItineraryDetailsSkeleton from "../../components/skeletons/ItineraryDetailsSkeleton";
+// import ItineraryDetailsSkeleton from "../../components/skeletons/ItineraryDetailsSkeleton";
 import PageNotFound from "../PageNotFound";
 
 const SafariItinerary = ({ trip }) => {

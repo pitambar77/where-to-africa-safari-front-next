@@ -7,19 +7,18 @@ const IncludeExl = ({ aboutBooking = [], requirements = [] }) => {
       <div className="px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-28 flex justify-center py-4 md:py-10">
         <IncluExcluContainer
           title="Packages Include"
-          items={aboutBooking || []}
+          items={Array.isArray(aboutBooking) ? aboutBooking : []}
         />
       </div>
 
       <div className="px-4 md:px-10 lg:px-16 xl:px-20 2xl:px-28 flex justify-center py-10">
         <IncluExcluContainer
           title="Packages Exclude"
-          items={requirements || []}
+          items={Array.isArray(requirements) ? requirements : []}
         />
       </div>
     </>
   );
 };
 
-
-export default IncludeExl
+export default IncludeExl;
