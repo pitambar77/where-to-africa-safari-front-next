@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SafariCard from '../Accomodation/LandingPage/SafariCard';
-import safarisData from "../../data/safaris.json"; // Retain data import as we're keeping data logic here
+import safarisData from "../../lib/safaris.json"; // Retain data import as we're keeping data logic here
 // import { safarisData } from '../../data/safariData';
 
 const Itinarary = () => {

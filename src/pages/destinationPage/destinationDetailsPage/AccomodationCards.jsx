@@ -75,7 +75,6 @@
 
 import React from 'react'
 import SafariCard from '../../Accomodation/LandingPage/SafariCard'
-import { safarisData } from '../../../data/safariData'
 
 const AccomodationCards = () => {
   
