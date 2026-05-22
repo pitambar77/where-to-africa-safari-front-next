@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState, useMemo } from "react";
 import SafariCard from "../pages/Accomodation/LandingPage/SafariCard";
@@ -16,16 +16,23 @@ const PackageList = ({ destinationData }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 8;
 
-
   // =============================
   // DESTINATIONS DROPDOWN (ONLY WITH TRIPS)
   // =============================
+  // const destinations = useMemo(() => {
+  //   return destinationData
+  //     .filter((destination) =>
+  //       destination.regions?.some((region) => region.trips?.length > 0),
+  //     )
+  //     .map((dest) => dest.name.trim());
+  // }, [destinationData]);
+
   const destinations = useMemo(() => {
-    return destinationData
-      .filter((destination) =>
-        destination.regions?.some((region) => region.trips?.length > 0),
+    return (destinationData || [])
+      .filter((destination = {}) =>
+        destination?.regions?.some((region) => region?.trips?.length > 0),
       )
-      .map((dest) => dest.name.trim());
+      .map((dest) => dest?.name?.trim() || "");
   }, [destinationData]);
 
   // Reset destination if removed
@@ -60,8 +67,6 @@ const PackageList = ({ destinationData }) => {
       setSelectedRegion("");
     }
   }, [regions]);
-
-
 
   const allTrips = useMemo(() => {
     const tripMap = new Map(); // ✅ prevents duplicates
@@ -236,64 +241,66 @@ const PackageList = ({ destinationData }) => {
   return (
     <div className=" bg-[#fbf6ea]">
       <div className=" max-w-[1300px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-0 pb-8 sm:pb-10 md:pb-16">
-      <Overview
-        title="Travel Made Easy"
-        subtitle={`"Where to Africa" designs safari packages that bring together wildlife, landscapes, and culture into a clear, carefully planned journey.`}
-        description="Each package across Africa balances game drives, scenic routes, quality accommodation, and local expertise, ensuring your experience is organised, comfortable, and genuinely fulfilling throughout your time away."
-      />
-
-      <div className="">
-        <Filters
-          destinations={destinations}
-          regions={regions}
-          selectedDestination={selectedDestination}
-          setSelectedDestination={setSelectedDestination}
-          selectedRegion={selectedRegion}
-          setSelectedRegion={setSelectedRegion}
-          selectedPriceRange={selectedPriceRange}
-          setSelectedPriceRange={setSelectedPriceRange}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          onReset={handleReset}
+        <Overview
+          title="Travel Made Easy"
+          subtitle={`"Where to Africa" designs safari packages that bring together wildlife, landscapes, and culture into a clear, carefully planned journey.`}
+          description="Each package across Africa balances game drives, scenic routes, quality accommodation, and local expertise, ensuring your experience is organised, comfortable, and genuinely fulfilling throughout your time away."
         />
 
-        {currentCards.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {currentCards.map((item) => (
-              <SafariCard
-                key={item.id}
-                safari={item}
-                link={`/package/${item.slug}`}
-              />
-            ))}
+        <div className="">
+          <Filters
+            destinations={destinations}
+            regions={regions}
+            selectedDestination={selectedDestination}
+            setSelectedDestination={setSelectedDestination}
+            selectedRegion={selectedRegion}
+            setSelectedRegion={setSelectedRegion}
+            selectedPriceRange={selectedPriceRange}
+            setSelectedPriceRange={setSelectedPriceRange}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            onReset={handleReset}
+          />
+
+          {currentCards.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {currentCards.map((item) => (
+                <SafariCard
+                  key={item.id}
+                  safari={item}
+                  link={`/package/${item.slug}`}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-600 mt-10">
+              No packages found.
+            </p>
+          )}
+
+          <div className="flex justify-center items-center mt-12 gap-2 flex-wrap">
+            {currentPage > 1 && (
+              <button
+                onClick={() => setCurrentPage(currentPage - 1)}
+                className="px-4 py-2 bg-white border text-[#aaa086] cursor-pointer rounded-md"
+              >
+                Prev
+              </button>
+            )}
+
+            {renderPagination()}
+
+            {currentPage < totalPages && (
+              <button
+                onClick={() => setCurrentPage(currentPage + 1)}
+                className="px-4 py-2 bg-[#aaa086] cursor-pointer text-white rounded-md"
+              >
+                Next
+              </button>
+            )}
           </div>
-        ) : (
-          <p className="text-center text-gray-600 mt-10">No packages found.</p>
-        )}
-
-        <div className="flex justify-center items-center mt-12 gap-2 flex-wrap">
-          {currentPage > 1 && (
-            <button
-              onClick={() => setCurrentPage(currentPage - 1)}
-              className="px-4 py-2 bg-white border text-[#aaa086] cursor-pointer rounded-md"
-            >
-              Prev
-            </button>
-          )}
-
-          {renderPagination()}
-
-          {currentPage < totalPages && (
-            <button
-              onClick={() => setCurrentPage(currentPage + 1)}
-              className="px-4 py-2 bg-[#aaa086] cursor-pointer text-white rounded-md"
-            >
-              Next
-            </button>
-          )}
         </div>
       </div>
-       </div>
     </div>
   );
 };

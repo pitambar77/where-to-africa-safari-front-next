@@ -2,7 +2,12 @@ import React from 'react'
 import Banner from '../../components/Banner'
 import PackageList from '../../components/PackageList'
 
-const PackageLanding = ({ destinationData }) => {
+const PackageLanding = ({ destinationData =[] }) => {
+
+  if (!Array.isArray(destinationData)) {
+  return null;
+}
+
   return (
     <div>
            <Banner
