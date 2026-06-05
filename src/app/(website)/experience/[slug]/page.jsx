@@ -1,6 +1,5 @@
 import ExperienceDetails from "@/pages/experiencePage/experienceDetails/ExperienceDetails";
 
-
 async function getExperience(slug) {
   const res = await fetch(
     `${process.env.API_BASE}/api/experience/slug/${slug}`,
@@ -31,6 +30,101 @@ async function getDestinationName(slug) {
   return "";
 }
 
+/* ================= FETCH SEO ================= */
+
+async function getSEO(experienceId) {
+  const res = await fetch(
+    `${process.env.API_BASE}/api/seo?referenceId=${experienceId}&referenceType=experience`,
+    {
+      cache: "no-store",
+    },
+  );
+
+  if (!res.ok) return null;
+
+  return res.json();
+}
+
+/* ================= SEO METADATA ================= */
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+
+  const experience = await getExperience(slug);
+
+  if (!experience) {
+    return {
+      title: "Experience Not Found",
+    };
+  }
+
+  const seo = await getSEO(experience._id.toString());
+
+  return {
+    /* BASIC SEO */
+    title: seo?.metaTitle || experience.title,
+
+    description: seo?.metaDescription || experience.description || "",
+
+    keywords: seo?.keywords || "",
+
+    /* CANONICAL */
+    alternates: {
+      canonical:
+        seo?.canonicalUrl ||
+        `https://wheretoafrica.manoramaseoservice.com/experience/${slug}`,
+    },
+
+    /* ROBOTS */
+    robots: seo?.noIndex
+      ? {
+          index: false,
+          follow: false,
+        }
+      : {
+          index: true,
+          follow: true,
+        },
+
+    /* OPEN GRAPH */
+    openGraph: {
+      title: seo?.metaTitle || experience.title,
+
+      description: seo?.metaDescription || experience.description || "",
+
+      url:
+        seo?.canonicalUrl ||
+        `https://wheretoafrica.manoramaseoservice.com/experience/${slug}`,
+
+      siteName: "Where to Africa",
+
+      images: [
+        {
+          url: seo?.ogImage || experience.image || "",
+
+          width: 1200,
+          height: 630,
+
+          alt: seo?.metaTitle || experience.title,
+        },
+      ],
+
+      type: "website",
+    },
+
+    /* TWITTER */
+    twitter: {
+      card: "summary_large_image",
+
+      title: seo?.metaTitle || experience.title,
+
+      description: seo?.metaDescription || experience.description || "",
+
+      images: [seo?.ogImage || experience.image || ""],
+    },
+  };
+}
+
 export default async function Page({ params }) {
   const { slug } = await params;
 
@@ -41,10 +135,25 @@ export default async function Page({ params }) {
 
   if (!experience) return <div>Not Found</div>;
 
+  /* FETCH SEO */
+  const seo = await getSEO(experience._id.toString());
+
   return (
-    <ExperienceDetails
-      experience={experience}
-      destinationName={destinationName}
-    />
+    <>
+      {/* SCHEMA MARKUP */}
+      {seo?.schemaMarkup && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(seo.schemaMarkup),
+          }}
+        />
+      )}
+
+      <ExperienceDetails
+        experience={experience}
+        destinationName={destinationName}
+      />
+    </>
   );
 }

@@ -8,6 +8,7 @@ import {
 } from "../api/experienceAPI.js";
 import { getAllDestinations } from "../api/destinationAPI.js";
 import { updateExperience } from "../api/experienceAPI.js";
+import { useRouter } from "next/navigation";
 
 const Experiences = () => {
   // Basic state
@@ -52,6 +53,8 @@ const Experiences = () => {
   ]);
 
   const [editId, setEditId] = useState(null);
+
+  const router = useRouter();
 
   // Fetch data
   useEffect(() => {
@@ -324,7 +327,7 @@ const Experiences = () => {
             value={bannerDescription}
             onChange={(e) => setBannerDescription(e.target.value)}
           />
-      
+
           <input
             type="file"
             className="border p-2 w-full mt-2"
@@ -381,13 +384,13 @@ const Experiences = () => {
                 })
               }
             />
-                <input
-            type="text"
-            placeholder="Book Now URL"
-            className="border p-2 w-full mt-2"
-            value={bookNowUrl}
-            onChange={(e) => setBookNowUrl(e.target.value)}
-          />
+            <input
+              type="text"
+              placeholder="Book Now URL"
+              className="border p-2 w-full mt-2"
+              value={bookNowUrl}
+              onChange={(e) => setBookNowUrl(e.target.value)}
+            />
           </div>
         </div>
 
@@ -747,6 +750,14 @@ const Experiences = () => {
             <div className="flex gap-4">
               <button onClick={() => handleEdit(exp)} className="text-blue-500">
                 Edit
+              </button>
+              <button
+                onClick={() =>
+                  router.push(`/dashboard/experiences/seo/${exp._id}`)
+                }
+                className="bg-purple-600 text-white px-3 py-1 rounded"
+              >
+                SEO
               </button>
 
               <button

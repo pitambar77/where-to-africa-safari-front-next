@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 import {
   createDestination,
   getAllDestinations,
@@ -115,6 +116,8 @@ const Destinations = () => {
     ],
   });
   const [editingId, setEditingId] = useState(null);
+
+  const router = useRouter();
 
   // Fetch all destinations
   const fetchDestinations = async () => {
@@ -347,25 +350,6 @@ const Destinations = () => {
     regions[regionIndex].whenvisit[visitIndex].months.splice(monthIndex, 1);
     setFormData({ ...formData, regions });
   };
-
-  // const handleEdit = (dest) => {
-  //   setEditingId(dest._id);
-  //   setFormData({
-  //     name: dest.name,
-  //     slug: dest.slug,
-  //     title: dest.hero?.title || "",
-  //     subtitle: dest.hero?.subtitle || "",
-  //     description: dest.hero?.description || "",
-  //     bannerImage: null,
-  //     regions: dest.regions.map((r) => ({
-  //       ...r,
-  //       image: null, // file input reset
-  //       existingImage: r.image || "", // ✅ keep old image
-  //       thingstodo: r.thingstodo || [],
-  //       whenvisit: r.whenvisit || [],
-  //     })),
-  //   });
-  // };
 
   const handleEdit = (dest) => {
     setEditingId(dest._id);
@@ -987,12 +971,28 @@ const Destinations = () => {
                     ? dest.regions.map((r) => r.name).join(", ")
                     : "No regions"}
                 </td>
-                <td className="border p-2 text-center space-x-2">
+                <td className="border p-2 text-center justify-center items-center flex gap-4">
                   <button
                     onClick={() => handleEdit(dest)}
                     className="bg-yellow-400 px-3 py-1 rounded"
                   >
                     Edit
+                  </button>
+                  <button
+                    onClick={() =>
+                      router.push(`/dashboard/destinations/seo/${dest._id}`)
+                    }
+                    className="bg-purple-600 text-white px-3 py-1 rounded"
+                  >
+                    SEO
+                  </button>
+                  <button
+                    onClick={() =>
+                      router.push(`/dashboard/destinations/regions/${dest._id}`)
+                    }
+                    className="bg-green-600 text-white px-3 py-1 rounded"
+                  >
+                    Regions
                   </button>
                   <button
                     onClick={() => handleDelete(dest._id)}

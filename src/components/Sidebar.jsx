@@ -19,18 +19,49 @@ const Sidebar = () => {
       icon: <FaMapMarkedAlt />,
     },
     {
+      name: "Experience Landing",
+      path: "/dashboard/experiences/landing",
+      icon: <FaUmbrellaBeach />,
+    },
+    {
       name: "Experiences",
       path: "/dashboard/experiences",
       icon: <FaUmbrellaBeach />,
     },
     { name: "Packages", path: "/dashboard/trips", icon: <FaRoute /> },
+    { name: "Packages landing", path: "/dashboard/itinenarylanding", icon: <FaRoute /> },
     {
       name: "Accommodations",
       path: "/dashboard/accommodations",
       icon: <FaHotel />,
     },
+      {
+      name: "Accommodations landing",
+      path: "/dashboard/accommodations/landing",
+      icon: <FaHotel />,
+    },
+        {
+      name: "About us",
+      path: "/dashboard/aboutus",
+      icon: <FaHotel />,
+    },
     { name: "Travel Guide", path: "/dashboard/travelguide", icon: <FaHotel /> },
     { name: "Travelguidelist", path: "/dashboard/travelguidelist", icon: <FaHotel /> },
+       {
+      name: "Conservation",
+      path: "/dashboard/conservation",
+      icon: <FaHotel />,
+    },
+     {
+      name: "Contact us",
+      path: "/dashboard/contactus",
+      icon: <FaHotel />,
+    },
+    {
+      name: "Home",
+      path: "/dashboard/homepage",
+      icon: <FaHotel />,
+    },
   ];
 
   return (

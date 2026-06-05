@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
@@ -77,6 +77,13 @@ const TravelguideList = () => {
                 className="px-3 py-1 border rounded-lg"
               >
                 Edit
+              </Link>
+
+              <Link
+                href={`/dashboard/travelguidelist/seo/${blog._id}`}
+                className="bg-purple-600 text-white px-3 py-1 rounded"
+              >
+                SEO
               </Link>
 
               {/* DELETE */}

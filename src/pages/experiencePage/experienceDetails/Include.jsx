@@ -18,6 +18,10 @@ const Include = ({ includes = [], bookNowUrl }) => {
   const [showBooking, setShowBooking] = useState(false);
   return (
     <section className=" max-w-[1300px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-0 pb-8 sm:pb-10 md:pb-16">
+      {/* Hidden preload iframe */}
+      {/* {bookNowUrl && (
+        <iframe src={bookNowUrl} title="preload-booking" className="hidden" />
+      )} */}
       <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-6 sm:mb-10 md:mb-16 text-[#636363] capitalize font-cormorant text-center">
         What's Included
       </h2>

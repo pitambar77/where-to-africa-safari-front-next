@@ -30,8 +30,10 @@ export default function ZauiBookingModal({ url, isOpen, onClose }) {
     <>
       {/* MAIN BOOKING MODAL */}
       <div
-        className={`fixed inset-0 z-[99999] ${
-          isOpen ? "flex" : "hidden"
+        className={`fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 transition-opacity duration-300 ${
+          isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         } items-center justify-center bg-black/70`}
       >
         <div className="relative w-[85%] h-[95%] bg-white rounded-lg overflow-hidden">
@@ -53,6 +55,7 @@ export default function ZauiBookingModal({ url, isOpen, onClose }) {
           {/* iframe */}
           <iframe
             src={url}
+            loading="eager"
             className="w-full h-full border-0"
             onLoad={() => setIframeLoaded(true)}
           />

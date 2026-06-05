@@ -1,10 +1,11 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { createAccommodation } from "../api/accommodationAPI.js";
 import ImageUpload from "./ImageUpload";
 import QnASection from "./QnASection";
 import { getAllDestinations } from "../api/destinationAPI.js";
+import { useRouter } from "next/navigation";
 
 import {
   getAccommodationById,
@@ -54,6 +55,9 @@ const AccommodationForm = () => {
   const [loading, setLoading] = useState(false);
 
   const [editingId, setEditingId] = useState(null);
+
+  const router = useRouter();
+
   const isEditMode = Boolean(editingId);
 
   const selectedDestination = watch("destination");
@@ -144,78 +148,6 @@ const AccommodationForm = () => {
     }
   };
 
-  // const handleEdit = async (id) => {
-  //   try {
-  //     const { data } = await getAccommodationById(id);
-
-  //     reset(data);
-  //     setEditingId(id);
-
-  //     // ✅ NEW DATA (has IDs)
-  //     if (data.destinationId && data.regionId) {
-  //       setSelectedDestinationId(data.destinationId);
-  //       setSelectedRegionId(data.regionId);
-  //     } else {
-  //       // ⚠️ OLD DATA fallback
-  //       const selectedDest = destinations.find(
-  //         (d) => d.name === data.destination,
-  //       );
-
-  //       if (selectedDest) {
-  //         setSelectedDestinationId(selectedDest._id);
-
-  //         const selectedRegion = selectedDest.regions.find(
-  //           (r) => r.name === data.subdestination,
-  //         );
-
-  //         if (selectedRegion) {
-  //           setSelectedRegionId(selectedRegion._id);
-  //         }
-  //       }
-  //     }
-
-  //     setAmenities(
-  //       data.amenities.map((a) => ({
-  //         amenityName: a.amenityName,
-  //         amenityImage: a.amenityImage,
-  //       })),
-  //     );
-
-  //     setGallery(
-  //       data.gallery.map((g) => ({
-  //         galleryName: g.galleryName,
-  //         galleryImage: g.galleryImage,
-  //       })),
-  //     );
-
-  //     setAboutBooking(data.aboutBooking || []);
-  //     setRequirements(data.requirements || []);
-
-  //     window.scrollTo({ top: 0, behavior: "smooth" });
-  //   } catch (err) {
-  //     console.error(err);
-  //     alert("Failed to load accommodation");
-  //   }
-  // };
-
-  // Handle region update when destination changes
-  // useEffect(() => {
-  //   const selected = destinations.find((d) => d._id === selectedDestinationId);
-  //   setRegions(selected?.regions || []);
-  // }, [selectedDestinationId, destinations]);
-
-  // useEffect(() => {
-  //   if (editingId && selectedDestinationId && selectedRegionId) {
-  //     const selected = destinations.find(
-  //       (d) => d._id === selectedDestinationId,
-  //     );
-
-  //     if (selected) {
-  //       setRegions(selected.regions || []);
-  //     }
-  //   }
-  // }, [editingId, selectedDestinationId, selectedRegionId, destinations]);
-
   useEffect(() => {
     const selected = destinations.find((d) => d._id === selectedDestinationId);
     setRegions(selected?.regions || []);
@@ -242,16 +174,6 @@ const AccommodationForm = () => {
       formData.append("destination", data.destination);
       formData.append("subdestination", data.subdestination);
     }
-
-    // ✅ ALWAYS send IDs
-    // formData.append("destinationId", selectedDestinationId);
-    // formData.append("regionId", selectedRegionId);
-
-    // // Only for create
-    // if (!editingId) {
-    //   formData.append("destination", data.destination);
-    //   formData.append("subdestination", data.subdestination);
-    // }
 
     // Text fields
     [
@@ -284,18 +206,6 @@ const AccommodationForm = () => {
     if (data.landingImage?.[0]) {
       formData.append("landingImage", data.landingImage[0]);
     }
-
-    // Amenities
-    // formData.append(
-    //   "amenities",
-    //   JSON.stringify(
-    //     amenities.map((a) => ({
-    //       amenityName: a.amenityName,
-    //       amenityImage:
-    //         typeof a.amenityImage === "string" ? a.amenityImage : null,
-    //     })),
-    //   ),
-    // );
 
     formData.append(
       "amenities",
@@ -511,55 +421,9 @@ const AccommodationForm = () => {
             {...register("accommodationType", { required: true })}
             className="border p-2 rounded"
           />
-          {/* <input
-            type="text"
-            placeholder="Check-In"
-            {...register("checkIn")}
-            className="border p-2 rounded"
-          />
-          <input
-            type="text"
-            placeholder="Check-Out"
-            {...register("checkOut")}
-            className="border p-2 rounded"
-          /> */}
         </div>
-
-        {/* <input
-        type="text"
-        placeholder="Amenities (comma separated)"
-        {...register("amenities")}
-        className="w-full border p-2 rounded mt-4"
-      /> */}
 
         <h3 className="font-semibold mt-6 mb-2">Amenities</h3>
-
-        {/* {amenities.map((item, index) => (
-        <div key={index} className="flex gap-3 mb-3">
-          <input
-            type="text"
-            placeholder="Amenity Name"
-            value={item.amenityName}
-            onChange={(e) => {
-              const updated = [...amenities];
-              updated[index].amenityName = e.target.value;
-              setAmenities(updated);
-            }}
-            className="border p-2 rounded w-1/2"
-          />
-
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const updated = [...amenities];
-              updated[index].amenityImage = e.target.files[0];
-              setAmenities(updated);
-            }}
-            className="border p-2 rounded w-1/2"
-          />
-        </div>
-      ))} */}
 
         {amenities.map((item, index) => (
           <div key={index} className="flex gap-3 mb-3 items-center">
@@ -618,13 +482,7 @@ const AccommodationForm = () => {
           + Add Amenity
         </button>
 
-        {/* Gallery */}
-        {/* <ImageUpload
-        label="Gallery Images"
-        name="galleryImages"
-        multiple
-        register={register}
-      /> */}
+   
 
         <h3 className="font-semibold mt-6 mb-2">Gallery</h3>
 
@@ -765,6 +623,14 @@ const AccommodationForm = () => {
                       className="px-3 py-1 bg-yellow-500 text-white rounded"
                     >
                       Edit
+                    </button>
+                    <button
+                      onClick={() =>
+                        router.push(`/dashboard/accommodations/seo/${item._id}`)
+                      }
+                      className="bg-purple-600 text-white px-3 py-1 rounded"
+                    >
+                      SEO
                     </button>
                     <button
                       onClick={() => handleDelete(item._id)}

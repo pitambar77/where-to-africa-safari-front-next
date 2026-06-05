@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import {
@@ -9,6 +9,7 @@ import {
 } from "../api/tripAPI.js";
 import { getAllDestinations } from "../api/destinationAPI.js";
 import QnASection from "../components/QnASection";
+import { useRouter } from "next/navigation";
 
 const Trips = () => {
   const [trips, setTrips] = useState([]);
@@ -55,6 +56,8 @@ const Trips = () => {
   ]);
 
   const [editId, setEditId] = useState(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     fetchTrips();
@@ -430,13 +433,13 @@ const Trips = () => {
           />
         </div>
 
-         <input
-            type="text"
-            placeholder="Link"
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
-            className="border p-2 w-full"
-          />
+        <input
+          type="text"
+          placeholder="Link"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          className="border p-2 w-full"
+        />
 
         <textarea
           placeholder="Description"
@@ -668,6 +671,12 @@ const Trips = () => {
                 className="text-blue-500"
               >
                 Edit
+              </button>
+              <button
+                onClick={() => router.push(`/dashboard/trips/seo/${trip._id}`)}
+                className="bg-purple-600 text-white px-3 py-1 rounded"
+              >
+                SEO
               </button>
               <button
                 onClick={() => handleDelete(trip._id)}
