@@ -186,10 +186,15 @@ import BestTimeToVisitSection from "@/components/BestTimeToVisit/BestTimeToVisit
 import JourneysCarousel from "../../Accomodation/AccomodationDetails/JourneysCarousel";
 
 const DestinationDetails = ({
+  // region,
+  // destination,
+  // destinationSlug,
+  // regionSlug,
   region,
   destination,
   destinationSlug,
   regionSlug,
+  regionTrips = [],
 }) => {
   const router = useRouter();
 
@@ -239,13 +244,13 @@ const DestinationDetails = ({
       description: month.description?.map((d) => d.content) || [],
     })) || [];
 
-  const allTrips = [
-    ...new Map(
-      (destination?.regions?.flatMap((r) => r.trips || []) || []).map(
-        (trip) => [trip._id, trip],
-      ),
-    ).values(),
-  ];
+  // const allTrips = [
+  //   ...new Map(
+  //     (destination?.regions?.flatMap((r) => r.trips || []) || []).map(
+  //       (trip) => [trip._id, trip],
+  //     ),
+  //   ).values(),
+  // ];
 
   return (
     <>
@@ -274,9 +279,9 @@ const DestinationDetails = ({
           description={overviewDescription}
         />
 
-        {allTrips.length > 0 && (
+        {regionTrips.length > 0 && (
           <ParticularDestinationPackage
-            data={allTrips.map((trip) => ({
+            data={regionTrips.map((trip) => ({
               id: trip.slug,
               title: trip.title,
               image: trip.image,

@@ -82,13 +82,26 @@ const TripHighlights = ({ highlights = [] }) => {
                 <div className="bg-white rounded-md shadow-sm overflow-hidden h-full flex flex-col">
                   {/* Image */}
                   <div className="relative w-full h-60">
-                    <Image
+                    {/* <Image
                       src={item.tripHighlightImage}
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover"
-                    />
+                    /> */}
+                    {item.tripHighlightImage ? (
+                      <Image
+                        src={item.tripHighlightImage}
+                        alt={item.title || "Trip Highlight"}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                        No Image
+                      </div>
+                    )}
                     {item.status === "Include" && (
                       <span className="absolute top-3 left-3 bg-[#ae9d71] text-white text-xs px-3 py-1 rounded">
                         Included Experience

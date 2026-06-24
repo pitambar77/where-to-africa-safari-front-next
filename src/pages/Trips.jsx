@@ -216,6 +216,9 @@ const Trips = () => {
     });
 
     if (editId) {
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
       await updateTrip(editId, formData);
       alert("Trip updated successfully!");
     } else {
@@ -281,8 +284,8 @@ const Trips = () => {
   const handleEdit = (trip) => {
     setEditId(trip._id);
     setSelectedDestinationId(trip.destination?._id || "");
-    setSelectedRegionId(trip.region?._id || ""); // ✅ FIX
-
+    // setSelectedRegionId(trip.region?._id || ""); // ✅ FIX
+    setSelectedRegionId(trip.region || ""); // ✅ FIX
     setTitle(trip.title);
     setSubtitle(trip.subtitle);
     setLocation(trip.location);

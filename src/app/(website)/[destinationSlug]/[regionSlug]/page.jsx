@@ -28,6 +28,19 @@ async function getDestination(destinationSlug) {
   return res.json();
 }
 
+async function getRegionTrips(destinationSlug, regionSlug) {
+  const res = await fetch(
+    `${process.env.API_BASE}/api/trips/${destinationSlug}/${regionSlug}`,
+    {
+      next: { revalidate: 60 },
+    },
+  );
+
+  if (!res.ok) return [];
+
+  return res.json();
+}
+
 /* ================= FETCH SEO ================= */
 
 async function getSEO(regionId) {
@@ -127,10 +140,16 @@ export default async function Page({ params }) {
   const { destinationSlug, regionSlug } = await params;
 
   // ✅ Fetch in parallel (faster)
-  const [region, destination] = await Promise.all([
-    getRegion(destinationSlug, regionSlug),
-    getDestination(destinationSlug),
-  ]);
+  // const [region, destination] = await Promise.all([
+  //   getRegion(destinationSlug, regionSlug),
+  //   getDestination(destinationSlug),
+  // ]);
+
+  const [region, destination, regionTrips] = await Promise.all([
+  getRegion(destinationSlug, regionSlug),
+  getDestination(destinationSlug),
+  getRegionTrips(destinationSlug, regionSlug),
+]);
 
   // ✅ THIS is the correct 404 trigger
   if (!region || !destination) {
@@ -151,11 +170,18 @@ export default async function Page({ params }) {
           }}
         />
       )}
+      {/* <DestinationDetails
+        region={region}
+        destination={destination}
+        destinationSlug={destinationSlug}
+        regionSlug={regionSlug}
+      /> */}
       <DestinationDetails
         region={region}
         destination={destination}
         destinationSlug={destinationSlug}
         regionSlug={regionSlug}
+        regionTrips={regionTrips}
       />
     </>
   );

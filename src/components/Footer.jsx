@@ -5,10 +5,10 @@ import Image from "next/image";
 const Footer = () => {
   return (
     <footer className="bg-[#1b1b1b] text-[#d9d9d9] ">
-      <div className="max-w-[1320px] mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-5 gap-8">
+      <div className="max-w-[1320px] mx-auto px-4 py-16 grid lg:grid-cols-[280px_1fr] gap-12">
         {/* Logo Section */}
-        <div className="md:col-span-2 flex flex-col items-start">
-          <div className="relative w-60 h-20 mb-4">
+        <div className="flex flex-col items-start">
+          <div className="relative w-60 h-20">
             <Image
               src="/whereto-logo.webp"
               alt="Where To Africa Logo"
@@ -16,102 +16,65 @@ const Footer = () => {
               className="object-contain"
             />
           </div>
-          {/* <p className="text-sm text-[#c2bfae] tracking-wide">
-            AFRICA TRAVEL AND TOURS
-          </p> */}
         </div>
 
-        {/* Links Section */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 md:col-span-3 gap-8 font-cormorant">
-          {/* Column 1 */}
+        {/* Right Side Content */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 font-cormorant">
+          {/* Quick Links */}
           <div>
             <h4 className="text-[#c2bfae] text-lg font-semibold mb-4">
-              Quick links
+              Quick Links
             </h4>
             <ul className="space-y-2 text-sm font-quicksand flex flex-col">
-              <Link
-                href={"/"}
-                className="hover:text-[#c2bfae] cursor-pointer transition"
-              >
-                Home
-              </Link>
-              <Link
-                href={"/about-us"}
-                className="hover:text-[#c2bfae] cursor-pointer transition"
-              >
-                About Us
-              </Link>
-
-              <Link
-                href={"/contact-us"}
-                className="hover:text-[#c2bfae] cursor-pointer transition"
-              >
-                Contact Us
-              </Link>
+              <Link href="/">Home</Link>
+              <Link href="/about-us">About Us</Link>
+              <Link href="/contact-us">Contact Us</Link>
             </ul>
           </div>
-          {/* Column 2 */}
+
+          {/* Services */}
           <div>
-            <h4 className="text-[#c2bfae] text-lg font-semibold mb-4  ">
+            <h4 className="text-[#c2bfae] text-lg font-semibold mb-4">
               Services
             </h4>
             <ul className="space-y-2 text-sm font-quicksand flex flex-col">
-              <Link
-                href={"/accommodations"}
-                className="hover:text-[#c2bfae] cursor-pointer transition"
-              >
-                Retreats
-              </Link>
-              <Link
-                href={"/packages"}
-                className="hover:text-[#c2bfae] cursor-pointer transition"
-              >
-                Journey
-              </Link>
-              <Link
-                href={"/experiences"}
-                className="hover:text-[#c2bfae] cursor-pointer transition"
-              >
-                Experience
-              </Link>
+              <Link href="/accommodations">Retreats</Link>
+              <Link href="/packages">Journey</Link>
+              <Link href="/experiences">Experience</Link>
             </ul>
           </div>
 
+          {/* Useful Links */}
           <div>
             <h4 className="text-[#c2bfae] text-lg font-semibold mb-4">
               Useful Links
             </h4>
             <ul className="space-y-2 text-sm font-quicksand flex flex-col">
-              <Link
-                href={"/conservation"}
-                className="hover:text-[#c2bfae] cursor-pointer transition"
-              >
-                Conservation
-              </Link>
-              <Link
-                href=""
-                className="hover:text-[#c2bfae] cursor-pointer transition"
-              >
-                Blogs
-              </Link>
-              {/* <Link className="hover:text-[#c2bfae] cursor-pointer transition">
-                Brochure
-              </Link> */}
+              <Link href="/conservation">Conservation</Link>
+              <Link href="/blogs">Blogs</Link>
             </ul>
           </div>
 
-          {/* Column 3 */}
-
+          {/* Contact */}
           <div>
-            <h4 className="text-[#c2bfae] text-lg font-semibold mb-4  ">
+            <h4 className="text-[#c2bfae] text-lg font-semibold mb-4">
               Contact
             </h4>
-            <div className=" flex flex-col space-y-2">
+            <div className="flex flex-col space-y-2 text-sm font-quicksand">
               <p>Phone: +27(0)315352811</p>
-              <p>Email:spiwe@whereto.africa</p>
+              <p>Email: spiwe@whereto.africa</p>
             </div>
           </div>
-          {/* Column 4 */}
+
+          {/* Review Widget */}
+          <div>
+            <iframe
+              frameBorder="1"
+              src="https://www.kiyoh.com/retrieve-widget.html?color=white&allowTransparency=false&button=true&lang=en&tenantId=98&locationId=1079908"
+              width="180"
+              height="120"
+            />
+          </div>
         </div>
       </div>
       <div className=" bg-black/80 py-6 flex gap-4 justify-center font-quicksand">

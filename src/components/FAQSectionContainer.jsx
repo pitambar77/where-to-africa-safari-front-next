@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import { Plus, Minus } from "lucide-react";
@@ -98,13 +98,36 @@ const FAQSectionContainer = ({ title, items }) => {
                     );
                   }
 
-                  if (ans.type === "list" && Array.isArray(ans.content)) {
+                  // if (ans.type === "list" && Array.isArray(ans.content)) {
+                  //   return (
+                  //     <ul
+                  //       key={i}
+                  //       className="list-disc  mt-3 space-y-1 text-gray-700 marker:text-[#a89f81] marker:text-xl list-inside pl-8"
+                  //     >
+                  //       {ans.content.map((item, liIndex) => (
+                  //         <li key={liIndex}>{item}</li>
+                  //       ))}
+                  //     </ul>
+                  //   );
+                  // }
+
+                  if (ans.type === "list") {
+                    const listItems =
+                      Array.isArray(ans.content) &&
+                      ans.content.length === 1 &&
+                      typeof ans.content[0] === "string"
+                        ? ans.content[0]
+                            .split("\n")
+                            .map((item) => item.replace(/^•\s*/, "").trim())
+                            .filter(Boolean)
+                        : ans.content;
+
                     return (
                       <ul
                         key={i}
-                        className="list-disc  mt-3 space-y-1 text-gray-700 marker:text-[#a89f81] marker:text-xl list-inside pl-8"
+                        className="list-disc mt-3 space-y-1 text-gray-700 list-inside pl-8 marker:text-[#a89f81] marker:text-xl"
                       >
-                        {ans.content.map((item, liIndex) => (
+                        {listItems.map((item, liIndex) => (
                           <li key={liIndex}>{item}</li>
                         ))}
                       </ul>

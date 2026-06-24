@@ -11,70 +11,70 @@ async function getTrips() {
   return res.json();
 }
 
-export async function generateMetadata() {
-  const data = await getHomepage();
+// export async function generateMetadata() {
+//   const data = await getHomepage();
 
-  if (!data) {
-    return { title: "Page Not Found" };
-  }
+//   if (!data) {
+//     return { title: "Page Not Found" };
+//   }
 
-  // Fetch SEO from SEO collection
-  const seoRes = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${data._id}&referenceType=home`,
-    { next: { revalidate: 300 } },
-  );
+//   // Fetch SEO from SEO collection
+//   const seoRes = await fetch(
+//     `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${data._id}&referenceType=home`,
+//     { next: { revalidate: 300 } },
+//   );
 
-  const seo = await seoRes.json();
+//   const seo = await seoRes.json();
 
-  return {
-    title: seo?.metaTitle || data.title,
+//   return {
+//     title: seo?.metaTitle || data.title,
 
-    description: seo?.metaDescription || data.subtitle,
+//     description: seo?.metaDescription || data.subtitle,
 
-    keywords: seo?.keywords || "home ",
+//     keywords: seo?.keywords || "home ",
 
-    alternates: {
-      canonical:
-        seo?.canonicalUrl || "http://wheretoafrica.manoramaseoservice.com",
-    },
+//     alternates: {
+//       canonical:
+//         seo?.canonicalUrl || "http://wheretoafrica.manoramaseoservice.com",
+//     },
 
-    openGraph: {
-      title: seo?.metaTitle || data.title,
+//     openGraph: {
+//       title: seo?.metaTitle || data.title,
 
-      description: seo?.metaDescription || data.subtitle,
+//       description: seo?.metaDescription || data.subtitle,
 
-      images: [seo?.ogImage || data.image],
+//       images: [seo?.ogImage || data.image],
 
-      url: seo?.canonicalUrl || "http://wheretoafrica.manoramaseoservice.com",
-    },
-  };
-}
+//       url: seo?.canonicalUrl || "http://wheretoafrica.manoramaseoservice.com",
+//     },
+//   };
+// }
 
 export default async function Page() {
-  const landing = await getHomepage();
+  // const landing = await getHomepage();
 
   const trips = await getTrips();
 
   // Fetch SEO again for schema injection
-  const seoRes = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${landing._id}&referenceType=home`,
-    { next: { revalidate: 300 } },
-  );
+  // const seoRes = await fetch(
+  //   `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${landing._id}&referenceType=home`,
+  //   { next: { revalidate: 300 } },
+  // );
 
-  const seo = await seoRes.json();
+  // const seo = await seoRes.json();
 
   return (
     <>
  
       {/* Schema from Admin */}
-      {seo?.schemaMarkup && (
+      {/* {seo?.schemaMarkup && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(seo.schemaMarkup),
           }}
         />
-      )}
+      )} */}
       <Home trips={trips} />
     </>
   );
