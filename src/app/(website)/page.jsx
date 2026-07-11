@@ -51,30 +51,30 @@ async function getTrips() {
 // }
 
 export default async function Page() {
-  // const landing = await getHomepage();
+  const landing = await getHomepage();
 
   const trips = await getTrips();
 
   // Fetch SEO again for schema injection
-  // const seoRes = await fetch(
-  //   `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${landing._id}&referenceType=home`,
-  //   { next: { revalidate: 300 } },
-  // );
+  const seoRes = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${landing._id}&referenceType=home`,
+    { next: { revalidate: 300 } },
+  );
 
-  // const seo = await seoRes.json();
+  const seo = await seoRes.json();
 
   return (
     <>
  
       {/* Schema from Admin */}
-      {/* {seo?.schemaMarkup && (
+      {seo?.schemaMarkup && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(seo.schemaMarkup),
           }}
         />
-      )} */}
+      )}
       <Home trips={trips} />
     </>
   );

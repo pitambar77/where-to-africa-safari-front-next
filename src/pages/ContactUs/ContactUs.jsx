@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -246,38 +246,39 @@ const ContactUs = () => {
             {/* North America */}
             <div>
               <h3 className="font-cormorant uppercase text-[#636363] text-2xl font-semibold mb-4">
-                Durban, South Africa
+                South African Office
               </h3>
 
               <p className="font-semibold text-[#aca288] font-quicksand ">
                 Contact Number:
               </p>
-              <p className="mb-4 font-quicksand">+27(0)315352811</p>
+              <p className="mb-2 font-quicksand">Tel: +27 31 535 2811</p>
+              <p className="mb-4 font-quicksand">M : +27 83 625 3607</p>
 
               <p className="font-semibold text-[#aca288] font-quicksand ">
                 Email:
               </p>
-              <p className="mb-4 font-quicksand">res@todo.africa</p>
+              <p className="mb-4 font-quicksand">res@whereto.africa</p>
 
               <p className="font-semibold text-[#aca288] font-quicksand ">
                 Address:
               </p>
               <p className=" mb-4 font-quicksand">
-                1 Underwood Lodge, 34 Underwood Road Umgeni Park, Durban 4050,
-                KwaZulu Natal, South Africa
+                Unit 1 Underwood Lodge, 34 Underwood Road, Umgeni Park, 4051
+                Durban
               </p>
             </div>
 
             {/* International - Email */}
             <div>
               <h3 className="font-cormorant uppercase text-[#636363] text-2xl font-semibold mb-4">
-                Victoria Falls, Zimbabwe
+                Zimbabwe Office
               </h3>
 
               <p className="font-semibold text-[#aca288] font-quicksand ">
                 Contact Number:
               </p>
-              <p className="mb-4 font-quicksand ">+27(0)315352811</p>
+              <p className="mb-4 font-quicksand ">+263 77 538 6228</p>
 
               <p className="font-semibold text-[#aca288] font-quicksand ">
                 Email:

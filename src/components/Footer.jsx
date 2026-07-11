@@ -19,7 +19,7 @@ const Footer = () => {
         </div>
 
         {/* Right Side Content */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 font-cormorant">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 font-cormorant">
           {/* Quick Links */}
           <div>
             <h4 className="text-[#c2bfae] text-lg font-semibold mb-4">
@@ -29,11 +29,14 @@ const Footer = () => {
               <Link href="/">Home</Link>
               <Link href="/about-us">About Us</Link>
               <Link href="/contact-us">Contact Us</Link>
+              <Link href="/accommodations">Retreats</Link>
+              <Link href="/packages">Journey</Link>
+              <Link href="/experiences">Experience</Link>
             </ul>
           </div>
 
           {/* Services */}
-          <div>
+          {/* <div>
             <h4 className="text-[#c2bfae] text-lg font-semibold mb-4">
               Services
             </h4>
@@ -42,10 +45,10 @@ const Footer = () => {
               <Link href="/packages">Journey</Link>
               <Link href="/experiences">Experience</Link>
             </ul>
-          </div>
+          </div> */}
 
           {/* Useful Links */}
-          <div>
+          {/* <div>
             <h4 className="text-[#c2bfae] text-lg font-semibold mb-4">
               Useful Links
             </h4>
@@ -53,16 +56,32 @@ const Footer = () => {
               <Link href="/conservation">Conservation</Link>
               <Link href="/blogs">Blogs</Link>
             </ul>
+          </div> */}
+
+          <div>
+            <h4 className="text-[#c2bfae] text-lg font-semibold mb-4">
+              South African Office
+            </h4>
+            <div className="flex flex-col space-y-2 text-sm font-quicksand">
+              <p>Tel: +27 31 535 2811</p>
+              <p>M : +27 83 625 3607</p>
+              <p>Email: res@whereto.africa</p>
+              <p>
+                Unit 1 Underwood Lodge, 34 Underwood Road, Umgeni Park, 4051
+                Durban
+              </p>
+            </div>
           </div>
 
           {/* Contact */}
           <div>
             <h4 className="text-[#c2bfae] text-lg font-semibold mb-4">
-              Contact
+              Zimbabwe Office
             </h4>
             <div className="flex flex-col space-y-2 text-sm font-quicksand">
-              <p>Phone: +27(0)315352811</p>
+              <p>Phone: +263 77 538 6228</p>
               <p>Email: spiwe@whereto.africa</p>
+              <p>1 Mallet Drive, Victoria Falls, Zimbabwe</p>
             </div>
           </div>
 
@@ -77,7 +96,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className=" bg-black/80 py-6 flex gap-4 justify-center font-quicksand">
+      {/* <div className=" bg-black/80 py-6 flex gap-4 justify-center font-quicksand">
         <p>
           AlI rights reserved © 2026 Where to Africa, Design by{" "}
           <a
@@ -93,17 +112,35 @@ const Footer = () => {
               Privacy Policy
             </a>
           </li>
-          {/* <li>
-            <a href="#" className="write_teram">
-              Website Terms of Use
-            </a>
-          </li>
-          <li>
-            <a href="#" className=" text-amber-300/80">
-              Payment Conditions
-            </a>
-          </li> */}
         </ul>
+      </div> */}
+      <div className="bg-black/80 py-6 px-4">
+        <div className="max-w-[1320px] mx-auto flex flex-col-reverse md:flex-row items-center justify-center gap-4 font-quicksand text-center">
+          {/* Copyright */}
+          <p>
+            All rights reserved © 2026 Where to Africa, Design by{" "}
+            <a
+              href="https://safarimarketingpro.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              Safari Marketing Pro
+            </a>
+          </p>
+
+          {/* Privacy Policy */}
+          <ul className="flex gap-4">
+            <li>
+              <a
+                href="/privacy-policy"
+                className="text-amber-300/80 hover:text-amber-300"
+              >
+                Privacy Policy
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </footer>
   );
