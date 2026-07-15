@@ -34,7 +34,15 @@ export async function generateMetadata() {
     { next: { revalidate: 300 } },
   );
 
-  const seo = await seoRes.json();
+  // const seo = await seoRes.json();
+
+  let seo = null;
+
+  if (seoRes.ok) {
+    seo = await seoRes.json();
+  } else {
+    console.error("SEO API Error:", seoRes.status);
+  }
 
   return {
     title: seo?.metaTitle || data.title,
@@ -45,7 +53,8 @@ export async function generateMetadata() {
 
     alternates: {
       canonical:
-        seo?.canonicalUrl || "http://wheretoafrica.manoramaseoservice.com/experiences",
+        seo?.canonicalUrl ||
+        "http://wheretoafrica.manoramaseoservice.com/experiences",
     },
 
     openGraph: {
@@ -55,27 +64,50 @@ export async function generateMetadata() {
 
       images: [seo?.ogImage || data.image],
 
-      url: seo?.canonicalUrl || "http://wheretoafrica.manoramaseoservice.com/experiences",
+      url:
+        seo?.canonicalUrl ||
+        "http://wheretoafrica.manoramaseoservice.com/experiences",
     },
   };
 }
 
 export default async function Page() {
+  // const landing = await getExperienceLanding();
+
+  // const { destinations, experiences } = await getData();
+
+  // // Fetch SEO again for schema injection
+  // const seoRes = await fetch(
+  //   `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${landing._id}&referenceType=experiencelanding`,
+  //   { next: { revalidate: 300 } },
+  // );
+
+  // const seo = await seoRes.json();
+
   const landing = await getExperienceLanding();
+
+  if (!landing) {
+    return <div>No data found</div>;
+  }
 
   const { destinations, experiences } = await getData();
 
-  // Fetch SEO again for schema injection
   const seoRes = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${landing._id}&referenceType=experiencelanding`,
     { next: { revalidate: 300 } },
   );
 
-  const seo = await seoRes.json();
+  let seo = null;
+
+  if (seoRes.ok) {
+    seo = await seoRes.json();
+  } else {
+    console.error("SEO API Error:", seoRes.status);
+  }
 
   return (
     <>
-    {seo?.schemaMarkup && (
+      {seo?.schemaMarkup && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -83,8 +115,10 @@ export default async function Page() {
           }}
         />
       )}
-     <ExperienceLanding destinations={destinations} experiences={experiences} />
+      <ExperienceLanding
+        destinations={destinations}
+        experiences={experiences}
+      />
     </>
-   
   );
 }

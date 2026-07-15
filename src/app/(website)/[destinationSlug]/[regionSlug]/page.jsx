@@ -51,7 +51,17 @@ async function getSEO(regionId) {
     },
   );
 
-  if (!res.ok) return null;
+   if (!res.ok) {
+    console.error("SEO API Error:", res.status);
+    return null;
+  }
+
+    const contentType = res.headers.get("content-type");
+
+  if (!contentType?.includes("application/json")) {
+    console.error("SEO API returned non-JSON:", await res.text());
+    return null;
+  }
 
   return res.json();
 }

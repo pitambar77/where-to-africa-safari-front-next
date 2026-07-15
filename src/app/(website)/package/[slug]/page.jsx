@@ -12,6 +12,19 @@ async function getTrip(slug) {
 
 /* ================= FETCH SEO ================= */
 
+// async function getSEO(tripId) {
+//   const res = await fetch(
+//     `${process.env.API_BASE}/api/seo?referenceId=${tripId}&referenceType=trips`,
+//     {
+//       cache: "no-store",
+//     },
+//   );
+
+//   if (!res.ok) return null;
+
+//   return res.json();
+// }
+
 async function getSEO(tripId) {
   const res = await fetch(
     `${process.env.API_BASE}/api/seo?referenceId=${tripId}&referenceType=trips`,
@@ -20,9 +33,19 @@ async function getSEO(tripId) {
     },
   );
 
-  if (!res.ok) return null;
+  if (!res.ok) {
+    console.error("SEO API Error:", res.status);
+    return null;
+  }
 
-  return res.json();
+  const contentType = res.headers.get("content-type");
+
+  if (!contentType?.includes("application/json")) {
+    console.error("SEO API returned HTML instead of JSON");
+    return null;
+  }
+
+  return await res.json();
 }
 
 /* ================= SEO METADATA ================= */

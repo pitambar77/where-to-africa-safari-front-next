@@ -50,23 +50,69 @@ async function getTrips() {
 //   };
 // }
 
+// date-15/07/26
+
+// export default async function Page() {
+//   const landing = await getHomepage();
+
+//   const trips = await getTrips();
+
+//   // Fetch SEO again for schema injection
+//   const seoRes = await fetch(
+//     `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${landing._id}&referenceType=home`,
+//     { next: { revalidate: 300 } },
+//   );
+
+//   const seo = await seoRes.json();
+
+//   return (
+//     <>
+ 
+      
+//       {seo?.schemaMarkup && (
+//         <script
+//           type="application/ld+json"
+//           dangerouslySetInnerHTML={{
+//             __html: JSON.stringify(seo.schemaMarkup),
+//           }}
+//         />
+//       )}
+//       <Home trips={trips} />
+//     </>
+//   );
+// }
+
 export default async function Page() {
   const landing = await getHomepage();
 
+  if (!landing) {
+    return <div>No data found</div>;
+  }
+
   const trips = await getTrips();
 
-  // Fetch SEO again for schema injection
   const seoRes = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${landing._id}&referenceType=home`,
     { next: { revalidate: 300 } },
   );
 
-  const seo = await seoRes.json();
+  let seo = null;
+
+  if (seoRes.ok) {
+    const contentType = seoRes.headers.get("content-type");
+
+    if (contentType?.includes("application/json")) {
+      seo = await seoRes.json();
+    } else {
+      console.error(
+        "SEO API returned non-JSON:",
+        await seoRes.text()
+      );
+    }
+  }
 
   return (
     <>
- 
-      {/* Schema from Admin */}
       {seo?.schemaMarkup && (
         <script
           type="application/ld+json"
@@ -75,6 +121,7 @@ export default async function Page() {
           }}
         />
       )}
+
       <Home trips={trips} />
     </>
   );

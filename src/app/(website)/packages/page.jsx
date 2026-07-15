@@ -24,7 +24,12 @@ export async function generateMetadata() {
     { next: { revalidate: 300 } },
   );
 
-  const seo = await seoRes.json();
+  // const seo = await seoRes.json();
+  let seo = null;
+
+if (seoRes.ok) {
+  seo = await seoRes.json();
+}
 
   return {
     title: seo?.metaTitle || data.title,
@@ -55,6 +60,9 @@ export async function generateMetadata() {
 
 export default async function Page() {
   const landing = await getItinenarylanding();
+  if (!landing) {
+    return <div>No data found</div>;
+  }
 
   const destinationData = await getDestinations();
 
@@ -64,7 +72,14 @@ export default async function Page() {
     { next: { revalidate: 300 } },
   );
 
-  const seo = await seoRes.json();
+  // const seo = await seoRes.json();
+  let seo = null;
+
+  if (seoRes.ok) {
+    seo = await seoRes.json();
+  } else {
+    console.error("SEO API Error:", seoRes.status);
+  }
 
   return (
     <>
@@ -77,7 +92,7 @@ export default async function Page() {
           }}
         />
       )}
-      <PackageLanding destinationData={destinationData} />;
+      <PackageLanding destinationData={destinationData}/>
     </>
   );
 }

@@ -24,7 +24,18 @@ export async function generateMetadata() {
     { next: { revalidate: 300 } },
   );
 
-  const seo = await seoRes.json();
+  // const seo = await seoRes.json();
+  let seo = null;
+
+  if (seoRes.ok) {
+    const contentType = seoRes.headers.get("content-type");
+
+    if (contentType?.includes("application/json")) {
+      seo = await seoRes.json();
+    } else {
+      console.error("SEO API returned non-JSON:", await seoRes.text());
+    }
+  }
 
   return {
     title: seo?.metaTitle || data.title,
@@ -54,17 +65,42 @@ export async function generateMetadata() {
 }
 
 export default async function Page() {
+  // const landing = await getAccomodationlanding();
+
+  // const destinations = await getDestinations();
+
+  // // Fetch SEO again for schema injection
+  // const seoRes = await fetch(
+  //   `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${landing._id}&referenceType=accommodationlanding`,
+  //   { next: { revalidate: 300 } },
+  // );
+
+  // const seo = await seoRes.json();
+
   const landing = await getAccomodationlanding();
+
+  if (!landing) {
+    return <div>No data found</div>;
+  }
 
   const destinations = await getDestinations();
 
-  // Fetch SEO again for schema injection
   const seoRes = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE}/api/seo?referenceId=${landing._id}&referenceType=accommodationlanding`,
     { next: { revalidate: 300 } },
   );
 
-  const seo = await seoRes.json();
+  let seo = null;
+
+  if (seoRes.ok) {
+    const contentType = seoRes.headers.get("content-type");
+
+    if (contentType?.includes("application/json")) {
+      seo = await seoRes.json();
+    } else {
+      console.error("SEO API returned non-JSON:", await seoRes.text());
+    }
+  }
 
   return (
     <>

@@ -14,6 +14,21 @@ async function getDestination(slug) {
   return res.json();
 }
 
+// async function getSEO(destinationId) {
+//   const res = await fetch(
+//     `${process.env.API_BASE}/api/seo?referenceId=${destinationId}&referenceType=destinations`,
+//     {
+//       next: { revalidate: 300 },
+//     },
+//   );
+
+//   if (!res.ok) return null;
+
+//   const data = await res.json();
+
+//   return data?.data || data;
+// }
+
 async function getSEO(destinationId) {
   const res = await fetch(
     `${process.env.API_BASE}/api/seo?referenceId=${destinationId}&referenceType=destinations`,
@@ -24,8 +39,14 @@ async function getSEO(destinationId) {
 
   if (!res.ok) return null;
 
-  const data = await res.json();
+  const contentType = res.headers.get("content-type");
 
+  if (!contentType?.includes("application/json")) {
+    console.error(`Expected JSON but got ${contentType} from ${res.url}`);
+    return null;
+  }
+
+  const data = await res.json();
 
   return data?.data || data;
 }
@@ -130,7 +151,6 @@ export default async function Page({ params }) {
 
   /* Fetch SEO */
   const seo = await getSEO(destination._id);
-
 
   return (
     <>
