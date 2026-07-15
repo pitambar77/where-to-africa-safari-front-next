@@ -16,8 +16,9 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://where-to-africa-safari-backend.manoramaseoservice.com/api/itinerary", // backend base URL
+  // baseURL: "http://where-to-africa-safari-backend.manoramaseoservice.com/api/itinerary", // backend base URL
   // baseURL: "http://localhost:8003/api/itinerary", // backend base URL
+  baseURL:"http://where-to-africa-safari-backend.whereto.africa/api/itinerary",
 
 });
 
