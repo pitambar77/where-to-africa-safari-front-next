@@ -78,7 +78,7 @@ export async function generateMetadata({ params }) {
     alternates: {
       canonical:
         seo?.canonicalUrl ||
-        `https://wheretoafrica.manoramaseoservice.com/${destinationSlug}`,
+        `https://whereto.africa/${destinationSlug}`,
     },
 
     /* ================= ROBOTS ================= */
@@ -103,7 +103,7 @@ export async function generateMetadata({ params }) {
 
       url:
         seo?.canonicalUrl ||
-        `https://wheretoafrica.manoramaseoservice.com/${destinationSlug}`,
+        `https://whereto.africa/${destinationSlug}`,
 
       siteName: "Where to Africa",
 
@@ -136,7 +136,7 @@ export async function generateMetadata({ params }) {
 
     /* ================= EXTRA ================= */
 
-    metadataBase: new URL("https://wheretoafrica.manoramaseoservice.com"),
+    metadataBase: new URL("https://whereto.africa"),
   };
 }
 

@@ -66,7 +66,7 @@ export async function generateMetadata({ params }) {
     alternates: {
       canonical:
         seo?.canonicalUrl ||
-        `https://wheretoafrica.manoramaseoservice.com/accommodation/${slug}`,
+        `https://whereto.africa/accommodation/${slug}`,
     },
 
     /* ROBOTS */
@@ -88,7 +88,7 @@ export async function generateMetadata({ params }) {
 
       url:
         seo?.canonicalUrl ||
-        `https://wheretoafrica.manoramaseoservice.com/accommodation/${slug}`,
+        `https://whereto.africa/accommodation/${slug}`,
 
       siteName: "Where to Africa",
 

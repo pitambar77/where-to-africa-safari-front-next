@@ -41,7 +41,7 @@ if (seoRes.ok) {
     alternates: {
       canonical:
         seo?.canonicalUrl ||
-        "http://wheretoafrica.manoramaseoservice.com/packages",
+        "https://whereto.africa/packages",
     },
 
     openGraph: {
@@ -53,7 +53,7 @@ if (seoRes.ok) {
 
       url:
         seo?.canonicalUrl ||
-        "http://wheretoafrica.manoramaseoservice.com/packages",
+        "https://whereto.africa/packages",
     },
   };
 }
