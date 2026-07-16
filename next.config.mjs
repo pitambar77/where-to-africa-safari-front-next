@@ -2,7 +2,7 @@
 const nextConfig = {
   /* config options here */
 
-  allowedDevOrigins: ["wheretoafrica.manoramaseoservice.com"],
+  allowedDevOrigins: ["whereto.africa"],
 
   images: {
     remotePatterns: [

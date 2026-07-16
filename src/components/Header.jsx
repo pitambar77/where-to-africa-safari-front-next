@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronDown } from "react-icons/fa6";
 import { IoMenu, IoClose } from "react-icons/io5";
-import { getAllDestinations } from "../api/destinationAPI";
+import { getAllDestinations } from "../api/destinationAPI.js";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false); // desktop dropdown

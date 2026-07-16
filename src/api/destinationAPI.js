@@ -1,5 +1,4 @@
 
-
 // ✅ correct versions
 
 import axiosInstance from "./axiosInstance";
@@ -9,7 +8,6 @@ export const getDestinationBySlug = (slug) =>
 
 export const getRegionBySlug = async (destinationSlug, regionSlug) => 
   axiosInstance.get(`api/destinations/${destinationSlug}/regions/${regionSlug}`);
-
 
 export const getAllDestinations = () => axiosInstance.get("/api/destinations");
 export const createDestination = (formData) =>
