@@ -4,28 +4,32 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronDown } from "react-icons/fa6";
 import { IoMenu, IoClose } from "react-icons/io5";
-import { getAllDestinations } from "../api/destinationAPI.js";
+// import { getAllDestinations } from "../api/destinationAPI.js";
 
-const Header = () => {
+const Header = ({ destinations = [] }) => {
   const [isOpen, setIsOpen] = useState(false); // desktop dropdown
   const [isMobileDropdown, setIsMobileDropdown] = useState(false); // mobile dropdown
   const [isMobile, setIsMobile] = useState(false);
   const [hoverTimeout, setHoverTimeout] = useState(null);
   const [isMobileMenu, setIsMobileMenu] = useState(false);
-  const [destinations, setDestinations] = useState([]);
+  // const [destinations, setDestinations] = useState([]);
 
-  useEffect(() => {
-    const fetchDestinations = async () => {
-      try {
-        const res = await getAllDestinations();
-        const sorted = res.data.sort((a, b) => a.name.localeCompare(b.name));
-        setDestinations(sorted);
-      } catch (err) {
-        console.error("Failed to fetch destinations", err);
-      }
-    };
-    fetchDestinations();
-  }, []);
+  // useEffect(() => {
+  //   const fetchDestinations = async () => {
+  //     try {
+  //       const res = await getAllDestinations();
+  //       const sorted = res.data.sort((a, b) => a.name.localeCompare(b.name));
+  //       setDestinations(sorted);
+  //     } catch (err) {
+  //       console.error("Failed to fetch destinations", err);
+  //     }
+  //   };
+  //   fetchDestinations();
+  // }, []);
+
+  const sortedDestinations = [...destinations].sort((a, b) =>
+  a.name.localeCompare(b.name)
+);
 
   // Detect screen size
   useEffect(() => {
@@ -84,7 +88,7 @@ const Header = () => {
                     exit={{ opacity: 0, y: 8 }}
                     className="absolute left-0 top-full w-56 mt-2 bg-white rounded-lg shadow-md z-50"
                   >
-                    {destinations.map((d) => (
+                    {sortedDestinations.map((d) => (
                       <li key={d._id}>
                         <Link
                           href={`/${d.slug}`}
@@ -182,7 +186,7 @@ const Header = () => {
                       exit={{ height: 0 }}
                       className="overflow-hidden "
                     >
-                      {destinations.map((d) => (
+                      {sortedDestinations.map((d) => (
                         <Link
                           key={d._id}
                           href={`/${d.slug}`}

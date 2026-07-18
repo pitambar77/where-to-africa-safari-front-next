@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 const destinations = [
   {
@@ -118,8 +119,6 @@ export default function DestinationHero({ speed = 15, resumeDelay = 3000 }) {
     return () => cancelAnimationFrame(rafRef.current);
   }, [isPaused, speed, totalHeight, itemHeight]);
 
-
-
   // Input typing & autocomplete
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -175,29 +174,50 @@ export default function DestinationHero({ speed = 15, resumeDelay = 3000 }) {
       (d) => d.name.toLowerCase() === name.toLowerCase(),
     );
     if (match) {
-      router(match.path);
+      router.push(match.path);
       setInputValue("");
       setSuggestions([]);
       setIsPaused(false);
     }
   };
 
+  // const handleGo = () => {
+  //   // Pause and reset input on Go button click
+  //   setIsPaused(true);
+  //   setInputValue("");
+
+  //   const match = destinations.find(
+  //     (d) => d.name.toLowerCase() === inputValue.trim().toLowerCase(),
+  //   );
+
+  //   if (match) {
+  //     router.push(match.path);
+  //   } else {
+  //     alert("Destination not found");
+  //   }
+
+  //   // Resume after short delay
+  //   setTimeout(() => {
+  //     setIsPaused(false);
+  //   }, 1000);
+  // };
+
   const handleGo = () => {
-    // Pause and reset input on Go button click
     setIsPaused(true);
-    setInputValue("");
 
     const match = destinations.find(
       (d) => d.name.toLowerCase() === inputValue.trim().toLowerCase(),
     );
 
     if (match) {
-      router(match.path);
+      router.push(match.path);
     } else {
       alert("Destination not found");
     }
 
-    // Resume after short delay
+    setInputValue("");
+    setSuggestions([]);
+
     setTimeout(() => {
       setIsPaused(false);
     }, 1000);
@@ -205,7 +225,7 @@ export default function DestinationHero({ speed = 15, resumeDelay = 3000 }) {
 
   const handleCityClick = (i) => {
     const city = destinations[i];
-    router(city.path);
+    router.push(city.path);
     setInputValue("");
     setSuggestions([]);
     setIsPaused(false);
@@ -228,6 +248,11 @@ export default function DestinationHero({ speed = 15, resumeDelay = 3000 }) {
   const translateY = -offset;
   const bgImage = active.image;
 
+  const selectedDestination =
+    destinations.find(
+      (d) => d.name.toLowerCase() === inputValue.trim().toLowerCase(),
+    ) || active;
+
   return (
     <section className="relative h-[70vh] md:h-[650px] lg:h-[80vh] 2xl:h-[90vh] w-full overflow-hidden">
       {/* Background */}
@@ -246,7 +271,7 @@ export default function DestinationHero({ speed = 15, resumeDelay = 3000 }) {
           className="object-cover transition-all duration-700"
         />
       </div>
-    
+
       <div className="absolute inset-0 bg-black/40" />
 
       {/* Container */}
@@ -316,13 +341,23 @@ export default function DestinationHero({ speed = 15, resumeDelay = 3000 }) {
                   />
 
                   {/* Button */}
-                  <button
+
+                  {/* <button
                     onClick={handleGo}
                     onMouseEnter={() => setIsPaused(true)}
-                    className="bg-[#77775b] text-white px-4 py-2 uppercase tracking-wide"
+                    className="bg-[#77775b] text-white px-4 py-2 uppercase cursor-pointer tracking-wide"
                   >
                     Go
-                  </button>
+                  </button> */}
+
+                  <Link
+                    href={selectedDestination.path}
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                    className="bg-[#77775b] text-white px-4 py-2 uppercase cursor-pointer tracking-wide flex items-center justify-center"
+                  >
+                    Go
+                  </Link>
 
                   {/* Suggestions */}
                   {suggestions.length > 0 && (

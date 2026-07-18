@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Overview from "../../components/Overview";
 
-const Homepack = ({ trips = [] }) => {
+const Homepack = ({ trips = [], loading }) => {
   // const [trips, setTrips] = useState([]);
   const [activeDestination, setActiveDestination] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(1);
@@ -138,7 +138,13 @@ const Homepack = ({ trips = [] }) => {
             }}
             className="[&_.swiper-pagination]:hidden"
           >
-            {filteredTrips.length > 0 ? (
+            {loading ? (
+              Array.from({ length: 4 }).map((_, index) => (
+                <SwiperSlide key={index}>
+                  <SkeletonCard />
+                </SwiperSlide>
+              ))
+            ) : filteredTrips.length > 0 ? (
               filteredTrips.map((trip) => (
                 <SwiperSlide key={trip._id}>
                   <div className="p-2">

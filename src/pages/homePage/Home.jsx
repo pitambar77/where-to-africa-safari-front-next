@@ -6,13 +6,13 @@ import WhyTravel from "../homePage/WhyTravel";
 import PositiveImpact from "../homePage/PositiveImpact";
 import DestinationSelector from "../../components/DestinationSelector";
 import MapSection from "../../components/MapSection/MapSection";
-const Home = ({trips}) => {
+const Home = ({trips,loading}) => {
   return (
     <div className="">
       <DestinationSelector />
       <div className=" bg-[#fbf6ea]"></div>
 
-      <Homepack trips={trips} />
+      <Homepack trips={trips} loading={loading} />
      <Founder />
        <WhyTravel />
        <MapSection/>
