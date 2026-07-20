@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useRef } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { AiOutlineDownload } from "react-icons/ai";
@@ -37,52 +35,78 @@ const Itinerary = ({ data = [], title = "Trip Itinerary" }) => {
     return () => window.removeEventListener("resize", checkOverflow);
   }, [data]);
 
+  // const handleNext = () => {
+  //   if (!containerRef.current) return;
+
+  //   const container = containerRef.current;
+  //   const wrapperWidth = container.offsetWidth;
+  //   const containerWidth = container.scrollWidth;
+
+  //   const maxTranslate = containerWidth - wrapperWidth;
+
+  //   const currentOffset = Math.abs(translateX);
+
+  //   // 🚫 If already at end → stop
+  //   if (currentOffset >= maxTranslate) return;
+
+  //   const nextTab = tabRefs.current.find(
+  //     (tab) => tab && tab.offsetLeft > currentOffset,
+  //   );
+
+  //   if (!nextTab) return;
+
+  //   const nextPosition = nextTab.offsetLeft;
+
+  //   if (nextPosition >= maxTranslate) {
+  //     setTranslateX(-maxTranslate); // stop exactly at end
+  //   } else {
+  //     setTranslateX(-nextPosition);
+  //   }
+  // };
+
+  // ✅ Move one tab backward
+
   const handleNext = () => {
     if (!containerRef.current) return;
 
     const container = containerRef.current;
-    const wrapperWidth = container.offsetWidth;
-    const containerWidth = container.scrollWidth;
 
-    const maxTranslate = containerWidth - wrapperWidth;
+    const maxTranslate = container.scrollWidth - container.clientWidth;
 
-    const currentOffset = Math.abs(translateX);
-
-    // 🚫 If already at end → stop
-    if (currentOffset >= maxTranslate) return;
-
-    const nextTab = tabRefs.current.find(
-      (tab) => tab && tab.offsetLeft > currentOffset,
-    );
-
-    if (!nextTab) return;
-
-    const nextPosition = nextTab.offsetLeft;
-
-    if (nextPosition >= maxTranslate) {
-      setTranslateX(-maxTranslate); // stop exactly at end
-    } else {
-      setTranslateX(-nextPosition);
-    }
+    setTranslateX((prev) => {
+      const next = Math.abs(prev) + container.clientWidth * 0.8; // move about one screen
+      return -Math.min(next, maxTranslate);
+    });
   };
 
-  // ✅ Move one tab backward
-  const handlePrev = () => {
-    const currentOffset = Math.abs(translateX);
+  // const handlePrev = () => {
+  //   const currentOffset = Math.abs(translateX);
 
-    const previousTabs = tabRefs.current.filter(
-      (tab) => tab && tab.offsetLeft < currentOffset,
-    );
+  //   const previousTabs = tabRefs.current.filter(
+  //     (tab) => tab && tab.offsetLeft < currentOffset,
+  //   );
 
-    if (previousTabs.length > 0) {
-      const prevTab = previousTabs[previousTabs.length - 1];
-      setTranslateX(-prevTab.offsetLeft);
-    } else {
-      setTranslateX(0);
-    }
-  };
+  //   if (previousTabs.length > 0) {
+  //     const prevTab = previousTabs[previousTabs.length - 1];
+  //     setTranslateX(-prevTab.offsetLeft);
+  //   } else {
+  //     setTranslateX(0);
+  //   }
+  // };
 
   // ✅ Toggle single day
+
+  const handlePrev = () => {
+    if (!containerRef.current) return;
+
+    const container = containerRef.current;
+
+    setTranslateX((prev) => {
+      const next = Math.abs(prev) - container.clientWidth * 0.8;
+      return -Math.max(0, next);
+    });
+  };
+
   const handleToggle = (id) => {
     setActiveDayId((prev) => (prev === id ? null : id));
   };

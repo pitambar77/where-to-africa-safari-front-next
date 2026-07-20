@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Overview from "../../../components/Overview";
 import Include from "./Include";
 
@@ -16,6 +16,19 @@ import PopForm from "../../../components/PopForm.jsx";
 
 const ExperienceDetails = ({ experience, destinationName }) => {
   const [openInquiry, setOpenInquiry] = useState(false);
+
+  useEffect(() => {
+    if (openInquiry) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [openInquiry]);
+
   if (!experience) return null;
 
   return (
@@ -42,7 +55,10 @@ const ExperienceDetails = ({ experience, destinationName }) => {
           subtitle={experience.overview.subTitle}
           description={experience.overview.description}
         />
-        <Include includes={experience.includes} bookNowUrl={experience.bookNowUrl} />
+        <Include
+          includes={experience.includes}
+          bookNowUrl={experience.bookNowUrl}
+        />
       </div>
       {/* <GameDriveOption 
       gameDrives={experience.gameDrives}   /> */}
@@ -65,7 +81,7 @@ const ExperienceDetails = ({ experience, destinationName }) => {
       <JourneysCarousel />
       <FloatingButton onClick={() => setOpenInquiry(true)} />
       {/* Modal Popup */}
-      {openInquiry && (
+      {/* {openInquiry && (
         <div
           className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-28"
           onClick={() => setOpenInquiry(false)}
@@ -85,6 +101,32 @@ const ExperienceDetails = ({ experience, destinationName }) => {
               experienceName={experience.bannerTitle}
               destination={destinationName}
             />
+          </div>
+        </div>
+      )} */}
+
+      {openInquiry && (
+        <div
+          className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center px-4 pt-28 pb-6 overflow-y-auto md:mt-20 md:items-center"
+          onClick={() => setOpenInquiry(false)}
+        >
+          <div
+            className="relative w-full max-w-6xl max-h-[90vh] bg-[#ebe6dd] rounded-lg overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setOpenInquiry(false)}
+              className="absolute top-4 right-4 z-50 bg-white rounded-full w-9 h-9 flex items-center justify-center shadow cursor-pointer"
+            >
+              ✕
+            </button>
+
+            <div className="overflow-y-auto max-h-[90vh]">
+              <PopForm
+                experienceName={experience.bannerTitle}
+                destination={destinationName}
+              />
+            </div>
           </div>
         </div>
       )}

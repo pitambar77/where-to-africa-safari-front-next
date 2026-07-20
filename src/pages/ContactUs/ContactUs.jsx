@@ -90,7 +90,7 @@ const ContactUs = () => {
   return (
     <>
       <div className=" min-h-screen py-14 ">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto px-4">
           {/* Top Section */}
           <div className="text-center mb-16">
             <h2 className="font-cormorant font-semibold text-6xl text-[#636363] mt-4">

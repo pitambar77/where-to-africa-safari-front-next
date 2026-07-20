@@ -146,7 +146,7 @@ export default async function Page({ params }) {
   const destination = await getDestination(destinationSlug);
 
   if (!destination) {
-    PageNotFound();
+   return <PageNotFound/>
   }
 
   /* Fetch SEO */

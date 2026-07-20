@@ -1,16 +1,36 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Image from "next/image";
 
 const TripHighlights = ({ highlights = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const [cardsPerView, setCardsPerView] = useState(3);
+
+useEffect(() => {
+  const updateCards = () => {
+    if (window.innerWidth < 640) {
+      setCardsPerView(1); // mobile
+    } else if (window.innerWidth < 1024) {
+      setCardsPerView(2); // tablet
+    } else {
+      setCardsPerView(3); // desktop
+    }
+  };
+
+  updateCards();
+
+  window.addEventListener("resize", updateCards);
+
+  return () => window.removeEventListener("resize", updateCards);
+}, []);
+
   if (!highlights.length) return null;
 
   // Responsive cards per view (no window usage)
-  const cardsPerView = 3; // controlled via CSS
+  // const cardsPerView = 3; // controlled via CSS
 
   const maxIndex = Math.max(0, highlights.length - cardsPerView);
 
@@ -50,7 +70,7 @@ const TripHighlights = ({ highlights = [] }) => {
           <button
             onClick={goToPrevious}
             disabled={currentIndex === 0}
-            className="p-3 rounded-full border border-[#aaa086] text-[#aaa086] disabled:opacity-50"
+            className="p-3 rounded-full border border-[#aaa086] text-[#aaa086] disabled:opacity-50 cursor-pointer"
           >
             <IoIosArrowBack />
           </button>
@@ -58,7 +78,7 @@ const TripHighlights = ({ highlights = [] }) => {
           <button
             onClick={goToNext}
             disabled={currentIndex >= maxIndex}
-            className="p-3 rounded-full border border-[#aaa086] text-[#aaa086] disabled:opacity-50"
+            className="p-3 rounded-full border border-[#aaa086] text-[#aaa086] disabled:opacity-50 cursor-pointer"
           >
             <IoIosArrowForward />
           </button>
@@ -72,23 +92,18 @@ const TripHighlights = ({ highlights = [] }) => {
           onTouchEnd={handleTouchEnd}
         >
           <div
-            className="flex gap-8 transition-transform duration-500 ease-out"
+            className="flex transition-transform duration-500 ease-out"
             style={{
               transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
             }}
           >
             {highlights.map((item, i) => (
-              <div key={i} className="flex-none w-full sm:w-1/2 lg:w-1/3 py-2">
+              <div
+                key={i}
+                className="flex-none w-full sm:w-1/2 lg:w-1/3 px-4 py-2"
+              >
                 <div className="bg-white rounded-md shadow-sm overflow-hidden h-full flex flex-col">
-                  {/* Image */}
                   <div className="relative w-full h-60">
-                    {/* <Image
-                      src={item.tripHighlightImage}
-                      alt={item.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover"
-                    /> */}
                     {item.tripHighlightImage ? (
                       <Image
                         src={item.tripHighlightImage}
@@ -109,7 +124,6 @@ const TripHighlights = ({ highlights = [] }) => {
                     )}
                   </div>
 
-                  {/* Content */}
                   <div className="p-6 flex flex-col flex-grow">
                     <h3 className="text-xl font-semibold text-[#636363] mb-4">
                       {item.title}
