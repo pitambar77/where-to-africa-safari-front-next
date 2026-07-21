@@ -16,13 +16,16 @@ const Login = () => {
   const [error, setError] = useState("");
 
   // 🔹 Step 1: Verify username + password & send OTP
+
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+
   const sendOTP = async () => {
     try {
       setLoading(true);
       setError("");
 
       await axios.post(
-        "http://where-to-africa-safari-backend.manoramaseoservice.com/api/auth/send-otp",
+       `${API_BASE}/api/auth/send-otp`,
         { username, password },
       );
 
@@ -41,7 +44,7 @@ const Login = () => {
       setError("");
 
       const res = await axios.post(
-        "http://where-to-africa-safari-backend.manoramaseoservice.com/api/auth/verify-otp",
+        `${API_BASE}/api/auth/verify-otp`,
         { username, otp },
       );
 
