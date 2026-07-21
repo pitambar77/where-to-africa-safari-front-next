@@ -16,6 +16,7 @@ const Trips = () => {
   const [destinations, setDestinations] = useState([]);
   const [selectedDestinationId, setSelectedDestinationId] = useState("");
   const [selectedRegionId, setSelectedRegionId] = useState("");
+  const [existingBannerImage, setExistingBannerImage] = useState("");
 
   // Trip fields
   const [title, setTitle] = useState("");
@@ -294,6 +295,8 @@ const Trips = () => {
     setRating(trip.rating);
     setLink(trip.link);
     setDescription(trip.description);
+    setImage(null);
+    setExistingBannerImage(trip.image || "");
 
     setOverviewTitle(trip.overviewTitle);
     setOverviewSubTitle(trip.overviewSubTitle);
@@ -321,6 +324,12 @@ const Trips = () => {
         existingImage: h.tripHighlightImage || "",
       })),
     );
+
+    // Scroll to the top
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const handleDelete = async (id) => {
@@ -475,6 +484,17 @@ const Trips = () => {
         <div>
           {/* trip image - banner image  */}
           <label className="block font-medium">Banner Image:</label>
+          {(image || existingBannerImage) && (
+            <img
+              src={
+                image instanceof File
+                  ? URL.createObjectURL(image)
+                  : existingBannerImage
+              }
+              alt="Banner"
+              className="w-48 h-32 object-cover rounded mb-2"
+            />
+          )}
           <input
             type="file"
             onChange={(e) => setImage(e.target.files[0])}
@@ -558,9 +578,21 @@ const Trips = () => {
               />
 
               {/* ✅ SHOW EXISTING IMAGE */}
-              {item.existingImage && !item.image && (
+              {/* {item.existingImage && !item.image && (
                 <img
                   src={item.existingImage}
+                  alt="Itinerary"
+                  className="w-40 h-28 object-cover rounded mb-2"
+                />
+              )} */}
+
+              {(item.image || item.existingImage) && (
+                <img
+                  src={
+                    item.image instanceof File
+                      ? URL.createObjectURL(item.image)
+                      : item.existingImage
+                  }
                   alt="Itinerary"
                   className="w-40 h-28 object-cover rounded mb-2"
                 />
@@ -588,12 +620,12 @@ const Trips = () => {
 
         {/* Q&A Sections */}
         <QnASection
-          label="About Booking"
+          label="Include / What we provided"
           qna={aboutBooking}
           setQna={setAboutBooking}
         />
         <QnASection
-          label="Requirements"
+          label="Exclude/Requirements"
           qna={requirements}
           setQna={setRequirements}
         />
@@ -630,6 +662,18 @@ const Trips = () => {
                 <option value="Include">Include</option>
                 <option value="Optional">Optional</option>
               </select>
+              {/* Highlight Image Preview */}
+              {(item.image || item.existingImage) && (
+                <img
+                  src={
+                    item.image instanceof File
+                      ? URL.createObjectURL(item.image)
+                      : item.existingImage
+                  }
+                  alt="Highlight"
+                  className="w-40 h-28 object-cover rounded mb-2"
+                />
+              )}
               <input
                 type="file"
                 onChange={(e) =>

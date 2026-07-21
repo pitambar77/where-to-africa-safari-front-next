@@ -142,6 +142,11 @@ const Experiences = () => {
         existingImage: h.image,
       })),
     );
+    // Scroll to the top
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   // Submit handler
@@ -748,21 +753,21 @@ const Experiences = () => {
             </div>
 
             <div className="flex gap-4">
-              <button onClick={() => handleEdit(exp)} className="text-blue-500">
+              <button onClick={() => handleEdit(exp)} className="text-blue-500 cursor-pointer">
                 Edit
               </button>
               <button
                 onClick={() =>
                   router.push(`/dashboard/experiences/seo/${exp._id}`)
                 }
-                className="bg-purple-600 text-white px-3 py-1 rounded"
+                className="bg-purple-600 text-white px-3 py-1 rounded cursor-pointer"
               >
                 SEO
               </button>
 
               <button
                 onClick={() => deleteExperience(exp._id).then(fetchExperiences)}
-                className="text-red-500"
+                className="text-red-500 cursor-pointer"
               >
                 Delete
               </button>

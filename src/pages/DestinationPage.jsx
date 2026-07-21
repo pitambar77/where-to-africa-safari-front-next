@@ -395,6 +395,11 @@ const Destinations = () => {
             ],
       })),
     });
+      // Scroll to the top
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
   };
 
   const ContentBlocksEditor = ({ blocks = [], onChange }) => {
