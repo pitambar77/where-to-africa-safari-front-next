@@ -1,4 +1,4 @@
-"use clent"
+"use clent";
 import React, { useState, useEffect } from "react";
 import axiosInstance from "@/api/axiosInstance.js";
 import CustomRichEditor from "@/components/CustomRichEditor";
@@ -40,7 +40,10 @@ const ContactUsPageForm = ({ editData, onSuccess }) => {
   useEffect(() => {
     if (editData) {
       setFormData(editData);
-   
+
+      // Set existing main image
+      setMainImagePreview(editData.mainImage || editData.image || null);
+
       setOverviewinfo(
         (editData.overviewinfo || []).map((item) => ({
           ...item,
@@ -170,16 +173,13 @@ const ContactUsPageForm = ({ editData, onSuccess }) => {
     try {
       let res;
       if (editData) {
-        res = await axiosInstance.put(
-          `/api/contactus/${editData._id}`,
-          data,
-        );
+        res = await axiosInstance.put(`/api/contactus/${editData._id}`, data);
       } else {
         res = await axiosInstance.post("/api/contactus", data);
       }
 
       alert("Saved Successfully!");
-       router.push("/dashboard/contactus");
+      router.push("/dashboard/contactus");
       onSuccess && onSuccess(res.data);
     } catch (err) {
       console.error(err);
@@ -377,7 +377,4 @@ const ContactUsPageForm = ({ editData, onSuccess }) => {
   );
 };
 
-
-
-
-export default ContactUsPageForm
+export default ContactUsPageForm;

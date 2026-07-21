@@ -40,6 +40,9 @@ const AccommodationLandingForm = ({ editData, onSuccess }) => {
   useEffect(() => {
     if (editData) {
       setFormData(editData);
+
+      // Set existing main image
+    setMainImagePreview(editData.mainImage || editData.image || null);
    
       setOverviewinfo(
         (editData.overviewinfo || []).map((item) => ({

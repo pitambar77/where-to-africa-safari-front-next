@@ -1,4 +1,4 @@
-"use clent"
+"use clent";
 import React, { useState, useEffect } from "react";
 import axiosInstance from "@/api/axiosInstance.js";
 import CustomRichEditor from "@/components/CustomRichEditor";
@@ -40,7 +40,10 @@ const HomepageForm = ({ editData, onSuccess }) => {
   useEffect(() => {
     if (editData) {
       setFormData(editData);
-   
+
+      // Set existing main image
+      setMainImagePreview(editData.mainImage || editData.image || null);
+
       setOverviewinfo(
         (editData.overviewinfo || []).map((item) => ({
           ...item,
@@ -170,16 +173,13 @@ const HomepageForm = ({ editData, onSuccess }) => {
     try {
       let res;
       if (editData) {
-        res = await axiosInstance.put(
-          `/api/home/${editData._id}`,
-          data,
-        );
+        res = await axiosInstance.put(`/api/home/${editData._id}`, data);
       } else {
         res = await axiosInstance.post("/api/home", data);
       }
 
       alert("Saved Successfully!");
-       router.push("/dashboard/homepage");
+      router.push("/dashboard/homepage");
       onSuccess && onSuccess(res.data);
     } catch (err) {
       console.error(err);
@@ -377,4 +377,4 @@ const HomepageForm = ({ editData, onSuccess }) => {
   );
 };
 
-export default HomepageForm
+export default HomepageForm;

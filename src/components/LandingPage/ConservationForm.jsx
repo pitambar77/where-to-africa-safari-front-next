@@ -1,4 +1,4 @@
-"use clent"
+"use clent";
 import React, { useState, useEffect } from "react";
 import axiosInstance from "@/api/axiosInstance.js";
 import CustomRichEditor from "@/components/CustomRichEditor";
@@ -40,7 +40,10 @@ const ConservationForm = ({ editData, onSuccess }) => {
   useEffect(() => {
     if (editData) {
       setFormData(editData);
-   
+
+      // Set existing main image
+      setMainImagePreview(editData.mainImage || editData.image || null);
+
       setOverviewinfo(
         (editData.overviewinfo || []).map((item) => ({
           ...item,
@@ -179,7 +182,7 @@ const ConservationForm = ({ editData, onSuccess }) => {
       }
 
       alert("Saved Successfully!");
-       router.push("/dashboard/conservation");
+      router.push("/dashboard/conservation");
       onSuccess && onSuccess(res.data);
     } catch (err) {
       console.error(err);
@@ -377,5 +380,4 @@ const ConservationForm = ({ editData, onSuccess }) => {
   );
 };
 
-
-export default ConservationForm
+export default ConservationForm;
