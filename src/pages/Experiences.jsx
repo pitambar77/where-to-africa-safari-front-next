@@ -30,6 +30,9 @@ const Experiences = () => {
   const [selectedDestinationId, setSelectedDestinationId] = useState("");
   const [selectedRegionId, setSelectedRegionId] = useState("");
 
+  const [bannerPreview, setBannerPreview] = useState(null);
+  // const [galleryPreview, setGalleryPreview] = useState([]);
+
   // Nested objects
   const [experienceInfo, setExperienceInfo] = useState({
     days: "",
@@ -79,6 +82,8 @@ const Experiences = () => {
   const handleEdit = (exp) => {
     setEditId(exp._id);
 
+    setBannerPreview(exp.bannerImage);
+
     // Destination & region
     setSelectedDestinationId(exp.destination?._id || "");
     setSelectedRegionId(exp.region?._id || "");
@@ -96,6 +101,8 @@ const Experiences = () => {
     // Gallery
     setGalleryDescription(exp.galleryDescription || "");
     setGalleryImages([]); // new uploads only
+    // setGalleryImages([]);
+    // setGalleryPreview(exp.galleryImages || []);
 
     // Experience Info
     setExperienceInfo(
@@ -333,6 +340,14 @@ const Experiences = () => {
             onChange={(e) => setBannerDescription(e.target.value)}
           />
 
+          {bannerPreview && (
+            <img
+              src={bannerPreview}
+              className="w-40 h-32 object-cover rounded mt-2"
+              alt=""
+            />
+          )}
+
           <input
             type="file"
             className="border p-2 w-full mt-2"
@@ -549,6 +564,7 @@ const Experiences = () => {
                   )
                 }
               />
+
               <textarea
                 placeholder="Description"
                 className="border p-2 w-full mt-2"
@@ -650,6 +666,13 @@ const Experiences = () => {
                   )
                 }
               />
+
+              {(h.imagePreview || h.existingImage) && (
+                <img
+                  src={h.imagePreview || h.existingImage}
+                  className=" w-48 mt-2 rounded"
+                />
+              )}
               <input
                 type="file"
                 className="border p-2 w-full mt-2"
@@ -701,7 +724,23 @@ const Experiences = () => {
             multiple
             className="border p-2 w-full mt-2"
             onChange={(e) => setGalleryImages([...e.target.files])}
+            // onChange={(e) => {
+            //   const files = [...e.target.files];
+
+            //   setGalleryImages(files);
+            //   setGalleryPreview(files.map((file) => URL.createObjectURL(file)));
+            // }}
           />
+          {/* <div className="flex flex-wrap gap-3 mt-3">
+            {galleryPreview.map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt={`Preview ${index}`}
+                className="w-32 h-32 object-cover rounded border"
+              />
+            ))}
+          </div> */}
         </div>
 
         {/* <button
@@ -753,7 +792,10 @@ const Experiences = () => {
             </div>
 
             <div className="flex gap-4">
-              <button onClick={() => handleEdit(exp)} className="text-blue-500 cursor-pointer">
+              <button
+                onClick={() => handleEdit(exp)}
+                className="text-blue-500 cursor-pointer"
+              >
                 Edit
               </button>
               <button

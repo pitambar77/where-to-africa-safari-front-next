@@ -43,6 +43,9 @@ const AccommodationForm = () => {
   const [regions, setRegions] = useState([]); // ✅ store regions for selected destination
   const [selectedRegionId, setSelectedRegionId] = useState(""); // ✅ selected region
 
+  const [bannerImages, setBannerImages] = useState([]);
+  const [landingImage, setLandingImage] = useState(null);
+
   const [amenities, setAmenities] = useState([
     { amenityName: "", amenityImage: null },
   ]);
@@ -118,6 +121,9 @@ const AccommodationForm = () => {
 
       // Fill form
       reset(data);
+
+      setBannerImages(data.bannerImages || []);
+      setLandingImage(data.landingImage || null);
 
       setEditingId(id);
 
@@ -316,12 +322,14 @@ const AccommodationForm = () => {
           name="bannerImages"
           multiple
           register={register}
+          existingImages={bannerImages}
         />
 
         <ImageUpload
           label="Landing Image"
           name="landingImage"
           register={register}
+          existingImages={landingImage ? [landingImage] : []}
         />
 
         <input
@@ -439,11 +447,23 @@ const AccommodationForm = () => {
             />
 
             {/* Existing image preview */}
-            {typeof item.amenityImage === "string" && (
+            {/* {typeof item.amenityImage === "string" && (
               <img
                 src={item.amenityImage}
                 alt=""
                 className="w-16 h-16 object-cover rounded"
+              />
+            )} */}
+
+            {item.amenityImage && (
+              <img
+                src={
+                  item.amenityImage instanceof File
+                    ? URL.createObjectURL(item.amenityImage)
+                    : item.amenityImage
+                }
+                className="w-16 h-16 object-cover rounded"
+                alt=""
               />
             )}
 
@@ -481,8 +501,6 @@ const AccommodationForm = () => {
         >
           + Add Amenity
         </button>
-
-   
 
         <h3 className="font-semibold mt-6 mb-2">Gallery</h3>
 
