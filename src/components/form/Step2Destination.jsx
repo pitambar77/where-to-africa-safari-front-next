@@ -8,15 +8,13 @@ const destinations = [
   "Botswana",
   "Tanzania",
   "Kenya",
-  "Rwanda",
   "Namibia",
   "Zimbabwe",
   "Zambia",
   "Victoria Falls",
-  "Kruger",
+
   "Cape Town",
-  "Okavango Delta",
-  "Mauritius",
+ 
   "Mozambique",
   "Zanzibar",
   "I don't know",

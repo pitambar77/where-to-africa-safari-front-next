@@ -57,11 +57,16 @@ const Sidebar = () => {
       path: "/dashboard/contactus",
       icon: <FaHotel />,
     },
+     {
+      name: "Footer",
+      path: "/dashboard/footer",
+      icon: <FaHotel />,
+    },
     {
       name: "Home",
       path: "/dashboard/homepage",
       icon: <FaHotel />,
-    },
+    }
   ];
 
   return (

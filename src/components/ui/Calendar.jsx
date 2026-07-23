@@ -1,38 +1,4 @@
-// "use client";
 
-// import { useState } from "react";
-// import { DayPicker } from "react-day-picker";
-// import { addMonths, subMonths, addYears, subYears } from "date-fns";
-// import "react-day-picker/dist/style.css";
-
-// import CalendarCaption from "./CalendarCaption";
-
-// export default function Calendar({ value, onChange }) {
-//   const [month, setMonth] = useState(new Date());
-
-//   return (
-//     <div className="calendar-wrapper rounded-xl border border-gray-300 bg-white p-6">
-//       {/* <CalendarCaption
-//         month={month}
-//         onPrevMonth={() => setMonth(subMonths(month, 1))}
-//         onNextMonth={() => setMonth(addMonths(month, 1))}
-//         onPrevYear={() => setMonth(subYears(month, 1))}
-//         onNextYear={() => setMonth(addYears(month, 1))}
-//       /> */}
-
-//       <DayPicker
-//         mode="range"
-//         numberOfMonths={2}
-//         month={month}
-//         onMonthChange={setMonth}
-//         selected={value}
-//         onSelect={onChange}
-//         disabled={{ before: new Date() }}
-//         showOutsideDays
-//       />
-//     </div>
-//   );
-// }
 
 "use client";
 

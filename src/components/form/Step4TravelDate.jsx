@@ -3,11 +3,11 @@
 import { useFormContext } from "react-hook-form";
 import { CalendarDays } from "lucide-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { format, isBefore, startOfMonth } from "date-fns";
 import OptionCard from "../ui/OptionCard";
 import Select from "../ui/Select";
-import Calendar from "../ui/Calendar";
+import Calendar from "@/components/ui/Calendar/Calendar";
 
 const dayOptions = [
   { label: "Select Days", value: "" },
@@ -35,6 +35,11 @@ const dayOptions = [
 const Step4TravelDate = () => {
   const { watch, setValue } = useFormContext();
 
+  const [selectedDateRange, setSelectedDateRange] = useState({
+    from: undefined,
+    to: undefined,
+  });
+
   const today = new Date();
 
   const [year, setYear] = useState(today.getFullYear());
@@ -57,7 +62,15 @@ const Step4TravelDate = () => {
 
   const selectedDays = watch("days");
 
-  const selectedDateRange = watch("dateRange");
+  const currentValue = watch("dateRange");
+
+  useEffect(() => {
+    if (currentValue) {
+      setSelectedDateRange(currentValue);
+    }
+  }, []);
+
+  // const selectedDateRange = watch("dateRange");
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -236,6 +249,19 @@ const Step4TravelDate = () => {
 
           <Calendar
             value={selectedDateRange}
+            onChange={(range) => {
+              setSelectedDateRange(range);
+
+              setValue("dateRange", range, {
+                shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true,
+              });
+            }}
+          />
+
+          {/* <Calendar
+            value={selectedDateRange}
             onChange={(range) =>
               setValue("dateRange", range, {
                 shouldDirty: true,
@@ -243,7 +269,7 @@ const Step4TravelDate = () => {
                 shouldValidate: true,
               })
             }
-          />
+          /> */}
 
           {/* Selected Date Preview */}
 
