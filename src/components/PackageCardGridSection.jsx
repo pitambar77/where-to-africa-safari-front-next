@@ -26,21 +26,39 @@ const PackageCardGridSection = ({
         </div>
 
         {/* Cards Grid */}
-        {data.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 2xl:gap-8 mt-8 md:mt-16">
-            {data.map((item, index) => (
+        {/* <div className="flex flex-wrap justify-center gap-7 2xl:gap-8 mt-8 md:mt-16">
+          {data.length > 0 ? (
+            <div className="w-full sm:w-[calc(50%-14px)] md:w-[calc(33.333%-19px)] lg:w-[calc(25%-21px)] cursor-pointer ">
+              {data.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="cursor-pointer"
+                  onClick={() => onCardClick && onCardClick(item.id)}
+                >
+                  <CardComponent key={item.id || index} item={item} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-600 mt-10">{emptyMessage}</p>
+          )}
+        </div> */}
+        
+        <div className="flex flex-wrap justify-center gap-7 mt-8 md:mt-16">
+          {data.length > 0 ? (
+            data.map((item, index) => (
               <div
-                key={item.id}
-                className="cursor-pointer"
-                onClick={() => onCardClick && onCardClick(item.id)}
+                key={item.id || index}
+                className="basis-full sm:basis-[48%] md:basis-[31%] lg:basis-[23%] cursor-pointer"
+                onClick={() => onCardClick(item.id)}
               >
                 <CardComponent key={item.id || index} item={item} />
               </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-center text-gray-600 mt-10">{emptyMessage}</p>
-        )}
+            ))
+          ) : (
+            <p className="w-full text-center text-gray-600">{emptyMessage}</p>
+          )}
+        </div>
         {/* <div className=" mt-14 text-center">
           <Link to={"/packages"} className="bg-[#ac9e86] text-white font-light tracking-widest py-3 px-8 text-xs sm:text-sm uppercase hover:bg-[#978973] rounded-sm transition duration-200 font-quicksand">
             MORE ITINERARIES

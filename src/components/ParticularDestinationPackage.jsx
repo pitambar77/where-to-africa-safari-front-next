@@ -11,15 +11,26 @@ const ParticularDestinationPackage = ({
     <section className=" mt-4 pb-10 md:pb-16">
       <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-0">
         {/* Cards Grid */}
-        {data.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 2xl:gap-8 ">
-            {data.map((item, index) => (
-              <CardComponent key={item.id || index} item={item}  safari={item} onClick={() => onCardClick?.(item.id)} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-center text-gray-600 mt-10">{emptyMessage}</p>
-        )}
+         <div className="flex flex-wrap justify-center gap-7">
+          {data.length > 0 ? (
+            data.map((item, index) => (
+              <div
+                key={item.id || index}
+                className="basis-full sm:basis-[48%] md:basis-[31%] lg:basis-[23%]"
+              >
+                <CardComponent
+                  item={item}
+                  safari={item}
+                  onClick={() => onCardClick?.(item.id)}
+                />
+              </div>
+            ))
+          ) : (
+            <p className="w-full text-center text-gray-600 mt-10">
+              {emptyMessage}
+            </p>
+          )}
+        </div>
       </div>
       <div className=" mt-16 text-center">
         <Link

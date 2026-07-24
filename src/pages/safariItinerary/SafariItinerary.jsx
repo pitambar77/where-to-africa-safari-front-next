@@ -49,7 +49,7 @@ const iframeSrc = getIframeSrc(trip.link);
                 <p className="uppercase text-lg md:text-xl tracking-wide font-medium text-[#9a8f70] mb-4">
                   Travelers
                 </p>
-                <p className=" text-lg md:text-2xl font-quicksand text-[#686868]">
+                <p className=" text-lg font-quicksand text-[#686868]">
                   {trip.rating}
                 </p>
               </div>
@@ -59,7 +59,7 @@ const iframeSrc = getIframeSrc(trip.link);
                 <p className="uppercase text-lg md:text-xl tracking-wide font-medium text-[#9a8f70] mb-4">
                   From (Per Person)
                 </p>
-                <p className="text-lg md:text-2xl font-quicksand text-[#686868]">
+                <p className="text-lg font-quicksand text-[#686868]">
                   {trip.price}
                 </p>
               </div>
@@ -69,7 +69,7 @@ const iframeSrc = getIframeSrc(trip.link);
                 <p className="uppercase text-lg md:text-xl tracking-wide font-medium text-[#9a8f70] mb-4">
                   Days
                 </p>
-                <p className="text-lg md:text-2xl font-quicksand text-[#686868]">
+                <p className="text-lg  font-quicksand text-[#686868]">
                   {trip.duration}
                 </p>
               </div>
@@ -79,7 +79,7 @@ const iframeSrc = getIframeSrc(trip.link);
                 <p className="uppercase text-lg md:text-xl tracking-wide font-medium text-[#9a8f70] mb-4">
                   Places to Visit
                 </p>
-                <p className="text-lg md:text-2xl font-quicksand text-[#686868]">
+                <p className="text-lg font-quicksand text-[#686868]">
                   {trip.location}
                 </p>
               </div>

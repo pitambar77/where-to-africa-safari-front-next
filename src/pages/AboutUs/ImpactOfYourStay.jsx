@@ -11,35 +11,35 @@ import Image from "next/image";
 const impactProjects = [
   {
     image:
-      "/images/community-partner.avif",
+      "/images/community-partner.webp",
     title: "Community Partnerships",
     description:
       "Local communities are engaged through fair employment, cultural respect, and collaboration with guides, artisans, and service providers, ensuring tourism income supports livelihoods and strengthens local economies while preserving traditions and encouraging long-term participation in responsible tourism initiatives.",
   },
   {
     image:
-      "/images/wildlife-protection.avif",
+      "/images/wildlife-protection.webp",
     title: "Wildlife Protection",
     description:
       "Activities are selected to minimize disturbance, follow ethical viewing guidelines, and support conservation-focused tourism that protects habitats, encourages responsible wildlife encounters, and contributes to long-term preservation of Africa’s natural ecosystems and biodiversity.",
   },
   {
     image:
-      "/images/low-impact-travel.avif",
+      "/images/low-impact-travel.webp",
     title: "Low Impact Travel",
     description:
       "Travel routes, accommodations, and activities are chosen to reduce environmental strain, manage visitor flow, and limit overuse of sensitive areas, helping destinations remain healthy, balanced, and welcoming for future travelers and local residents alike.",
   },
   {
     image:
-      "/images/responsible-accommodation.avif",
+      "/images/Accommodation-re.webp",
     title: "Responsible Accommodation Choices",
     description:
       "Accommodation partners are selected based on responsible operations, fair labor practices, environmental awareness, and community involvement, ensuring stays contribute positively to surrounding areas rather than placing unnecessary pressure on local resources.",
   },
   {
     image:
-      "/images/education.avif",
+      "/images/education-and-awareness.webp",
     title: "Education And Awareness",
     description:
       "Travelers receive clear guidance on respectful behavior, cultural understanding, and environmental responsibility, helping guests make informed choices that support conservation, community wellbeing, and positive interactions throughout their journey across African destinations.",
@@ -51,7 +51,7 @@ const ImpactOfYourStay = () => {
   const nextRef = useRef(null);
 
   return (
-    <section className=" py-8 sm:py-10 md:py-16  text-gray-800">
+    <section className=" py-8 sm:py-10 md:py-16 bg-gray-50 text-gray-800">
       {/* Header */}
       <div className="text-center px-6 md:px-10 lg:px-16 xl:px-20 2xl:px-28 mb-6 md:mb-12">
         <div className="font-cormorant text-center  ">
@@ -123,10 +123,10 @@ const ImpactOfYourStay = () => {
                     className="object-cover transition-transform duration-500 hover:scale-105"
                   />
                 </div>
-                <h3 className=" text-xl md:text-2xl font-semibold font-cormorant text-gray-900 mb-2">
+                <h3 className=" text-xl md:text-2xl font-normal font-cormorant text-[#636363] mb-2">
                   {project.title}
                 </h3>
-                <p className="text-gray-700 text-sm font-quicksand pr-6 ">
+                <p className="text-gray-700 text-sm md:text-base leading-relaxed font-quicksand pr-6 ">
                   {project.description}
                 </p>
               </div>

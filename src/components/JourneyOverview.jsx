@@ -39,7 +39,7 @@ const JourneyOverview = ({
           <p className="uppercase text-sm md:text-xl tracking-wide font-medium text-[#9a8f70] mb-2 md:mb-4">
            {level}
           </p>
-          <p className=" text-sm md:text-2xl font-quicksand text-[#686868]">{days}</p>
+          <p className=" text-lg font-quicksand text-[#686868]">{days}</p>
         </div>
 
         {/* From Price */}
@@ -47,7 +47,7 @@ const JourneyOverview = ({
           <p className="uppercase text-sm md:text-xl tracking-wide font-medium text-[#9a8f70] mb-2 md:mb-4">
             {levelsec}
           </p>
-          <p className=" text-sm md:text-2xl font-quicksand text-[#686868]">{price}</p>
+          <p className=" text-lg font-quicksand text-[#686868]">{price}</p>
         </div>
 
         {/* Journey Type */}
@@ -55,7 +55,7 @@ const JourneyOverview = ({
           <p className="uppercase text-sm md:text-xl tracking-wide font-medium text-[#9a8f70] mb-2 md:mb-4">
             {levelthird}
           </p>
-          <p className="text-sm md:text-2xl font-quicksand text-[#686868]">{journeyType}</p>
+          <p className="text-lg font-quicksand text-[#686868]">{journeyType}</p>
         </div>
 
         {/* Time of Year */}
@@ -63,7 +63,7 @@ const JourneyOverview = ({
           <p className="uppercase text-sm md:text-xl tracking-wide font-medium text-[#9a8f70] mb-2 md:mb-4">
             {levelfourth}
           </p>
-          <p className="text-sm md:text-2xl font-quicksand text-[#686868]">{timeOfYear}</p>
+          <p className="text-lg font-quicksand text-[#686868]">{timeOfYear}</p>
         </div>
 
         {/* Cities & Landmarks */}

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { useRouter } from "next/navigation";
@@ -11,13 +11,9 @@ import AccommodationRelated from "./AccommodationRelated";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import Link from "next/link";
 
-const AccommodationSlider = ({
-  regions = [],
-  destination,
-  visibleCount
-}) => {
-
+const AccommodationSlider = ({ regions = [], destination, visibleCount }) => {
   const router = useRouter();
 
   if (!regions.length) return null;
@@ -52,26 +48,22 @@ const AccommodationSlider = ({
               }}
               className=""
             >
-              {region.accommodations
-                ?.slice(0, visibleCount)
-                .map((acc) => (
-                  <SwiperSlide key={acc.slug}>
-                    <div
-                      className="cursor-pointer"
-                      onClick={() =>
-                        router.push(`/accommodation/${acc.slug}`)
-                      }
-                    >
-                      <AccommodationRelated
-                        image={acc.bannerImages?.[0]}
-                        nights={`Ratings ${acc.nightsStay || ""}`}
-                        title={acc.name}
-                        location={acc.bannerDescription}
-                        tag={acc.location}
-                      />
-                    </div>
-                  </SwiperSlide>
-                ))}
+              {region.accommodations?.slice(0, visibleCount).map((acc) => (
+                <SwiperSlide key={acc.slug}>
+                  <Link
+                    href={`/accommodation/${acc.slug}`}
+                    className="cursor-pointer"
+                  >
+                    <AccommodationRelated
+                      image={acc.bannerImages?.[0]}
+                      nights={`Ratings ${acc.nightsStay || ""}`}
+                      title={acc.name}
+                      location={acc.bannerDescription}
+                      tag={acc.location}
+                    />
+                  </Link>
+                </SwiperSlide>
+              ))}
             </Swiper>
 
             {/* LEFT BUTTON */}

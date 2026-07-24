@@ -11,7 +11,7 @@ const WhyTravel = () => {
         "Trips are designed with local guides and partners, ensuring authentic experiences while supporting livelihoods and sharing genuine regional understanding.",
     },
     {
-      image: "/images/why-us2.webp",
+      image: "/images/why-cultural.webp",
       title: "Responsible Travel",
       description:
         "Journeys support conservation and local communities through low-impact travel practices that protect wildlife habitats, respect culture, and benefit destinations responsibly globally.",

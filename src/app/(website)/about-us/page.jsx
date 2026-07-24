@@ -38,7 +38,7 @@ export async function generateMetadata() {
     alternates: {
       canonical:
         seo?.canonicalUrl ||
-        "http://wheretoafrica.manoramaseoservice.com/about-us",
+        "https://whereto.africa/about-us",
     },
 
     openGraph: {
@@ -50,7 +50,7 @@ export async function generateMetadata() {
 
       url:
         seo?.canonicalUrl ||
-        "http://wheretoafrica.manoramaseoservice.com/about-us",
+        "https://whereto.africa/about-us",
     },
   };
 }

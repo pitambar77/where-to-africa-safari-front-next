@@ -122,7 +122,7 @@ const GameDriveCard = ({ image, title, description }) => (
         className="w-full h-[450px] md:h-auto object-cover rounded-sm aspect-[3.5/5] shadow-sm"
       />
     </div>
-    <h3 className="text-2xl font-cormorant font-semibold text-gray-800 mb-2 leading-tight">
+    <h3 className="text-2xl font-cormorant font-medium text-gray-600 mb-2 leading-tight">
       {title}
     </h3>
     <p className="text-gray-800 font-quicksand">{description}</p>

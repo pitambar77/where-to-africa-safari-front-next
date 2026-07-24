@@ -50,7 +50,7 @@ const GallerySection = ({
         </h5>
 
         <div className="mb-10 md:mb-16">
-          <p className="font-quicksand mx-auto max-w-xl text-center text-gray-600   md:px-4 leading-relaxed">
+          <p className="font-quicksand text-lg mx-auto max-w-xl text-center text-gray-600   md:px-4 leading-relaxed">
             {description}
           </p>
         </div>

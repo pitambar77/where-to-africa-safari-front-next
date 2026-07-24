@@ -124,8 +124,7 @@ const BotswanaLandingPage = ({ slug, destination }) => {
         title={hero?.title || "Explore Botswana"}
         subtitle={hero?.subtitle || "Discover wildlife and natural beauty"}
         imageUrl={
-          hero?.bannerImage ||
-          "https://www.discoverafrica.com/wp-content/uploads/2021/12/kzn_game_2.jpg"
+          hero?.bannerImage
         }
       />
 
@@ -198,8 +197,10 @@ const BotswanaLandingPage = ({ slug, destination }) => {
             id: exp.slug, // must exist
             image: exp.bannerImage,
             title: exp.bannerTitle,
+            path: `/experience/${exp.slug}`, // 👈 add this
           }))}
-          onCardClick={(slug) => router.push(`/experience/${slug}`)}
+          
+          // onCardClick={(slug) => router.push(`/experience/${slug}`)}
         />
       )}
 

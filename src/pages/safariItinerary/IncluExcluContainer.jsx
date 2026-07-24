@@ -213,9 +213,9 @@ const IncluExcluContainer = ({ title = "", items }) => {
                       return (
                         <div
                           key={i}
-                          className="flex items-start gap-3 mt-3 ml-4"
+                          className="flex items-start gap-3 mt-3 ml-8"
                         >
-                          <FaRegDotCircle className="w-4 h-4 text-[#a89f81] mt-1 shrink-0" />
+                          <FaRegDotCircle className="w-4 h-4 text-[#a89f81] mt-1.5 shrink-0" />
                           <p className="text-gray-700 font-light leading-relaxed">
                             {ans.content}
                           </p>

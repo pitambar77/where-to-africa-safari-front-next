@@ -140,7 +140,7 @@ const ItinenaryForm = ({ onClose, trip }) => {
 
               {/* Personal Details */}
               <div>
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-center mb-4 font-quicksand">
                   <h3 className="text-lg font-semibold">Personal details</h3>
                   <span className="text-sm text-gray-500">*Required</span>
                 </div>

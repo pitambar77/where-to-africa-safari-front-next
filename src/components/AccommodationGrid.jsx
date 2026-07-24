@@ -1,6 +1,7 @@
 import React from "react";
 
 import AccommodationRelated from "./AccommodationRelated";
+import Link from "next/link";
 
 const AccommodationGrid = ({
   title = "Overnight Accommodations",
@@ -29,11 +30,11 @@ const AccommodationGrid = ({
           {/* Grid */}
           <div className="grid gap-4 md:gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 font-cormorant">
             {data.map((item) => (
-              <div
-                key={item.id}
-                className="cursor-pointer"
-                onClick={() => onCardClick && onCardClick(item.id)}
-              >
+            <Link
+  key={item.id}
+  href={`/accommodation/${item.id}`}
+  className="block"
+>
                 <AccommodationRelated
                   key={item.id}
                   image={item.image}
@@ -42,7 +43,7 @@ const AccommodationGrid = ({
                   location={item.tag}
                   tag={item.location}
                 />
-              </div>
+              </Link>
             ))}
           </div>
 

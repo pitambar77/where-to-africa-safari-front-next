@@ -5,6 +5,7 @@ import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import "swiper/css";
 import "swiper/css/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 const ExperienceCarousel = ({
   title = "Guest Favorites in South Africa",
@@ -18,7 +19,7 @@ const ExperienceCarousel = ({
   data = [],
   slidesPerView = 2.5,
   slidesPerGroup = 2,
-  onCardClick,
+  
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(
@@ -89,9 +90,8 @@ const ExperienceCarousel = ({
             >
               {data.map((item, index) => (
                 <SwiperSlide>
-                  <div
-                    key={item.id}
-                    onClick={() => onCardClick && onCardClick(item.id)}
+                  <Link
+                    href={item.path}
                     className="relative group overflow-hidden rounded-sm shadow-lg cursor-pointer"
                   >
                     <div className="relative w-full h-96 overflow-hidden">
@@ -110,7 +110,7 @@ const ExperienceCarousel = ({
                         {item.title}
                       </h3>
                     </div>
-                  </div>
+                  </Link>
                 </SwiperSlide>
               ))}
             </Swiper>

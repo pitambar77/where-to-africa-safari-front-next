@@ -13,7 +13,7 @@ const destinations = [
   },
   {
     name: "Kenya",
-    image: "/kenya-destination.webp",
+    image: "/kenya-destination-banner.webp",
     path: "/kenya",
   },
   {
@@ -23,7 +23,7 @@ const destinations = [
   },
   {
     name: "Namibia",
-    image: "/namibia-destination.webp",
+    image: "/namibia-destination-banner.webp",
     path: "/namibia",
   },
   {

@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 /**
  * Reusable destination grid component
  *
@@ -28,9 +29,9 @@ const DestinationGrid = ({
       {/* Destination Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {data.map((item, index) => (
-          <div
+          <Link
             key={item.name}
-            onClick={() => router.push(item.path || "#")}
+            href={item.path || "#"}
             className="flex items-center rounded-[3px] overflow-hidden bg-white transition duration-300 cursor-pointer  hover:shadow-md hover:scale-[1.02]"
             // style={
             //   index % 3 === 0 || index % 3 === 1 ? { marginRight: "2rem" } : {}
@@ -50,7 +51,7 @@ const DestinationGrid = ({
                 {item.name}
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

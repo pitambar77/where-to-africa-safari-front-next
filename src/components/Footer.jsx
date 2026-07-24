@@ -10,14 +10,16 @@ const Footer = async () => {
       <div className="max-w-[1320px] mx-auto px-4 py-16 grid lg:grid-cols-[280px_1fr] gap-12">
         {/* Logo Section */}
         <div className="flex flex-col items-start">
-          <div className="relative w-60 h-20">
-            <Image
-              src={footer?.logo || "/whereto-logo.webp"}
-              alt="Where To Africa Logo"
-              fill
-              className="object-contain"
-            />
-          </div>
+          <Link href={"/"}>
+            <div className="relative w-60 h-20">
+              <Image
+                src={footer?.logo || "/whereto-logo.webp"}
+                alt="Where To Africa Logo"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </Link>
         </div>
 
         {/* Right Side Content */}
@@ -87,7 +89,7 @@ const Footer = async () => {
         <div className="max-w-[1320px] mx-auto flex flex-col-reverse md:flex-row items-center justify-center gap-4 font-quicksand text-center">
           {/* Copyright */}
           <p>
-          {footer?.copyright}, Design by{" "}
+            {footer?.copyright}, Design by{" "}
             <a
               href={footer?.designerLink}
               target="_blank"
@@ -100,7 +102,7 @@ const Footer = async () => {
 
           {/* Privacy Policy */}
           <ul className="flex gap-4">
-           <li>
+            <li>
               <Link
                 href={footer?.privacyPolicyLink || "/privacy-policy"}
                 className="text-amber-300/80 hover:text-amber-300"
