@@ -18,7 +18,9 @@ const AccommodationGrid = ({
           {/* Heading */}
           <div className=" text-center">
             {/* <h2 className="text-center text-2xl md:text-3xl font-normal uppercase text-[#a89f82] mb-4"> */}
-            <p className=" text-[#a89f82] font-quicksand text-sm sm:text-base  uppercase">{title}</p>
+            <p className=" text-[#a89f82] font-quicksand text-sm sm:text-base  uppercase">
+              {title}
+            </p>
 
             {/* </h2> */}
             <h5 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-8 md:mb-16 mt-4 text-[#636363] capitalize font-normal max-w-5xl mx-auto font-cormorant">
@@ -30,11 +32,11 @@ const AccommodationGrid = ({
           {/* Grid */}
           <div className="grid gap-4 md:gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 font-cormorant">
             {data.map((item) => (
-            <Link
-  key={item.id}
-  href={`/accommodation/${item.id}`}
-  className="block"
->
+              <Link
+                key={item.id}
+                href={`/accommodation/${item.id}`}
+                className="block"
+              >
                 <AccommodationRelated
                   key={item.id}
                   image={item.image}
