@@ -89,7 +89,7 @@ const ExperienceCarousel = ({
               className="pb-10"
             >
               {data.map((item, index) => (
-                <SwiperSlide>
+                <SwiperSlide key={item.id || item.slug || index}>
                   <Link
                     href={item.path}
                     className="relative group overflow-hidden rounded-sm shadow-lg cursor-pointer"

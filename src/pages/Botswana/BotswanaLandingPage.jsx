@@ -124,7 +124,7 @@ const BotswanaLandingPage = ({ slug, destination }) => {
         title={hero?.title || "Explore Botswana"}
         subtitle={hero?.subtitle || "Discover wildlife and natural beauty"}
         imageUrl={
-          hero?.bannerImage
+          hero?.bannerImage || "/kenya-destination-banner.webp"
         }
       />
 

@@ -24,7 +24,7 @@ import Testimonial from "@/components/Testimonial";
 
 async function getDestinations() {
   const res = await fetch(`${process.env.API_BASE}/api/destinations`, {
-    next: { revalidate: 300 }, // cache for 5 minutes
+    cache: "no-store",
   });
 
   if (!res.ok) return [];
