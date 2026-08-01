@@ -11,7 +11,7 @@ import Image from "next/image";
 const impactProjects = [
   {
     image:
-      "/images/community-partner.webp",
+      "/images/Community-Partnerships.webp",
     title: "Community Partnerships",
     description:
       "Local communities are engaged through fair employment, cultural respect, and collaboration with guides, artisans, and service providers, ensuring tourism income supports livelihoods and strengthens local economies while preserving traditions and encouraging long-term participation in responsible tourism initiatives.",

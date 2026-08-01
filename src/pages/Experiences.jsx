@@ -80,6 +80,10 @@ const Experiences = () => {
   );
 
   const handleEdit = (exp) => {
+    console.log(exp);
+    console.log("Destination:", exp.destination);
+    console.log("Region:", exp.region);
+
     setEditId(exp._id);
 
     setBannerPreview(exp.bannerImage);

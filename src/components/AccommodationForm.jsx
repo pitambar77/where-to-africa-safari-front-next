@@ -25,7 +25,7 @@ const DESTINATIONS = [
   "North America",
 ];
 const SUBDESTINATIONS = {
-  Africa: ["Kenya", "Tanzania", "South Africa", "Namibia"],
+  Africa: ["Botswana","Kenya", "Namibia", "South Africa", "Tanzania","Zambia","Zimbabwe"],
   Asia: ["Japan", "Thailand", "Vietnam", "India"],
   Europe: ["France", "Italy", "Spain", "Greece"],
   "South America": ["Peru", "Brazil", "Chile"],
@@ -122,6 +122,10 @@ const AccommodationForm = () => {
       // Fill form
       reset(data);
 
+
+      setSelectedDestinationId(data.destinationId?._id || data.destinationId);
+      setSelectedRegionId(data.regionId?._id || data.regionId);
+
       setBannerImages(data.bannerImages || []);
       setLandingImage(data.landingImage || null);
 
@@ -154,10 +158,32 @@ const AccommodationForm = () => {
     }
   };
 
+  // useEffect(() => {
+  //   const selected = destinations.find((d) => d._id === selectedDestinationId);
+  //   setRegions(selected?.regions || []);
+  // }, [selectedDestinationId, destinations]);
+
   useEffect(() => {
-    const selected = destinations.find((d) => d._id === selectedDestinationId);
-    setRegions(selected?.regions || []);
+    if (!selectedDestinationId || destinations.length === 0) return;
+
+    const destination = destinations.find(
+      (d) => d._id === selectedDestinationId,
+    );
+
+    if (destination) {
+      setRegions(destination.regions || []);
+    }
   }, [selectedDestinationId, destinations]);
+
+  useEffect(() => {
+    if (!selectedRegionId || regions.length === 0) return;
+
+    const exists = regions.find((r) => r._id === selectedRegionId);
+
+    if (exists) {
+      setSelectedRegionId(exists._id);
+    }
+  }, [regions]);
 
   useEffect(() => {
     if (selectedDestination && !editingId) {
@@ -455,7 +481,7 @@ const AccommodationForm = () => {
               />
             )} */}
 
-            {item.amenityImage && (
+            {/* {item.amenityImage && (
               <img
                 src={
                   item.amenityImage instanceof File
@@ -464,6 +490,18 @@ const AccommodationForm = () => {
                 }
                 className="w-16 h-16 object-cover rounded"
                 alt=""
+              />
+            )} */}
+
+            {item.amenityImage && (
+              <img
+                src={
+                  item.amenityImage instanceof File
+                    ? URL.createObjectURL(item.amenityImage)
+                    : item.amenityImage
+                }
+                alt=""
+                className="w-10 h-10 object-cover rounded border bg-[#a89f82] p-1"
               />
             )}
 
@@ -517,7 +555,7 @@ const AccommodationForm = () => {
           className="w-full border p-2 mb-4 rounded"
         />
 
-        {gallery.map((item, index) => (
+        {/* {gallery.map((item, index) => (
           <div key={index} className="flex gap-3 mb-3">
             <input
               type="text"
@@ -542,6 +580,58 @@ const AccommodationForm = () => {
               className="border p-2 rounded w-1/2"
             />
           </div>
+        ))} */}
+
+        {gallery.map((item, index) => (
+          <div key={index} className="flex gap-3 mb-3 items-center">
+            <input
+              type="text"
+              placeholder="Gallery Name"
+              value={item.galleryName}
+              onChange={(e) => {
+                const updated = [...gallery];
+                updated[index].galleryName = e.target.value;
+                setGallery(updated);
+              }}
+              className="border p-2 rounded w-1/3"
+            />
+
+            {/* Preview */}
+            {item.galleryImage && (
+              <img
+                src={
+                  item.galleryImage instanceof File
+                    ? URL.createObjectURL(item.galleryImage)
+                    : item.galleryImage
+                }
+                alt=""
+                className="w-20 h-20 object-cover rounded border"
+              />
+            )}
+
+            {/* Upload new image */}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const updated = [...gallery];
+                updated[index].galleryImage = e.target.files[0];
+                setGallery(updated);
+              }}
+              className="border p-2 rounded"
+            />
+
+            <button
+              type="button"
+              onClick={() => {
+                const updated = gallery.filter((_, i) => i !== index);
+                setGallery(updated);
+              }}
+              className="text-red-600"
+            >
+              Remove
+            </button>
+          </div>
         ))}
 
         <button
@@ -549,7 +639,7 @@ const AccommodationForm = () => {
           onClick={() =>
             setGallery([...gallery, { galleryName: "", galleryImage: null }])
           }
-          className="text-blue-600 text-sm"
+          className="text-blue-600 text-sm mb-10"
         >
           + Add Gallery Image
         </button>
@@ -562,12 +652,12 @@ const AccommodationForm = () => {
 
         {/* Q&A Sections */}
         <QnASection
-          label="About Booking"
+          label="Include"
           qna={aboutBooking}
           setQna={setAboutBooking}
         />
         <QnASection
-          label="Requirements"
+          label="Moments"
           qna={requirements}
           setQna={setRequirements}
         />

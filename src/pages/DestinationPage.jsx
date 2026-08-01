@@ -71,6 +71,7 @@ const Destinations = () => {
     overviewDescription: "",
 
     bannerImage: null,
+
     regions: [
       {
         name: "",
@@ -154,11 +155,28 @@ const Destinations = () => {
   };
 
   // Handle input for region fields
+  // const handleRegionChange = (index, e) => {
+  //   const { name, value, files } = e.target;
+  //   const updatedRegions = structuredClone(formData.regions);
+  //   updatedRegions[index][name] = files ? files[0] : value;
+  //   setFormData({ ...formData, regions: updatedRegions });
+  // };
+
   const handleRegionChange = (index, e) => {
     const { name, value, files } = e.target;
-    const updatedRegions = structuredClone(formData.regions);
-    updatedRegions[index][name] = files ? files[0] : value;
-    setFormData({ ...formData, regions: updatedRegions });
+
+    const updated = structuredClone(formData.regions);
+
+    if (files) {
+      updated[index][name] = files[0];
+    } else {
+      updated[index][name] = value;
+    }
+
+    setFormData({
+      ...formData,
+      regions: updated,
+    });
   };
 
   // Add new region block
@@ -364,6 +382,7 @@ const Destinations = () => {
       overviewSubTitle: dest.hero?.overviewSubTitle || "",
       overviewDescription: dest.hero?.overviewDescription || "",
       bannerImage: null,
+      existingBannerImage: dest.hero?.bannerImage || "", // 👈 Add this
 
       regions: dest.regions.map((r) => ({
         ...r,
@@ -395,11 +414,11 @@ const Destinations = () => {
             ],
       })),
     });
-      // Scroll to the top
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
+    // Scroll to the top
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const ContentBlocksEditor = ({ blocks = [], onChange }) => {
@@ -543,6 +562,13 @@ const Destinations = () => {
             onChange={handleChange}
             className="border p-2 rounded"
           />
+          {formData.existingBannerImage && (
+            <img
+              src={formData.existingBannerImage}
+              alt="Banner"
+              className="w-40 h-24 object-cover rounded border mt-2"
+            />
+          )}
         </div>
         <textarea
           name="description"
@@ -587,7 +613,9 @@ const Destinations = () => {
 
         {/* Regions Section */}
         <div className="mt-6 border-t pt-4">
-          <h3 className="font-semibold mb-3 text-lg">Regions</h3>
+          <h3 className="font-semibold mb-3 text-lg">
+            Regions/ National Parks
+          </h3>
           {formData.regions.map((region, index) => (
             <div key={index} className="border p-4 mb-4 rounded">
               <div className="grid grid-cols-2 gap-4">
@@ -614,6 +642,17 @@ const Destinations = () => {
                   onChange={(e) => handleRegionChange(index, e)}
                   className="border p-2 rounded"
                 />
+                {region.existingImage && (
+                  <img
+                    src={
+                      region.image instanceof File
+                        ? URL.createObjectURL(region.image)
+                        : region.existingImage
+                    }
+                    className="w-28 h-20 object-cover rounded border mt-2"
+                    alt=""
+                  />
+                )}
               </div>
 
               <textarea
@@ -809,6 +848,19 @@ const Destinations = () => {
                         }}
                         className="col-span-2"
                       />
+
+                      {/* Image Preview */}
+                      {(sec.image || sec.existingImage) && (
+                        <img
+                          src={
+                            sec.image instanceof File
+                              ? URL.createObjectURL(sec.image)
+                              : sec.existingImage
+                          }
+                          alt="Section"
+                          className="w-32 h-24 object-cover rounded border col-span-2 mt-2"
+                        />
+                      )}
 
                       {/* Remove Section */}
                       <button
