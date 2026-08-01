@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ const ContactUs = () => {
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   // Handle Change
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +31,8 @@ const ContactUs = () => {
 
     setFormData({ ...formData, [name]: value });
   };
+
+  const router = useRouter();
 
   // Validation Function
   const validate = () => {
@@ -59,18 +64,49 @@ const ContactUs = () => {
   };
 
   // Submit
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!validate()) return;
+
+  //   try {
+  //     await axios.post(
+  //       "http://localhost:8003/api/contact",
+  //       formData,
+  //     );
+
+  //     setSuccess("Message sent successfully!");
+  //     setFormData({
+  //       firstName: "",
+  //       lastName: "",
+  //       email: "",
+  //       phone: "",
+  //       inquiry: "",
+  //       message: "",
+  //     });
+  //     setErrors({});
+  //   } catch (error) {
+  //     console.log("Full error:", error);
+  //     console.log("Server response:", error.response?.data);
+  //     alert(error.response?.data?.message || "Something went wrong");
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validate()) return;
 
+    setLoading(true);
+
     try {
       await axios.post(
-        "http://where-to-africa-safari-backend.manoramaseoservice.com/api/contact",
+        "https://where-to-africa-safari-backend.whereto.africa/api/contact",
         formData,
       );
 
       setSuccess("Message sent successfully!");
+
       setFormData({
         firstName: "",
         lastName: "",
@@ -79,11 +115,15 @@ const ContactUs = () => {
         inquiry: "",
         message: "",
       });
+
       setErrors({});
+      router.push("/thank-you");
     } catch (error) {
       console.log("Full error:", error);
       console.log("Server response:", error.response?.data);
       alert(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -218,9 +258,14 @@ const ContactUs = () => {
                 <div className="mt-12">
                   <button
                     type="submit"
-                    className="bg-[#aba186] hover:bg-[#78715d] text-white cursor-pointer px-8 py-3 rounded-full"
+                    disabled={loading}
+                    className={`px-8 py-3 rounded-full text-white transition-all duration-300 ${
+                      loading
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-[#aba186] hover:bg-[#78715d] cursor-pointer"
+                    }`}
                   >
-                    Submit
+                    {loading ? "Submitting..." : "Submit"}
                   </button>
                 </div>
 
