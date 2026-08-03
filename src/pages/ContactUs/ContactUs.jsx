@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ const ContactUs = () => {
   const [success, setSuccess] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState(null);
 
   // Handle Change
   const handleChange = (e) => {
@@ -63,46 +65,25 @@ const ContactUs = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Submit
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!validate()) return;
-
-  //   try {
-  //     await axios.post(
-  //       "http://localhost:8003/api/contact",
-  //       formData,
-  //     );
-
-  //     setSuccess("Message sent successfully!");
-  //     setFormData({
-  //       firstName: "",
-  //       lastName: "",
-  //       email: "",
-  //       phone: "",
-  //       inquiry: "",
-  //       message: "",
-  //     });
-  //     setErrors({});
-  //   } catch (error) {
-  //     console.log("Full error:", error);
-  //     console.log("Server response:", error.response?.data);
-  //     alert(error.response?.data?.message || "Something went wrong");
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validate()) return;
+
+    if (!captchaToken) {
+      alert("Please verify the captcha.");
+      return;
+    }
 
     setLoading(true);
 
     try {
       await axios.post(
         "https://where-to-africa-safari-backend.whereto.africa/api/contact",
-        formData,
+        {
+          ...formData,
+          captchaToken,
+        },
       );
 
       setSuccess("Message sent successfully!");
@@ -253,6 +234,13 @@ const ContactUs = () => {
                   {errors.message && (
                     <p className="text-red-500 text-sm">{errors.message}</p>
                   )}
+                </div>
+
+                <div className="mt-8">
+                  <ReCAPTCHA
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                    onChange={(token) => setCaptchaToken(token)}
+                  />
                 </div>
 
                 <div className="mt-12">
