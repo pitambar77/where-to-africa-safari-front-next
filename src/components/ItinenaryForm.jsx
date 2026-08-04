@@ -343,12 +343,10 @@ const ItinenaryForm = ({ onClose, trip }) => {
                 </div>
 
                 <div className="flex gap-6 mt-6 text-sm text-gray-600">
-                  <Link href={"#"} type="button" className="underline">
+                  <Link href={"/privacy-policy"} type="button" className="underline">
                     Privacy Policy
                   </Link>
-                  <Link href="#" className="underline">
-                    Cookie Policy
-                  </Link>
+                 
                 </div>
               </div>
             </div>

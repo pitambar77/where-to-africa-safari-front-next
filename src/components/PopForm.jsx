@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function PopForm({ experienceName, destination }) {
   const [step, setStep] = useState(1);
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState(null);
+
   const [form, setForm] = useState({
     tripType: experienceName || "",
     destinations: destination ? [destination] : [],
@@ -25,12 +30,21 @@ export default function PopForm({ experienceName, destination }) {
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const handleChange = (key, value) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
+    setForm((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [key]: "",
+    }));
   };
 
   const toggleDestination = (value) => {
     setForm((prev) => {
       const exists = prev.destinations.includes(value);
+
       return {
         ...prev,
         destinations: exists
@@ -38,6 +52,115 @@ export default function PopForm({ experienceName, destination }) {
           : [...prev.destinations, value],
       };
     });
+
+    setErrors((prev) => ({
+      ...prev,
+      destinations: "",
+    }));
+  };
+
+  const validateStep1 = () => {
+    const newErrors = {};
+
+    if (!form.tripType) newErrors.tripType = "Please select trip type.";
+
+    if (form.destinations.length === 0)
+      newErrors.destinations = "Select destination.";
+
+    if (!form.planningStage)
+      newErrors.planningStage = "Planning stage is required.";
+
+    // if (!form.budget) newErrors.budget = "Budget is required.";
+
+    if (!form.travelDate) newErrors.travelDate = "Travel date is required.";
+
+    if (Number(form.adults) < 1) newErrors.adults = "Minimum 1 adult.";
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const validateStep2 = () => {
+    const newErrors = {};
+
+    if (!form.firstName.trim()) newErrors.firstName = "First name is required.";
+
+    if (!form.lastName.trim()) newErrors.lastName = "Last name is required.";
+
+    if (!form.email) newErrors.email = "Email is required.";
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(form.email))
+      newErrors.email = "Invalid email.";
+
+    if (!form.phone) newErrors.phone = "Phone number is required.";
+
+    if (!form.country) newErrors.country = "Country is required.";
+
+    if (!form.acceptPolicy) newErrors.acceptPolicy = "Accept Privacy Policy.";
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const submitForm = async () => {
+    if (!validateStep2()) return;
+
+    if (!captchaToken) {
+      alert("Please verify the captcha.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/api/floating-enquiry`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...form,
+            captchaToken,
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
+
+      if (data.success) {
+        setStep(3);
+
+        // Optional: Reset form after successful submission
+        setForm({
+          tripType: "",
+          destinations: [],
+          planningStage: "",
+          adults: 1,
+          children: 0,
+          budget: "",
+          travelDate: "",
+          interests: "",
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          country: "",
+          acceptPolicy: false,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      alert(error.message || "Failed to submit inquiry.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // close dropdown on outside click
@@ -328,6 +451,11 @@ export default function PopForm({ experienceName, destination }) {
                     value={form.tripType || ""}
                     onChange={(e) => handleChange("tripType", e.target.value)}
                   />
+                  {errors.tripType && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.tripType}
+                    </p>
+                  )}
                   {/* <div
                     onClick={(e) => {
                       e.stopPropagation();
@@ -415,6 +543,11 @@ export default function PopForm({ experienceName, destination }) {
                       ))}
                     </div>
                   )}
+                  {errors.destinations && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.destinations}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -456,6 +589,11 @@ export default function PopForm({ experienceName, destination }) {
                         </div>
                       ))}
                     </div>
+                  )}
+                  {errors.planningStage && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.planningStage}
+                    </p>
                   )}
                 </div>
                 {/* ================= 5. Budget ================= */}
@@ -512,6 +650,11 @@ export default function PopForm({ experienceName, destination }) {
                     value={form.travelDate}
                     onChange={(e) => handleChange("travelDate", e.target.value)}
                   />
+                  {errors.travelDate && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.travelDate}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -530,6 +673,9 @@ export default function PopForm({ experienceName, destination }) {
                     onChange={(e) => handleChange("adults", e.target.value)}
                     className="w-full bg-transparent font-quicksand border border-[#aba186]/40 p-3 rounded outline-none placeholder:opacity-60"
                   />
+                  {errors.adults && (
+                    <p className="text-red-500 text-sm mt-1">{errors.adults}</p>
+                  )}
                 </div>
 
                 <div>
@@ -563,7 +709,11 @@ export default function PopForm({ experienceName, destination }) {
               {/* Next */}
               <div className="text-right">
                 <button
-                  onClick={() => setStep(2)}
+                  onClick={() => {
+                    if (validateStep1()) {
+                      setStep(2);
+                    }
+                  }}
                   className="font-quicksand cursor-pointer capitalize bg-[#aaa086] border border-[#aaa086] text-white rounded-md px-4 py-2 hover:bg-[#322913b0] transition-colors"
                 >
                   NEXT STEP
@@ -592,6 +742,11 @@ export default function PopForm({ experienceName, destination }) {
                         handleChange("firstName", e.target.value)
                       }
                     />
+                    {errors.firstName && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.firstName}
+                      </p>
+                    )}
                   </div>
 
                   {/* Last Name */}
@@ -606,6 +761,11 @@ export default function PopForm({ experienceName, destination }) {
                       value={form.lastName || ""}
                       onChange={(e) => handleChange("lastName", e.target.value)}
                     />
+                    {errors.lastName && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.lastName}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -622,6 +782,11 @@ export default function PopForm({ experienceName, destination }) {
                       value={form.email || ""}
                       onChange={(e) => handleChange("email", e.target.value)}
                     />
+                    {errors.email && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.email}
+                      </p>
+                    )}
                   </div>
 
                   {/* Phone */}
@@ -636,6 +801,11 @@ export default function PopForm({ experienceName, destination }) {
                       value={form.phone || ""}
                       onChange={(e) => handleChange("phone", e.target.value)}
                     />
+                    {errors.phone && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.phone}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -683,6 +853,11 @@ export default function PopForm({ experienceName, destination }) {
                       ))}
                     </div>
                   )}
+                  {errors.country && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.country}
+                    </p>
+                  )}
                 </div>
 
                 {/* Privacy Policy */}
@@ -703,7 +878,18 @@ export default function PopForm({ experienceName, destination }) {
                     and consent to being contacted regarding my inquiry.
                   </p>
                 </div>
+                {errors.acceptPolicy && (
+                  <p className="text-red-500 text-sm">{errors.acceptPolicy}</p>
+                )}
               </div>
+
+              <div className="my-8">
+                <ReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                  onChange={(token) => setCaptchaToken(token)}
+                />
+              </div>
+
               {/* Buttons */}
               <div className="flex justify-between">
                 <button
@@ -714,10 +900,11 @@ export default function PopForm({ experienceName, destination }) {
                 </button>
 
                 <button
-                  onClick={() => setStep(3)}
+                  onClick={submitForm}
+                  disabled={loading}
                   className=" font-quicksand cursor-pointer capitalize bg-[#aaa086] border border-[#aaa086] text-white rounded-md px-4 hover:bg-[#322913b0] transition-colors"
                 >
-                  SUBMIT
+                  {loading ? "Submitting..." : "Submit"}
                 </button>
               </div>
             </>
