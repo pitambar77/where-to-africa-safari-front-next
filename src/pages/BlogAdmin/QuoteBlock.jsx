@@ -5,7 +5,8 @@ import axios from "axios";
 
 import { Quote, Upload, Loader2, Trash2 } from "lucide-react";
 
-const QuoteBlock = ({ block, onChange }) => {
+const QuoteBlock = ({ block = {},
+  onChange = () => {}, }) => {
   const [uploading, setUploading] = useState(false);
 
   const authorImage = block.media?.[0];

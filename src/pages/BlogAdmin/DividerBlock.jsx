@@ -2,7 +2,7 @@
 
 import { Minus, Star, Circle, Diamond } from "lucide-react";
 
-const DividerBlock = ({ block, onChange }) => {
+const DividerBlock = ({ block = {}, onChange = () => {} }) => {
   const updateField = (field, value) => {
     onChange({
       [field]: value,

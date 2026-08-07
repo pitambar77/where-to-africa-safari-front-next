@@ -11,7 +11,8 @@ const DEFAULT_ROWS = [
   ["", "", ""],
 ];
 
-const TableBlock = ({ block, onChange }) => {
+const TableBlock = ({ block = {},
+  onChange = () => {}, }) => {
   const headers = useMemo(
     () => block.headers || DEFAULT_HEADERS,
     [block.headers],

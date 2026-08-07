@@ -32,19 +32,6 @@ import ButtonBlock from "./ButtonBlock";
 import TableBlock from "./TableBlock";
 import CalloutBlock from "./CalloutBlock";
 import QuoteBlock from "./QuoteBlock";
-// import TextImageBlock from "../../blocks/TextImageBlock";
-// import ImageBlock from "../../blocks/ImageBlock";
-// import GalleryBlock from "../../blocks/GalleryBlock";
-// import ImageGridBlock from "../../blocks/ImageGridBlock";
-// import SliderBlock from "../../blocks/SliderBlock";
-// import VideoBlock from "../../blocks/VideoBlock";
-// import FAQBlock from "../../blocks/FAQBlock";
-// import QuoteBlock from "../../blocks/QuoteBlock";
-// import CalloutBlock from "../../blocks/CalloutBlock";
-// import TableBlock from "../../blocks/TableBlock";
-// import ButtonBlock from "../../blocks/ButtonBlock";
-// import DividerBlock from "../../blocks/DividerBlock";
-// import AccordionBlock from "../../blocks/AccordionBlock";
 
 /* ------------------------------------
    Available Blocks

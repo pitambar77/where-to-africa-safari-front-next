@@ -3,12 +3,17 @@
 import { Search, ChevronDown } from "lucide-react";
 
 export default function BlogFilter({
-  filters,
-  setFilters,
+  filters = {
+    search: "",
+    category: "",
+    author: "",
+    month: "",
+  },
+  setFilters = () => {},
   categories = [],
   authors = [],
   months = [],
-  clearFilters,
+  clearFilters = () => {},
 }) {
   const handleChange = (field, value) => {
     setFilters((prev) => ({
@@ -21,7 +26,9 @@ export default function BlogFilter({
     <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className=" font-quicksand font-medium text-gray-700">Filter Blog By</h3>
+        <h3 className=" font-quicksand font-medium text-gray-700">
+          Filter Blog By
+        </h3>
 
         <button
           onClick={clearFilters}

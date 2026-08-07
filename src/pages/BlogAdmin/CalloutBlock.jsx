@@ -9,7 +9,7 @@ import {
   Star,
 } from "lucide-react";
 
-const CalloutBlock = ({ block, onChange }) => {
+const CalloutBlock = ({ block = {}, onChange = () => {} }) => {
   const updateField = (field, value) => {
     onChange({
       [field]: value,

@@ -5,7 +5,8 @@ import axios from "axios";
 
 import { Image, Upload, Loader2 } from "lucide-react";
 
-const ImageBlock = ({ block, onChange }) => {
+const ImageBlock = ({ block = {},
+  onChange = () => {}, }) => {
   const [uploading, setUploading] = useState(false);
 
   const image = block.media?.[0];

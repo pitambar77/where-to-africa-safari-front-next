@@ -10,7 +10,7 @@ import {
   PanelsTopLeft,
 } from "lucide-react";
 
-const AccordionBlock = ({ block, onChange }) => {
+const AccordionBlock = ({ block = {}, onChange = () => {} }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const items = block.items || [];

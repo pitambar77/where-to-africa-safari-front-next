@@ -5,7 +5,8 @@ import axios from "axios";
 
 import { Upload, Loader2, Trash2, Images, Plus } from "lucide-react";
 
-const SliderBlock = ({ block, onChange }) => {
+const SliderBlock = ({ block = {},
+  onChange = () => {}, }) => {
   const [uploading, setUploading] = useState(false);
 
   const slides = block.media || [];

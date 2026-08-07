@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Plus, Trash2, HelpCircle, ChevronDown, ChevronUp } from "lucide-react";
 
-const FAQBlock = ({ block, onChange }) => {
+const FAQBlock = ({ block = {}, onChange = () => {} }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const faqs = block.items || [];

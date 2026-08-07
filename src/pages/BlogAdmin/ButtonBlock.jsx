@@ -2,7 +2,8 @@
 
 import { MousePointerClick, ArrowRight, ExternalLink } from "lucide-react";
 
-const ButtonBlock = ({ block, onChange }) => {
+const ButtonBlock = ({  block = {},
+  onChange = () => {}, }) => {
   const updateField = (field, value) => {
     onChange({
       [field]: value,

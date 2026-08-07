@@ -4,12 +4,21 @@ import React, { useRef, useState } from "react";
 import { ImagePlus, Upload, X } from "lucide-react";
 
 const BlogInformation = ({
-  blog,
-  errors,
-  categories,
-  authors,
-  onChange,
-  onBannerChange,
+  blog = {
+    title: "",
+    excerpt: "",
+    bannerImage: null,
+    category: "",
+    author: "",
+    status: "Draft",
+    publishedAt: "",
+    featured: false,
+  },
+  errors = {},
+  categories = [],
+  authors = [],
+  onChange = () => {},
+  onBannerChange = () => {},
 }) => {
   const inputRef = useRef(null);
 

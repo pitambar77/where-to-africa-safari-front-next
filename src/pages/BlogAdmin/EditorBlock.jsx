@@ -1,5 +1,13 @@
+"use client";
+
 import React, { useMemo, useState } from "react";
-import JoditEditor from "jodit-react";
+// import JoditEditor from "jodit-react";
+import dynamic from "next/dynamic";
+
+const JoditEditor = dynamic(() => import("jodit-react"), {
+  ssr: false,
+  loading: () => <div>Loading editor...</div>,
+});
 
 import {
   FileText,
@@ -10,7 +18,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 
-const EditorBlock = ({ block, onChange }) => {
+const EditorBlock = ({ block = {}, onChange = () => {} }) => {
   const [preview, setPreview] = useState(false);
 
   const [fullscreen, setFullscreen] = useState(false);
@@ -69,43 +77,45 @@ const EditorBlock = ({ block, onChange }) => {
     [],
   );
 
-const cleanHtml = (html) => {
-  return html
-    // Remove leading <br> inside paragraphs
-    .replace(/<p>\s*<br\s*\/?>/gi, "<p>")
+  const cleanHtml = (html) => {
+    return (
+      html
+        // Remove leading <br> inside paragraphs
+        .replace(/<p>\s*<br\s*\/?>/gi, "<p>")
 
-    // Remove leading <br> inside headings
-    .replace(/<h([1-6])>\s*<br\s*\/?>/gi, "<h$1>")
+        // Remove leading <br> inside headings
+        .replace(/<h([1-6])>\s*<br\s*\/?>/gi, "<h$1>")
 
-    // Remove leading <br> inside list items
-    .replace(/<li>\s*<br\s*\/?>/gi, "<li>")
+        // Remove leading <br> inside list items
+        .replace(/<li>\s*<br\s*\/?>/gi, "<li>")
 
-    // Remove leading <br> inside blockquotes
-    .replace(/<blockquote>\s*<br\s*\/?>/gi, "<blockquote>")
+        // Remove leading <br> inside blockquotes
+        .replace(/<blockquote>\s*<br\s*\/?>/gi, "<blockquote>")
 
-    // Remove empty paragraphs
-    .replace(/<p>\s*(<br\s*\/?>)?\s*<\/p>/gi, "")
+        // Remove empty paragraphs
+        .replace(/<p>\s*(<br\s*\/?>)?\s*<\/p>/gi, "")
 
-    // Remove empty headings
-    .replace(/<h([1-6])>\s*(<br\s*\/?>)?\s*<\/h\1>/gi, "")
+        // Remove empty headings
+        .replace(/<h([1-6])>\s*(<br\s*\/?>)?\s*<\/h\1>/gi, "")
 
-    // Remove empty list items
-    .replace(/<li>\s*(<br\s*\/?>)?\s*<\/li>/gi, "")
+        // Remove empty list items
+        .replace(/<li>\s*(<br\s*\/?>)?\s*<\/li>/gi, "")
 
-    // Remove multiple consecutive <br>
-    .replace(/(<br\s*\/?>\s*){2,}/gi, "<br>")
+        // Remove multiple consecutive <br>
+        .replace(/(<br\s*\/?>\s*){2,}/gi, "<br>")
 
-    // Remove whitespace between tags
-    .replace(/>\s+</g, "><")
+        // Remove whitespace between tags
+        .replace(/>\s+</g, "><")
 
-    .trim();
-};
+        .trim()
+    );
+  };
 
-const handleEditorChange = (value) => {
-  onChange({
-    content: cleanHtml(value),
-  });
-};
+  const handleEditorChange = (value) => {
+    onChange({
+      content: cleanHtml(value),
+    });
+  };
 
   // const handleEditorChange = (value) => {
   //   console.log(value);

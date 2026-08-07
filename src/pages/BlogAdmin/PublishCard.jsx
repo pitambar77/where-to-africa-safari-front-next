@@ -9,7 +9,16 @@ import {
   Save,
 } from "lucide-react";
 
-const PublishCard = ({ blog, readingTime, loading, onSubmit, onChange }) => {
+const PublishCard = ({blog = {
+    status: "Draft",
+    featured: false,
+    content: [],
+    publishedAt: "",
+  },
+  readingTime = 0,
+  loading = false,
+  onSubmit = () => {},
+  onChange = () => {}, }) => {
   return (
     <div className="sticky top-24 space-y-6">
       {/* Publish Card */}

@@ -11,7 +11,8 @@ import {
   LayoutPanelTop,
 } from "lucide-react";
 
-const TextImageBlock = ({ block, onChange }) => {
+const TextImageBlock = ({ block = {},
+  onChange = () => {}, }) => {
   const [uploading, setUploading] = useState(false);
 
   /* ----------------------------------

@@ -50,7 +50,7 @@ const CreateBlog = ({ editMode = false, blogData = null }) => {
 
   /* =====================================================
      STATES
-  ===================================================== */ 
+  ===================================================== */
 
   const [blog, setBlog] = useState(initialBlog);
 
@@ -320,8 +320,8 @@ const CreateBlog = ({ editMode = false, blogData = null }) => {
 
             <div>
               <h1 className="text-3xl font-bold">
-  {editMode ? "Edit Blog" : "Create Blog"}
-</h1>
+                {editMode ? "Edit Blog" : "Create Blog"}
+              </h1>
 
               <p className="text-gray-500">
                 Build beautiful content with blocks.

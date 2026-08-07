@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 
-const BlogSEO = ({ seo, onChange }) => {
+const BlogSEO = ({
+  seo = {
+    metaTitle: "",
+    metaDescription: "",
+    keywords: [],
+    canonicalUrl: "",
+    ogImage: "",
+  },
+  onChange = () => {},
+}) => {
   const [keywordInput, setKeywordInput] = useState("");
 
   useEffect(() => {
-    setKeywordInput((seo.keywords || []).join(", "));
-  }, [seo.keywords]);
+  setKeywordInput((seo?.keywords || []).join(", "));
+}, [seo?.keywords]);
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white shadow-sm">

@@ -5,7 +5,8 @@ import axios from "axios";
 
 import { LayoutGrid, Upload, Loader2, Trash2, ImagePlus } from "lucide-react";
 
-const ImageGridBlock = ({ block, onChange }) => {
+const ImageGridBlock = ({ block = {},
+  onChange = () => {}, }) => {
   const [uploading, setUploading] = useState(false);
 
   const items = block.media || [];

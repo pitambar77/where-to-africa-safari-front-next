@@ -4,15 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, User } from "lucide-react";
 
-export default function BlogCard({ blog }) {
-  const formattedDate = new Date(blog.publishedAt).toLocaleDateString(
-    "en-US",
-    {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    },
-  );
+export default function BlogCard({ blog = {} }) {
+  if (!blog?.publishedAt) return null;
+  const formattedDate = new Date(blog.publishedAt).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   return (
     <article className="group overflow-hidden rounded-md bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
