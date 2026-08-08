@@ -40,7 +40,7 @@ export default function DashboardLayout({ children }) {
         <Sidebar />
       </div>
 
-      <div className="flex-1 p-6 overflow-y-auto">
+      <div className="flex-1 p-6">
         <div className="flex justify-end mb-4">
           <button
             onClick={handleLogout}

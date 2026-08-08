@@ -9,7 +9,7 @@ export default function BlogGrid({ blogs = [], loading }) {
         {Array.from({ length: 6 }).map((_, index) => (
           <div
             key={index}
-            className="overflow-hidden rounded-xl border bg-white"
+            className="overflow-hidden rounded-md border border-gray-200 bg-white"
           >
             <div className="h-72 animate-pulse bg-gray-200" />
 

@@ -66,6 +66,8 @@ const CreateBlog = ({ editMode = false, blogData = null }) => {
 
   const [errors, setErrors] = useState({});
 
+  const [scrollToBlockId, setScrollToBlockId] = useState(null);
+
   /* =====================================================
      FETCH CATEGORY + AUTHOR
   ===================================================== */
@@ -123,6 +125,15 @@ const CreateBlog = ({ editMode = false, blogData = null }) => {
       content: blogData.content || [],
     });
   }, [blogData]);
+
+  const handleBlockAdded = (blockId) => {
+    setScrollToBlockId(blockId);
+
+    // Reset after scrolling
+    setTimeout(() => {
+      setScrollToBlockId(null);
+    }, 800);
+  };
 
   /* =====================================================
      HANDLE CHANGE
@@ -356,7 +367,7 @@ const CreateBlog = ({ editMode = false, blogData = null }) => {
 
       {/* PAGE */}
 
-      <div className="mx-auto grid max-w-7xl grid-cols-12 gap-6 p-6">
+      <div className="mx-auto grid max-w-7xl grid-cols-12 items-start gap-6 p-6">
         {/* LEFT */}
 
         <div className="col-span-12 lg:col-span-8 space-y-6">
@@ -376,25 +387,35 @@ const CreateBlog = ({ editMode = false, blogData = null }) => {
           <BlogSEO seo={blog.seo} onChange={handleSEOChange} />
 
           {/* Part 4 */}
-
-          <ContentBuilder
-            blocks={blog.content}
-            onChange={handleContentChange}
-          />
+          <div id="content-builder">
+            <ContentBuilder
+              blocks={blog.content}
+              onChange={handleContentChange}
+              scrollToBlockId={scrollToBlockId}
+            />
+          </div>
         </div>
 
-        {/* RIGHT */}
+        {/* RIGHT - STICKY SIDEBAR */}
+        <div className="col-span-12 lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
+          <div className="space-y-6">
+            {/* Content Builder */}
+            <ContentBuilder
+              blocks={blog.content}
+              onChange={handleContentChange}
+              sidebar
+              onBlockAdded={handleBlockAdded}
+            />
 
-        <div className="col-span-12 lg:col-span-4">
-          {/* Part 5 */}
-
-          <PublishCard
-            blog={blog}
-            readingTime={readingTime}
-            loading={loading}
-            uploading={uploading}
-            onSubmit={handleSubmit}
-          />
+            {/* Publish Card */}
+            <PublishCard
+              blog={blog}
+              readingTime={readingTime}
+              loading={loading}
+              uploading={uploading}
+              onSubmit={handleSubmit}
+            />
+          </div>
         </div>
       </div>
     </div>
