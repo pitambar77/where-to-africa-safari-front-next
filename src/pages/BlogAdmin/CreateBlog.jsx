@@ -16,6 +16,7 @@ import PublishCard from "./PublishCard";
 
 const initialBlog = {
   title: "",
+  slug: "",
   excerpt: "",
   bannerImage: null,
 
@@ -100,6 +101,7 @@ const CreateBlog = ({ editMode = false, blogData = null }) => {
 
     setBlog({
       title: blogData.title || "",
+      slug: blogData.slug || "",
       excerpt: blogData.excerpt || "",
       bannerImage: blogData.bannerImage || null,
 
@@ -244,6 +246,7 @@ const CreateBlog = ({ editMode = false, blogData = null }) => {
 
       // Basic Information
       formData.append("title", blog.title);
+      formData.append("slug", blog.slug || "");
       formData.append("excerpt", blog.excerpt);
       formData.append("category", blog.category);
       formData.append("author", blog.author);

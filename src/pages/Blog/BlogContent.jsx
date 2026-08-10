@@ -278,7 +278,7 @@ export default function BlogContent({ blog }) {
 
             case "editor":
               return (
-                <section key={index} className="mb-10">
+                <section key={index} className="mb-4">
                   {section.title && (
                     <h2 className="mb-6 font-cormorant text-5xl text-[#636363]">
                       {section.title}
@@ -612,31 +612,126 @@ export default function BlogContent({ blog }) {
     Accordion
 ===================================== */
 
+            // case "accordion":
+            //   return (
+            //     <section key={index} className="mb-16">
+            //       {section.title && (
+            //         <h2 className="mb-8 text-center font-cormorant text-5xl text-[#636363]">
+            //           {section.title}
+            //         </h2>
+            //       )}
+
+            //       <div className="space-y-4">
+            //         {section.items?.map((item, i) => (
+            //           <details
+            //             key={i}
+            //             className="rounded-xl border border-gray-200 p-5"
+            //           >
+            //             <summary className="cursor-pointer text-lg font-semibold">
+            //               {item.question}
+            //             </summary>
+
+            //             <div
+            //               className="prose mt-4 max-w-none"
+            //               dangerouslySetInnerHTML={{
+            //                 __html: item.answer,
+            //               }}
+            //             />
+            //           </details>
+            //         ))}
+            //       </div>
+            //     </section>
+            //   );
+
             case "accordion":
               return (
-                <section key={index} className="mb-16">
+                <section key={index} className="mb-10">
+                  {/* Section Title */}
                   {section.title && (
-                    <h2 className="mb-8 text-center font-cormorant text-5xl text-[#636363]">
+                    <h2 className="mb-4 font-cormorant text-[40px] text-[#636363]">
                       {section.title}
                     </h2>
                   )}
 
-                  <div className="space-y-4">
+                  {/* Accordion */}
+                  <div className="space-y-3">
                     {section.items?.map((item, i) => (
                       <details
                         key={i}
-                        className="rounded-xl border border-gray-200 p-5"
+                        className="group border-b border-dotted border-[#dcd9d1]"
                       >
-                        <summary className="cursor-pointer text-lg font-semibold">
-                          {item.question}
+                        {/* Accordion Header */}
+                        <summary
+                          className="
+                flex
+                cursor-pointer
+                list-none
+                items-center
+                justify-between
+                gap-3
+                px-1
+                py-3
+                text-[22px]
+                text-[#555555]
+                transition-colors
+                duration-300
+                hover:text-[#b1a58a]
+
+                [&::-webkit-details-marker]:hidden
+              "
+                        >
+                          <h4
+                            className=" font-cormorant
+    text-[#555555]
+    transition-colors
+    duration-300
+    group-open:text-[#b1a58a]"
+                          >
+                            {" "}
+                            {item.title || ""}
+                          </h4>
+
+                          {/* Arrow */}
+                          <span
+                            className="
+                  flex
+                  h-6
+                  w-6
+                  shrink-0
+                  items-center
+                  justify-center
+                  text-[#d8d6d1]
+                  transition-transform
+                  duration-300
+                  group-open:rotate-180
+                "
+                          >
+                            <svg
+                              width="22"
+                              height="22"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                            >
+                              <path
+                                d="M6 9l6 6 6-6"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </span>
                         </summary>
 
-                        <div
-                          className="prose mt-4 max-w-none"
-                          dangerouslySetInnerHTML={{
-                            __html: item.answer,
-                          }}
-                        />
+                        {/* Accordion Content */}
+                        <div className="px-1 pb-7">
+                          <div
+                            className="rich-text accordion-rich-text"
+                            dangerouslySetInnerHTML={{
+                              __html: item.content || item.answer || "",
+                            }}
+                          />
+                        </div>
                       </details>
                     ))}
                   </div>

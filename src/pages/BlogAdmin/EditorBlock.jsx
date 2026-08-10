@@ -27,103 +27,230 @@ const EditorBlock = ({ block = {}, onChange = () => {} }) => {
 
   // const [editorValue, setEditorValue] = useState(block.content || "");
 
-  // useEffect(() => {
-  //   setEditorValue(block.content || "");
-  // }, [block.blockId]);
+const cleanPastedHTML = (html) => {
+  const container = document.createElement("div");
+
+  container.innerHTML = html;
+
+  // Remove unwanted elements
+  container
+    .querySelectorAll(
+      "style, script, meta, link, font, svg, iframe"
+    )
+    .forEach((el) => el.remove());
+
+  // Remove source formatting but keep HTML structure
+  container.querySelectorAll("*").forEach((el) => {
+    el.removeAttribute("style");
+    el.removeAttribute("class");
+    el.removeAttribute("id");
+
+    [...el.attributes].forEach((attr) => {
+      const name = attr.name.toLowerCase();
+
+      if (
+        name.startsWith("data-") ||
+        name.startsWith("mso-") ||
+        name === "lang" ||
+        name === "dir" ||
+        name === "align" ||
+        name === "width" ||
+        name === "height"
+      ) {
+        el.removeAttribute(attr.name);
+      }
+    });
+  });
+
+  return container.innerHTML;
+};
+
+  // const config = useMemo(
+  //   () => ({
+  //     readonly: false,
+  //     height: 450,
+  //     placeholder: "Start writing your blog content...",
+
+  //     toolbarSticky: false,
+
+  //     buttons: [
+  //       "source",
+  //       "|",
+  //       "bold",
+  //       "italic",
+  //       "underline",
+  //       "strikethrough",
+  //       "|",
+  //       "ul",
+  //       "ol",
+  //       "|",
+  //       "font",
+  //       "fontsize",
+  //       "brush",
+  //       "paragraph",
+  //       "|",
+  //       "image",
+  //       "video",
+  //       "table",
+  //       "link",
+  //       "|",
+  //       "align",
+  //       "outdent",
+  //       "indent",
+  //       "|",
+  //       "hr",
+  //       "eraser",
+  //       "copyformat",
+  //       "|",
+  //       "undo",
+  //       "redo",
+  //       "|",
+  //       "fullsize",
+  //     ],
+  //   }),
+  //   [],
+  // );
 
   const config = useMemo(
     () => ({
       readonly: false,
+
       height: 450,
+
       placeholder: "Start writing your blog content...",
 
       toolbarSticky: false,
 
+      // --------------------------------
+      // PASTE SETTINGS
+      // --------------------------------
+
+      processPasteHTML: true,
+
+      askBeforePasteHTML: false,
+
+      // Remove source formatting
+      cleanHTML: {
+        removeEmptyElements: true,
+      },
+
+      // --------------------------------
+      // TOOLBAR
+      // --------------------------------
+
       buttons: [
         "source",
         "|",
+
         "bold",
         "italic",
         "underline",
         "strikethrough",
+
         "|",
+
         "ul",
         "ol",
+
         "|",
+
         "font",
         "fontsize",
         "brush",
         "paragraph",
+
         "|",
+
         "image",
         "video",
         "table",
         "link",
+
         "|",
+
         "align",
         "outdent",
         "indent",
+
         "|",
+
         "hr",
         "eraser",
         "copyformat",
+
         "|",
+
         "undo",
         "redo",
+
         "|",
+
         "fullsize",
       ],
     }),
     [],
   );
 
-  const cleanHtml = (html) => {
-    return (
-      html
-        // Remove leading <br> inside paragraphs
-        .replace(/<p>\s*<br\s*\/?>/gi, "<p>")
+  // const cleanHtml = (html) => {
+  //   return (
+  //     html
+  //       // Remove leading <br> inside paragraphs
+  //       .replace(/<p>\s*<br\s*\/?>/gi, "<p>")
 
-        // Remove leading <br> inside headings
-        .replace(/<h([1-6])>\s*<br\s*\/?>/gi, "<h$1>")
+  //       // Remove leading <br> inside headings
+  //       .replace(/<h([1-6])>\s*<br\s*\/?>/gi, "<h$1>")
 
-        // Remove leading <br> inside list items
-        .replace(/<li>\s*<br\s*\/?>/gi, "<li>")
+  //       // Remove leading <br> inside list items
+  //       .replace(/<li>\s*<br\s*\/?>/gi, "<li>")
 
-        // Remove leading <br> inside blockquotes
-        .replace(/<blockquote>\s*<br\s*\/?>/gi, "<blockquote>")
+  //       // Remove leading <br> inside blockquotes
+  //       .replace(/<blockquote>\s*<br\s*\/?>/gi, "<blockquote>")
 
-        // Remove empty paragraphs
-        .replace(/<p>\s*(<br\s*\/?>)?\s*<\/p>/gi, "")
+  //       // Remove empty paragraphs
+  //       .replace(/<p>\s*(<br\s*\/?>)?\s*<\/p>/gi, "")
 
-        // Remove empty headings
-        .replace(/<h([1-6])>\s*(<br\s*\/?>)?\s*<\/h\1>/gi, "")
+  //       // Remove empty headings
+  //       .replace(/<h([1-6])>\s*(<br\s*\/?>)?\s*<\/h\1>/gi, "")
 
-        // Remove empty list items
-        .replace(/<li>\s*(<br\s*\/?>)?\s*<\/li>/gi, "")
+  //       // Remove empty list items
+  //       .replace(/<li>\s*(<br\s*\/?>)?\s*<\/li>/gi, "")
 
-        // Remove multiple consecutive <br>
-        .replace(/(<br\s*\/?>\s*){2,}/gi, "<br>")
+  //       // Remove multiple consecutive <br>
+  //       .replace(/(<br\s*\/?>\s*){2,}/gi, "<br>")
 
-        // Remove whitespace between tags
-        .replace(/>\s+</g, "><")
+  //       // Remove whitespace between tags
+  //       .replace(/>\s+</g, "><")
 
-        .trim()
-    );
-  };
+  //       .trim()
+  //   );
+  // };
 
-  const handleEditorChange = (value) => {
-    onChange({
-      content: cleanHtml(value),
-    });
+  const cleanHtml = (html = "") => {
+    return html
+      .replace(/<p>\s*<br\s*\/?>/gi, "<p>")
+      .replace(/<h([1-6])>\s*<br\s*\/?>/gi, "<h$1>")
+      .replace(/<li>\s*<br\s*\/?>/gi, "<li>")
+      .replace(/<blockquote>\s*<br\s*\/?>/gi, "<blockquote>")
+      .replace(/<p>\s*(<br\s*\/?>)?\s*<\/p>/gi, "")
+      .replace(/<h([1-6])>\s*(<br\s*\/?>)?\s*<\/h\1>/gi, "")
+      .replace(/<li>\s*(<br\s*\/?>)?\s*<\/li>/gi, "")
+      .replace(/(<br\s*\/?>\s*){2,}/gi, "<br>")
+      .trim();
   };
 
   // const handleEditorChange = (value) => {
-  //   console.log(value);
-
   //   onChange({
-  //     content: value,
+  //     content: cleanHtml(value),
   //   });
   // };
+
+  const handleEditorChange = (value) => {
+    const cleaned = cleanPastedHTML(value);
+
+    onChange({
+      content: cleanHtml(cleaned),
+    });
+  };
 
   // const handleBlur = (value) => {
   //   setSaved(false);
@@ -223,7 +350,7 @@ const EditorBlock = ({ block = {}, onChange = () => {} }) => {
           <JoditEditor
             value={block.content || ""}
             config={config}
-            onBlur={handleEditorChange}
+            onChange={handleEditorChange}
           />
           // <JoditEditor
           //   value={editorValue}

@@ -218,6 +218,23 @@ const BlogInformation = ({
             </div>
           </div>
 
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              Slug
+            </label>
+
+            <input
+              type="text"
+              value={blog.slug || ""}
+              onChange={(e) => onChange("slug", e.target.value)}
+              placeholder="your-blog-slug"
+              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+            />
+
+            <p className="mt-1 text-xs text-gray-500">
+              Leave unchanged to automatically follow the blog title.
+            </p>
+          </div>
           {/* -----------------------------
               Excerpt
           ----------------------------- */}

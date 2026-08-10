@@ -292,9 +292,9 @@ p {
 }
 
 .rich-text a {
-  color: #d87029 !important;
+  color: #ab8c51 !important;
   text-decoration: underline;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .rich-text a:hover {
@@ -302,8 +302,8 @@ p {
 }
 
 .rich-text strong {
-  font-weight: 700;
-  color: #333 !important;
+  font-weight: 500;
+  color: #4f4f4f !important;
 }
 
 .rich-text mark {
@@ -511,4 +511,318 @@ p {
 .rich-text ol li {
   margin-bottom: 0.5rem;
   line-height: 1.8;
+}
+
+
+/* Jodit content formatting */
+
+.jodit-wysiwyg {
+  line-height: 1.7 !important;
+}
+
+/* Paragraph */
+.jodit-wysiwyg p {
+  margin: 0 0 16px;
+}
+
+/* Headings */
+.jodit-wysiwyg h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 24px 0 14px;
+}
+
+.jodit-wysiwyg h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 22px 0 12px;
+}
+
+.jodit-wysiwyg h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 20px 0 10px;
+}
+
+.jodit-wysiwyg h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 18px 0 10px;
+}
+
+/* Bullet list */
+.jodit-wysiwyg ul {
+  list-style-type: disc;
+  margin: 12px 0 18px;
+  padding-left: 32px;
+}
+
+/* Number list */
+.jodit-wysiwyg ol {
+  list-style-type: decimal;
+  margin: 12px 0 18px;
+  padding-left: 32px;
+}
+
+/* List item */
+.jodit-wysiwyg li {
+  margin-bottom: 6px;
+}
+
+/* Nested list */
+.jodit-wysiwyg ul ul {
+  list-style-type: circle;
+}
+
+.jodit-wysiwyg ol ol {
+  list-style-type: lower-alpha;
+}
+
+/* Blockquote */
+.jodit-wysiwyg blockquote {
+  margin: 20px 0;
+  padding-left: 20px;
+  border-left: 3px solid #b1a58a;
+  font-style: italic;
+}
+
+/* Links */
+.jodit-wysiwyg a {
+  text-decoration: underline;
+}
+
+
+
+/* ==========================================
+   ACCORDION RICH TEXT
+========================================== */
+
+.accordion-rich-text {
+  font-family: "Quicksand", sans-serif;
+  color: #555;
+  width: 100%;
+}
+
+/* Paragraph */
+.accordion-rich-text p {
+  font-family: "Quicksand", sans-serif !important;
+  font-size: 17px;
+  line-height: 2;
+  margin: 0 0 14px;
+  color: #555 !important;
+}
+
+/* Headings */
+.accordion-rich-text h1,
+.accordion-rich-text h2,
+.accordion-rich-text h3,
+.accordion-rich-text h4,
+.accordion-rich-text h5,
+.accordion-rich-text h6 {
+  font-family: "Cormorant Garamond", serif !important;
+  color: #4f4f4f !important;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* H1 */
+.accordion-rich-text h1 {
+  font-size: 42px;
+  margin: 28px 0 16px;
+}
+
+/* H2 */
+.accordion-rich-text h2 {
+  font-size: 36px;
+  margin: 24px 0 14px;
+}
+
+/* H3 */
+.accordion-rich-text h3 {
+  font-size: 30px;
+  margin: 20px 0 12px;
+}
+
+/* H4 */
+.accordion-rich-text h4 {
+  font-size: 26px;
+  margin: 18px 0 10px;
+}
+
+/* H5 */
+.accordion-rich-text h5 {
+  font-size: 22px;
+  margin: 16px 0 8px;
+}
+
+/* H6 */
+.accordion-rich-text h6 {
+  font-size: 20px;
+  margin: 14px 0 8px;
+}
+
+/* Bold */
+.accordion-rich-text strong,
+.accordion-rich-text b {
+  font-weight: 600;
+  color: #4f4f4f !important;
+}
+
+/* Italic */
+.accordion-rich-text em,
+.accordion-rich-text i {
+  font-style: italic;
+}
+
+/* Links */
+.accordion-rich-text a {
+  color: #ab8c51 !important;
+  text-decoration: underline;
+}
+
+/* ==========================================
+   BULLET LIST
+========================================== */
+
+.accordion-rich-text ul {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0;
+}
+
+.accordion-rich-text ul li {
+  position: relative;
+  padding-left: 36px;
+  margin-bottom: 5px;
+
+  font-family: "Quicksand", sans-serif !important;
+  font-size: 17px;
+  line-height: 1.9;
+
+  color: #555 !important;
+}
+
+.accordion-rich-text ul li::before {
+  content: "";
+  position: absolute;
+
+  left: 0;
+  top: 7px;
+
+  width: 20px;
+  height: 20px;
+
+  background-color: #ab8c51;
+
+  -webkit-mask: url("/hand-finger-right.svg") no-repeat center;
+  -webkit-mask-size: contain;
+
+  mask: url("/hand-finger-right.svg") no-repeat center;
+  mask-size: contain;
+}
+
+/* ==========================================
+   NUMBER LIST
+========================================== */
+
+.accordion-rich-text ol {
+  list-style: decimal;
+  padding-left: 30px;
+  margin: 18px 0;
+}
+
+.accordion-rich-text ol li {
+  margin-bottom: 6px;
+
+  font-family: "Quicksand", sans-serif !important;
+  font-size: 17px;
+  line-height: 1.9;
+
+  color: #555 !important;
+}
+
+/* Nested lists */
+.accordion-rich-text ul ul {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.accordion-rich-text ol ol {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+/* Blockquote */
+.accordion-rich-text blockquote {
+  margin: 20px 0;
+  padding: 12px 20px;
+  border-left: 3px solid #ab8c51;
+
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  font-style: italic;
+
+  color: #666;
+}
+
+/* Horizontal line */
+.accordion-rich-text hr {
+  margin: 24px 0;
+  border: 0;
+  border-top: 1px solid #ddd;
+}
+
+/* Images */
+.accordion-rich-text img {
+  max-width: 100%;
+  height: auto;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+
+/* Tables */
+.accordion-rich-text table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.accordion-rich-text th,
+.accordion-rich-text td {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.accordion-rich-text th {
+  font-weight: 600;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .accordion-rich-text p,
+  .accordion-rich-text ul li,
+  .accordion-rich-text ol li {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .accordion-rich-text h1 {
+    font-size: 34px;
+  }
+
+  .accordion-rich-text h2 {
+    font-size: 30px;
+  }
+
+  .accordion-rich-text h3 {
+    font-size: 26px;
+  }
+
+  .accordion-rich-text h4 {
+    font-size: 23px;
+  }
 }

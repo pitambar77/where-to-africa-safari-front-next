@@ -9,6 +9,7 @@ import {
   Trash2,
   PanelsTopLeft,
 } from "lucide-react";
+import EditorBlock from "./EditorBlock";
 
 const AccordionBlock = ({ block = {}, onChange = () => {} }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -181,7 +182,7 @@ const AccordionBlock = ({ block = {}, onChange = () => {} }) => {
                   </div>
 
                   <div>
-                    <h3 className="font-semibold">
+                    <h3 className="font-semibold font-cormorant">
                       {item.title || `Accordion Item ${index + 1}`}
                     </h3>
 
@@ -241,7 +242,7 @@ const AccordionBlock = ({ block = {}, onChange = () => {} }) => {
 
                   {/* Content */}
 
-                  <div>
+                  {/* <div>
                     <label className="mb-2 block font-medium">Content</label>
 
                     <textarea
@@ -254,6 +255,21 @@ const AccordionBlock = ({ block = {}, onChange = () => {} }) => {
                       placeholder="Write your content here...
 
 Later you can replace this textarea with your EditorBlock or Tiptap editor."
+                    />
+                  </div> */}
+
+                  <div>
+                    <label className="mb-2 block font-medium">
+                      Accordion Content
+                    </label>
+
+                    <EditorBlock
+                      block={{
+                        content: item.content || "",
+                      }}
+                      onChange={(data) => {
+                        updateItem(index, "content", data.content || "");
+                      }}
                     />
                   </div>
 
@@ -714,9 +730,12 @@ Later you can replace this textarea with your EditorBlock or Tiptap editor."
                         padding: `${block.padding || 20}px`,
                       }}
                     >
-                      <p className="leading-8 text-gray-600">
-                        {item.content || "Accordion content will appear here."}
-                      </p>
+                      <div
+                        className="rich-text leading-8 text-gray-600"
+                        dangerouslySetInnerHTML={{
+                          __html: item.content || "",
+                        }}
+                      />
                     </div>
                   )}
                 </div>

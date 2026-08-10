@@ -116,8 +116,8 @@ const Header = ({ destinations = [] }) => {
             <Link href="/about-us" className="hover:text-[#f25922]">
               About Us
             </Link>
-            <Link href="blogs" className="hover:text-[#f25922]">
-              Blogs
+            <Link href="/blog" className="hover:text-[#f25922]">
+              Blog
             </Link>
             <Link href="/conservation" className="hover:text-[#f25922]">
               Conservation
@@ -219,8 +219,8 @@ const Header = ({ destinations = [] }) => {
               <Link href="/conservation" onClick={() => setIsMobileMenu(false)}>
                 Conservation
               </Link>
-              <Link href="/blogs" onClick={() => setIsMobileMenu(false)}>
-                Blogs
+              <Link href="/blog" onClick={() => setIsMobileMenu(false)}>
+                Blog
               </Link>
 
               <Link
