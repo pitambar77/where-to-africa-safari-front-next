@@ -19,27 +19,96 @@ const BlogList = () => {
 
   const [search, setSearch] = useState("");
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalBlogs, setTotalBlogs] = useState(0);
+
+  const [stats, setStats] = useState({
+    published: 0,
+    draft: 0,
+    featured: 0,
+  });
+
   /* =====================================
      FETCH BLOGS
   ===================================== */
 
   useEffect(() => {
-    fetchBlogs();
-  }, []);
+    fetchBlogs(page);
+  }, [page]);
 
-  const fetchBlogs = async () => {
+  // const fetchBlogs = async () => {
+  //   try {
+  //     setLoading(true);
+
+  //     const { data } = await axios.get(`${API}/api/blogs`);
+
+  //     setBlogs(data.blogs || []);
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const fetchBlogs = async (currentPage = 1) => {
     try {
       setLoading(true);
 
-      const { data } = await axios.get(`${API}/api/blogs`);
+      // ==========================================
+      // 1. Fetch current page for table
+      // ==========================================
+
+      const { data } = await axios.get(
+        `${API}/api/blogs?page=${currentPage}&limit=9`,
+      );
 
       setBlogs(data.blogs || []);
+      setTotalPages(data.totalPages || 1);
+      setTotalBlogs(data.total || 0);
+
+      // ==========================================
+      // 2. Fetch ALL blogs for statistics
+      // ==========================================
+
+      const { data: statsData } = await axios.get(
+        `${API}/api/blogs?page=1&limit=${data.total}`,
+      );
+
+      const allBlogs = statsData.blogs || [];
+
+      setStats({
+        published: allBlogs.filter((blog) => blog.status === "Published")
+          .length,
+
+        draft: allBlogs.filter((blog) => blog.status === "Draft").length,
+
+        featured: allBlogs.filter((blog) => blog.featured === true).length,
+      });
     } catch (error) {
-      console.error(error);
+      console.error("Fetch Blogs Error:", error);
     } finally {
       setLoading(false);
     }
   };
+
+  // const fetchBlogs = async (currentPage = 1) => {
+  //   try {
+  //     setLoading(true);
+
+  //     const { data } = await axios.get(
+  //       `${API}/api/blogs?page=${currentPage}&limit=9`,
+  //     );
+
+  //     setBlogs(data.blogs || []);
+  //     setTotalPages(data.totalPages || 1);
+  //     setTotalBlogs(data.total || 0);
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   /* =====================================
     Delete Blog
@@ -55,7 +124,7 @@ const BlogList = () => {
     try {
       await axios.delete(`${API}/api/blogs/${id}`);
 
-      fetchBlogs();
+      fetchBlogs(page);
     } catch (error) {
       console.error(error);
 
@@ -71,7 +140,7 @@ const BlogList = () => {
     try {
       await axios.patch(`${API}/api/blogs/${id}/featured`);
 
-      fetchBlogs();
+      fetchBlogs(page);
     } catch (error) {
       console.error(error);
 
@@ -91,7 +160,7 @@ const BlogList = () => {
         status: newStatus,
       });
 
-      fetchBlogs();
+      fetchBlogs(page);
     } catch (error) {
       console.error(error);
 
@@ -170,7 +239,7 @@ const BlogList = () => {
                 <p className="text-sm text-gray-500">Total Blogs</p>
 
                 <h2 className="mt-2 text-3xl font-bold text-blue-600">
-                  {blogs.length}
+                  {totalBlogs}
                 </h2>
               </div>
 
@@ -178,7 +247,8 @@ const BlogList = () => {
                 <p className="text-sm text-gray-500">Published</p>
 
                 <h2 className="mt-2 text-3xl font-bold text-green-600">
-                  {blogs.filter((b) => b.status === "Published").length}
+                  {/* {blogs.filter((b) => b.status === "Published").length} */}
+                  {stats.published}
                 </h2>
               </div>
 
@@ -186,7 +256,8 @@ const BlogList = () => {
                 <p className="text-sm text-gray-500">Draft</p>
 
                 <h2 className="mt-2 text-3xl font-bold text-yellow-600">
-                  {blogs.filter((b) => b.status === "Draft").length}
+                  {/* {blogs.filter((b) => b.status === "Draft").length} */}
+                  {stats.draft}
                 </h2>
               </div>
 
@@ -194,7 +265,8 @@ const BlogList = () => {
                 <p className="text-sm text-gray-500">Featured</p>
 
                 <h2 className="mt-2 text-3xl font-bold text-purple-600">
-                  {blogs.filter((b) => b.featured).length}
+                  {/* {blogs.filter((b) => b.featured).length} */}
+                  {stats.featured}
                 </h2>
               </div>
             </div>
@@ -203,7 +275,7 @@ const BlogList = () => {
     Blog Table
 ===================================== */}
 
-            <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
+            <div className="overflow-hidden rounded-md bg-white shadow-sm">
               <div className="overflow-x-auto">
                 <table className="min-w-full">
                   <thead className="bg-slate-100">
@@ -356,6 +428,55 @@ const BlogList = () => {
                 </table>
               </div>
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-6 flex items-center justify-between rounded-2xl bg-white px-6 py-4 shadow-sm">
+                {/* Showing */}
+                <p className="text-sm text-gray-500">
+                  Showing page {page} of {totalPages}
+                </p>
+
+                <div className="flex items-center gap-2">
+                  {/* Previous */}
+                  <button
+                    onClick={() => setPage((prev) => prev - 1)}
+                    disabled={page === 1}
+                    className="rounded-lg border px-4 py-2 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    Previous
+                  </button>
+
+                  {/* Page Numbers */}
+                  {Array.from({ length: totalPages }, (_, index) => {
+                    const pageNumber = index + 1;
+
+                    return (
+                      <button
+                        key={pageNumber}
+                        onClick={() => setPage(pageNumber)}
+                        className={`h-10 w-10 rounded-lg text-sm font-medium transition ${
+                          page === pageNumber
+                            ? "bg-blue-600 text-white"
+                            : "border text-gray-700 hover:bg-gray-100"
+                        }`}
+                      >
+                        {pageNumber}
+                      </button>
+                    );
+                  })}
+
+                  {/* Next */}
+                  <button
+                    onClick={() => setPage((prev) => prev + 1)}
+                    disabled={page === totalPages}
+                    className="rounded-lg border px-4 py-2 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
