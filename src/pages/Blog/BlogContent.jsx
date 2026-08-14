@@ -1,245 +1,3 @@
-// "use client";
-
-// import Image from "next/image";
-// import { TbHandFingerRight } from "react-icons/tb";
-
-// export default function BlogContent({ blog }) {
-//   if (!blog) return null;
-
-//   return (
-//     <section className="">
-//       <div className="mx-auto max-w-5xl px-4">
-//         {/* Hero Image */}
-//         {blog.bannerImage && (
-//           <div className="relative mb-20 h-[500px] overflow-hidden rounded-md">
-//             <Image
-//               src={blog.bannerImage}
-//               alt={blog.title}
-//               fill
-//               priority
-//               className="object-cover"
-//             />
-//           </div>
-//         )}
-
-// {blog.content?.map((section, index) => {
-//   switch (section.type) {
-//     case "heading":
-//       return (
-//         <section key={index} className="mb-10">
-//           <h2 className="font-cormorant text-5xl text-[#4f4f4f]">
-//             {section.text}
-//           </h2>
-//         </section>
-//       );
-
-//     case "heading3":
-//       return (
-//         <section key={index} className="mb-6">
-//           <h3 className="font-cormorant text-3xl font-medium text-[#555]">
-//             {section.text}
-//           </h3>
-//         </section>
-//       );
-
-//     case "heading4":
-//       return (
-//         <section key={index} className="mb-4">
-//           <h4 className="font-cormorant text-2xl font-medium text-[#555]">
-//             {section.text}
-//           </h4>
-//         </section>
-//       );
-
-//     case "paragraph":
-//       return (
-//         <section key={index} className="mb-8">
-//           <p className="leading-8 text-gray-700">{section.text}</p>
-//         </section>
-//       );
-
-//     case "list":
-//       return (
-//         <section key={index} className="mb-10 font-quicksand">
-//           <ul className="ml-8 list-disc space-y-3 marker:text-[#ab8c51]">
-//             {section.items.map((item, i) => (
-//               <li key={i} className="text-gray-700">
-//                 {item}
-//               </li>
-//             ))}
-//           </ul>
-//         </section>
-//       );
-
-//     case "numberList":
-//       return (
-//         <section key={index} className="mb-10">
-//           <ol className="ml-8 list-decimal space-y-3 text-gray-700">
-//             {section.items.map((item, i) => (
-//               <li key={i}>{item}</li>
-//             ))}
-//           </ol>
-//         </section>
-//       );
-
-//     case "checkList":
-//       return (
-//         <section key={index} className="mb-12">
-//           <div className="space-y-4">
-//             {section.items.map((item, i) => (
-//               <div key={i} className="flex items-start gap-4">
-//                 <TbHandFingerRight
-//                   className="mt-1 text-[#ab8c51]"
-//                   size={22}
-//                 />
-
-//                 <p className="leading-6 text-gray-700">{item}</p>
-//               </div>
-//             ))}
-//           </div>
-//         </section>
-//               );
-//             /* ---------------------------------- */
-//             /* Text + Image */
-//             /* ---------------------------------- */
-
-//             case "textImage":
-//               return (
-//                 <section
-//                   key={index}
-//                   className="mb-24 grid items-center gap-16 lg:grid-cols-2"
-//                 >
-//                   {section.layout === "left" ? (
-//                     <>
-//                       <div className="relative h-[460px] overflow-hidden rounded-md">
-//                         <Image
-//                           src={section.image}
-//                           alt=""
-//                           fill
-//                           className="object-cover"
-//                         />
-//                       </div>
-
-//                       <div>
-//                         {section.title && (
-//                           <h2 className="mb-6 font-cormorant text-[#636363] text-4xl">
-//                             {section.title}
-//                           </h2>
-//                         )}
-
-//                         {section.text.map((para, i) => (
-//                           <p key={i} className="mb-6 leading-8 text-gray-700">
-//                             {para}
-//                           </p>
-//                         ))}
-//                       </div>
-//                     </>
-//                   ) : (
-//                     <>
-//                       <div>
-//                         {section.title && (
-//                           <h2 className="mb-6 font-cormorant text-4xl text-[#636363]">
-//                             {section.title}
-//                           </h2>
-//                         )}
-
-//                         {section.text.map((para, i) => (
-//                           <p key={i} className="mb-6 leading-8 text-gray-700">
-//                             {para}
-//                           </p>
-//                         ))}
-//                       </div>
-
-//                       <div className="relative h-[460px] overflow-hidden rounded-md">
-//                         <Image
-//                           src={section.image}
-//                           alt=""
-//                           fill
-//                           className="object-cover"
-//                         />
-//                       </div>
-//                     </>
-//                   )}
-//                 </section>
-//               );
-
-//             /* ---------------------------------- */
-//             /* Gallery */
-//             /* ---------------------------------- */
-
-//             case "gallery":
-//               return (
-//                 <section key={index} className="mb-24">
-//                   <div className="grid gap-4 md:grid-cols-3">
-//                     {section.images.map((img, i) => (
-//                       <div
-//                         key={i}
-//                         className="relative h-[500px] overflow-hidden rounded-md"
-//                       >
-//                         <Image
-//                           src={img}
-//                           alt=""
-//                           fill
-//                           className="object-cover transition duration-500 hover:scale-105"
-//                         />
-//                       </div>
-//                     ))}
-//                   </div>
-
-//                   <div className="mt-8 grid gap-10 md:grid-cols-2">
-//                     <p className=" leading-8 text-gray-700">
-//                       {section.descriptionLeft}
-//                     </p>
-
-//                     <p className=" leading-8 text-gray-700">
-//                       {section.descriptionRight}
-//                     </p>
-//                   </div>
-//                 </section>
-//               );
-
-//             /* ---------------------------------- */
-//             /* Quote */
-//             /* ---------------------------------- */
-
-//             case "quote":
-//               return (
-//                 <blockquote
-//                   key={index}
-//                   className="mx-auto my-16 max-w-4xl font-quicksand border-l-4 border-[#ab8c51] pl-8 text-xl italic leading-relaxed text-gray-700"
-//                 >
-//                   {section.text}
-//                 </blockquote>
-//               );
-
-//             /* ---------------------------------- */
-//             /* Full Image */
-//             /* ---------------------------------- */
-
-//             case "image":
-//               return (
-//                 <div
-//                   key={index}
-//                   className="relative mb-10 h-[500px] overflow-hidden rounded-lg"
-//                 >
-//                   <Image
-//                     src={section.image}
-//                     alt=""
-//                     fill
-//                     className="object-cover"
-//                   />
-//                 </div>
-//               );
-
-//             default:
-//               return null;
-//           }
-//         })}
-//       </div>
-//     </section>
-//   );
-// }
-
 "use client";
 
 import Image from "next/image";
@@ -536,32 +294,189 @@ export default function BlogContent({ blog }) {
     Video
 ===================================== */
 
-            case "video":
+            // case "video":
+            //   return (
+            //     <section key={index} className="mb-16">
+            //       {section.title && (
+            //         <h2 className="mb-6 text-center font-cormorant text-5xl text-[#636363]">
+            //           {section.title}
+            //         </h2>
+            //       )}
+
+            //       <div className="overflow-hidden rounded-md">
+            //         {section.videoUrl?.includes("youtube") ||
+            //         section.videoUrl?.includes("youtu.be") ? (
+            //           <iframe
+            //             src={section.videoUrl.replace("watch?v=", "embed/")}
+            //             className="h-[500px] w-full"
+            //             allowFullScreen
+            //           />
+            //         ) : (
+            //           <video
+            //             controls
+            //             className="w-full rounded-xl"
+            //             src={section.videoUrl}
+            //           />
+            //         )}
+            //       </div>
+
+            //       {section.content && (
+            //         <div
+            //           className="prose mx-auto mt-8 max-w-none"
+            //           dangerouslySetInnerHTML={{
+            //             __html: section.content,
+            //           }}
+            //         />
+            //       )}
+            //     </section>
+            //   );
+
+            /* =====================================
+   Video
+===================================== */
+
+            case "video": {
+              const youtubeUrl = section.youtubeUrl?.trim();
+              const vimeoUrl = section.vimeoUrl?.trim();
+
+              // Convert YouTube URL to embed URL
+              const getYoutubeEmbedUrl = (url) => {
+                if (!url) return null;
+
+                try {
+                  const parsedUrl = new URL(url);
+
+                  // https://www.youtube.com/watch?v=xxxxx
+                  if (parsedUrl.hostname.includes("youtube.com")) {
+                    const videoId = parsedUrl.searchParams.get("v");
+
+                    if (videoId) {
+                      return `https://www.youtube.com/embed/${videoId}`;
+                    }
+
+                    // https://www.youtube.com/embed/xxxxx
+                    if (parsedUrl.pathname.startsWith("/embed/")) {
+                      return url;
+                    }
+                  }
+
+                  // https://youtu.be/xxxxx
+                  if (parsedUrl.hostname === "youtu.be") {
+                    const videoId = parsedUrl.pathname.slice(1);
+
+                    if (videoId) {
+                      return `https://www.youtube.com/embed/${videoId}`;
+                    }
+                  }
+
+                  return null;
+                } catch {
+                  return null;
+                }
+              };
+
+              // Convert Vimeo URL to embed URL
+              const getVimeoEmbedUrl = (url) => {
+                if (!url) return null;
+
+                try {
+                  const parsedUrl = new URL(url);
+
+                  // https://vimeo.com/123456789
+                  if (parsedUrl.hostname.includes("vimeo.com")) {
+                    const videoId = parsedUrl.pathname
+                      .split("/")
+                      .filter(Boolean)
+                      .pop();
+
+                    if (videoId) {
+                      return `https://player.vimeo.com/video/${videoId}`;
+                    }
+                  }
+
+                  return null;
+                } catch {
+                  return null;
+                }
+              };
+
+              const youtubeEmbedUrl = getYoutubeEmbedUrl(youtubeUrl);
+              const vimeoEmbedUrl = getVimeoEmbedUrl(vimeoUrl);
+
               return (
                 <section key={index} className="mb-16">
+                  {/* Title */}
                   {section.title && (
                     <h2 className="mb-6 text-center font-cormorant text-5xl text-[#636363]">
                       {section.title}
                     </h2>
                   )}
 
+                  {/* Description */}
+                  {section.description && (
+                    <div
+                      className="prose mx-auto mb-8 max-w-4xl text-center"
+                      dangerouslySetInnerHTML={{
+                        __html: section.description,
+                      }}
+                    />
+                  )}
+
+                  {/* Video */}
                   <div className="overflow-hidden rounded-md">
-                    {section.videoUrl?.includes("youtube") ||
-                    section.videoUrl?.includes("youtu.be") ? (
-                      <iframe
-                        src={section.videoUrl.replace("watch?v=", "embed/")}
-                        className="h-[500px] w-full"
-                        allowFullScreen
-                      />
-                    ) : (
+                    {/* YouTube */}
+                    {youtubeEmbedUrl ? (
+                      <div className="relative aspect-video w-full">
+                        <iframe
+                          src={youtubeEmbedUrl}
+                          title={section.title || "YouTube video"}
+                          className="absolute inset-0 h-full w-full"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+                    ) : vimeoEmbedUrl ? (
+                      /* Vimeo */
+                      <div className="relative aspect-video w-full">
+                        <iframe
+                          src={vimeoEmbedUrl}
+                          title={section.title || "Vimeo video"}
+                          className="absolute inset-0 h-full w-full"
+                          allow="autoplay; fullscreen; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    ) : section.media?.find(
+                        (media) => media.type === "video",
+                      ) ? (
+                      /* Uploaded Video */
                       <video
-                        controls
+                        controls={section.controls !== false}
+                        autoPlay={section.autoplay === true}
+                        loop={section.loop === true}
+                        muted={section.muted === true}
+                        poster={section.poster || undefined}
                         className="w-full rounded-xl"
-                        src={section.videoUrl}
-                      />
+                      >
+                        <source
+                          src={
+                            section.media.find(
+                              (media) => media.type === "video",
+                            )?.url
+                          }
+                          type="video/mp4"
+                        />
+                        Your browser does not support the video tag.
+                      </video>
+                    ) : (
+                      /* No video */
+                      <div className="rounded-xl bg-gray-100 p-10 text-center text-gray-500">
+                        No video available.
+                      </div>
                     )}
                   </div>
 
+                  {/* Content */}
                   {section.content && (
                     <div
                       className="prose mx-auto mt-8 max-w-none"
@@ -572,6 +487,7 @@ export default function BlogContent({ blog }) {
                   )}
                 </section>
               );
+            }
 
             /* =====================================
     FAQ

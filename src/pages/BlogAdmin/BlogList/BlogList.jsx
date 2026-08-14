@@ -4,7 +4,15 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 
-import { Plus, Search, Loader2, FileText, Pencil, Trash2 } from "lucide-react";
+import {
+  Plus,
+  Search,
+  Loader2,
+  FileText,
+  Pencil,
+  Trash2,
+  Eye,
+} from "lucide-react";
 
 const API = process.env.NEXT_PUBLIC_API_BASE;
 
@@ -406,6 +414,15 @@ const BlogList = () => {
 
                           <td className="px-6 py-4">
                             <div className="flex justify-center gap-3">
+                              <Link
+                                href={`/blog/${blog.slug}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="rounded-lg bg-green-50 px-4 py-2 text-green-600 transition hover:bg-green-100"
+                                title="View Blog"
+                              >
+                                <Eye size={16} />
+                              </Link>
                               <Link
                                 href={`/dashboard/blog/edit/${blog._id}`}
                                 className="rounded-lg bg-blue-50 px-4 py-2 text-blue-600 hover:bg-blue-100"
