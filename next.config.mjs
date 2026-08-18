@@ -18,6 +18,20 @@ const nextConfig = {
       },
     ],
   },
+   async rewrites() {
+    return [
+      {
+        source: "/sitemap.xml",
+        destination:
+          "https://where-to-africa-safari-backend.whereto.africa/sitemap.xml",
+      },
+      {
+        source: "/api/:path*",
+        destination: "https://where-to-africa-safari-backend.whereto.africa/api/:path*",
+      },
+    ];
+  },
+
 };
 
 export default nextConfig;
