@@ -9,6 +9,7 @@ import {
 import { getAllDestinations } from "../api/destinationAPI.js";
 import { updateExperience } from "../api/experienceAPI.js";
 import { useRouter } from "next/navigation";
+import { scrollDashboardToTop } from "@/lib/scrollToTop";
 
 const Experiences = () => {
   // Basic state
@@ -23,6 +24,7 @@ const Experiences = () => {
   const [bannerImage, setBannerImage] = useState(null);
   const [galleryDescription, setGalleryDescription] = useState("");
   const [galleryImages, setGalleryImages] = useState([]);
+  const [existingGalleryImages, setExistingGalleryImages] = useState([]);
   const [experiences, setExperiences] = useState([]);
 
   // Destination + Region dropdowns
@@ -79,18 +81,67 @@ const Experiences = () => {
     (d) => d._id === selectedDestinationId,
   );
 
+  //added for destination
+
+  const getExperienceLocation = (experienceId) => {
+    for (const destination of destinations) {
+      for (const region of destination.regions || []) {
+        const exists = (region.experiences || []).some(
+          (exp) => (exp?._id || exp)?.toString() === experienceId?.toString(),
+        );
+
+        if (exists) {
+          return {
+            destinationId: destination._id,
+            regionId: region._id,
+            destinationName: destination.name,
+            regionName: region.name,
+          };
+        }
+      }
+    }
+
+    return {
+      destinationId: "",
+      regionId: "",
+      destinationName: "",
+      regionName: "",
+    };
+  };
+
+  const handleDeleteGalleryImage = (imageId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this gallery image?",
+    );
+
+    if (!confirmed) return;
+
+    setExistingGalleryImages((prev) =>
+      prev.filter((img) => img._id !== imageId),
+    );
+  };
+
   const handleEdit = (exp) => {
-    console.log(exp);
-    console.log("Destination:", exp.destination);
-    console.log("Region:", exp.region);
+    console.log("Editing Experience:", exp);
+
+    // Find destination + region from destination relationship
+    const location = getExperienceLocation(exp._id);
+
+    console.log("Destination:", location.destinationName);
+    console.log("Region:", location.regionName);
+
+    console.log("Destination ID:", location.destinationId);
+    console.log("Region ID:", location.regionId);
 
     setEditId(exp._id);
 
     setBannerPreview(exp.bannerImage);
 
-    // Destination & region
-    setSelectedDestinationId(exp.destination?._id || "");
-    setSelectedRegionId(exp.region?._id || "");
+    // Automatically select Destination
+    setSelectedDestinationId(location.destinationId);
+
+    // Automatically select Region
+    setSelectedRegionId(location.regionId);
 
     // Banner
     setBannerTitle(exp.bannerTitle || "");
@@ -99,14 +150,33 @@ const Experiences = () => {
     setBannerSubtitle(exp.bannersubtitle || "");
     setHighlightHeading(exp.highlightheading || "");
     setImageHeading(exp.imageheading || "");
-    setBannerImage(null); // keep existing unless replaced
+    setBannerImage(null);
     setBookNowUrl(exp.bookNowUrl || "");
 
-    // Gallery
-    setGalleryDescription(exp.galleryDescription || "");
-    setGalleryImages([]); // new uploads only
+    // // Gallery
+    // setGalleryDescription(exp.galleryDescription || "");
+    // // Existing gallery images from database
+    // setExistingGalleryImages(exp.galleryImages || []);
+
+    // // Clear only newly selected files
     // setGalleryImages([]);
-    // setGalleryPreview(exp.galleryImages || []);
+
+    setGalleryDescription(exp.gallery?.description || "");
+
+    setExistingGalleryImages(exp.gallery?.images || []);
+
+    setGalleryImages([]);
+
+    // setGalleryDescription(exp.gallery?.description || "");
+
+    // // setExistingGalleryImages(
+    // //   (exp.gallery?.images || []).map((item) => item.image),
+    // // );
+
+    // setExistingGalleryImages(exp.gallery?.images || []);
+
+    // // New uploads should start empty
+    // setGalleryImages([]);
 
     // Experience Info
     setExperienceInfo(
@@ -153,14 +223,12 @@ const Experiences = () => {
         existingImage: h.image,
       })),
     );
-    // Scroll to the top
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+
+    scrollDashboardToTop();
   };
 
   // Submit handler
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -199,6 +267,13 @@ const Experiences = () => {
 
     // Uploads
     if (bannerImage) formData.append("bannerImage", bannerImage);
+
+    // Gallery
+    formData.append(
+      "existingGalleryImages",
+      JSON.stringify(existingGalleryImages),
+    );
+
     galleryImages.forEach((img) => formData.append("galleryImages", img));
 
     // Nested JSON
@@ -450,53 +525,6 @@ const Experiences = () => {
         </div>
 
         {/* Includes Section */}
-        {/* <div>
-          <h3 className="font-semibold text-lg mb-2">Includes</h3>
-          {includes.map((inc, i) => (
-            <div key={i} className="flex gap-2 mb-2">
-              <input
-                type="text"
-                placeholder="Include Name"
-                className="border p-2 flex-1"
-                value={inc.name}
-                onChange={(e) =>
-                  handleChange(i, "name", e.target.value, setIncludes, includes)
-                }
-              />
-              <input
-                type="file"
-                className="border p-2"
-                onChange={(e) =>
-                  handleChange(
-                    i,
-                    "icon",
-                    e.target.files[0],
-                    setIncludes,
-                    includes,
-                  )
-                }
-              />
-              {inc.existingIcon && !inc.icon && (
-                <img
-                  src={inc.existingIcon}
-                  alt="existing include icon"
-                  className="w-8 h-8 object-contain border"
-                />
-              )}
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={() =>
-              handleAdd(setIncludes, includes, { name: "", icon: null })
-            }
-            className="text-blue-500 text-sm"
-          >
-            + Add Include
-          </button>
-        </div> */}
-
-        {/* Includes Section */}
         <div>
           <h3 className="font-semibold text-lg mb-2">Includes</h3>
 
@@ -708,7 +736,7 @@ const Experiences = () => {
         </div>
 
         {/* Gallery */}
-        <div>
+        {/* <div>
           <h3 className="font-semibold text-lg mb-2">Gallery</h3>
           <input
             type="text"
@@ -728,31 +756,116 @@ const Experiences = () => {
             multiple
             className="border p-2 w-full mt-2"
             onChange={(e) => setGalleryImages([...e.target.files])}
-            // onChange={(e) => {
-            //   const files = [...e.target.files];
-
-            //   setGalleryImages(files);
-            //   setGalleryPreview(files.map((file) => URL.createObjectURL(file)));
-            // }}
           />
-          {/* <div className="flex flex-wrap gap-3 mt-3">
-            {galleryPreview.map((img, index) => (
-              <img
-                key={index}
-                src={img}
-                alt={`Preview ${index}`}
-                className="w-32 h-32 object-cover rounded border"
-              />
-            ))}
-          </div> */}
+          {existingGalleryImages.length > 0 && (
+            <div className="mt-4">
+              <h4 className="font-semibold mb-3">Existing Gallery Images</h4>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {existingGalleryImages.map((item) => (
+                  <div
+                    key={item._id}
+                    className="relative border rounded-lg overflow-hidden bg-gray-100"
+                  >
+                    <img
+                      src={item.image}
+                      alt="Gallery"
+                      className="w-full h-32 object-cover"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteGalleryImage(item._id)}
+                      className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white w-7 h-7 rounded-full flex items-center justify-center"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div> */}
+
+        <div>
+          <h3 className="font-semibold text-lg mb-2">Gallery</h3>
+
+          <input
+            type="text"
+            placeholder="Gallery Heading"
+            className="border p-2 w-full mb-2"
+            value={imageheading}
+            onChange={(e) => setImageHeading(e.target.value)}
+          />
+
+          <textarea
+            placeholder="Gallery Description"
+            className="border p-2 w-full"
+            value={galleryDescription}
+            onChange={(e) => setGalleryDescription(e.target.value)}
+          />
+
+          {/* Existing Gallery Images */}
+          {existingGalleryImages.length > 0 && (
+            <div className="mt-4">
+              <h4 className="font-medium mb-3">Existing Gallery Images</h4>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {existingGalleryImages.map((item, index) => (
+                  <div
+                    key={item._id || index}
+                    className="relative border rounded-lg overflow-hidden"
+                  >
+                    <img
+                      src={item.image}
+                      alt={`Gallery ${index + 1}`}
+                      className="w-full h-32 object-cover"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteGalleryImage(index)}
+                      className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-red-700"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Add New Images */}
+          <div className="mt-4">
+            <h4 className="font-medium mb-2">Add New Gallery Images</h4>
+
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              className="border p-2 w-full"
+              onChange={(e) => {
+                setGalleryImages(Array.from(e.target.files));
+              }}
+            />
+          </div>
+
+          {/* New Images Preview */}
+          {galleryImages.length > 0 && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+              {galleryImages.map((file, index) => (
+                <div key={index} className="border rounded-lg overflow-hidden">
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt={`New gallery ${index + 1}`}
+                    className="w-full h-32 object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* <button
-          type="submit"
-          className="bg-green-600 text-white px-6 py-2 rounded"
-        >
-          Create Experience
-        </button> */}
         <button
           type="submit"
           className="bg-green-600 text-white px-6 py-2 rounded"
@@ -764,62 +877,81 @@ const Experiences = () => {
       {/* All Experiences */}
       <div className="mt-10">
         <h3 className="text-xl font-semibold mb-4">All Experiences</h3>
-        {/* {experiences.map((exp) => (
-          <div
-            key={exp._id}
-            className="border p-4 mb-3 flex justify-between items-center"
-          >
-            <div>
-              <h4 className="font-semibold">{exp.bannerTitle}</h4>
-              <p className="text-sm text-gray-600">
-                {exp.destination?.name} → {exp.region?.name}
-              </p>
-            </div>
-            <button
-              onClick={() => deleteExperience(exp._id).then(fetchExperiences)}
-              className="text-red-500"
-            >
-              Delete
-            </button>
-          </div>
-        ))} */}
-        {experiences.map((exp) => (
-          <div
-            key={exp._id}
-            className="border p-4 mb-3 flex justify-between items-center"
-          >
-            <div>
-              <h4 className="font-semibold">{exp.bannerTitle}</h4>
-              <p className="text-sm text-gray-600">
-                {exp.destination?.name} → {exp.region?.name}
-              </p>
-            </div>
 
-            <div className="flex gap-4">
-              <button
-                onClick={() => handleEdit(exp)}
-                className="text-blue-500 cursor-pointer"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() =>
-                  router.push(`/dashboard/experiences/seo/${exp._id}`)
-                }
-                className="bg-purple-600 text-white px-3 py-1 rounded cursor-pointer"
-              >
-                SEO
-              </button>
+        <div className="space-y-4">
+          {experiences.map((exp) => {
+            const location = getExperienceLocation(exp._id);
 
-              <button
-                onClick={() => deleteExperience(exp._id).then(fetchExperiences)}
-                className="text-red-500 cursor-pointer"
+            return (
+              <div
+                key={exp._id}
+                className="border rounded-lg p-4 flex items-center justify-between gap-4 bg-white shadow-sm"
               >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
+                <div className="flex items-center gap-4 min-w-0">
+                  {/* Banner Image */}
+                  <div className="w-28 h-20 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+                    {exp.bannerImage ? (
+                      <img
+                        src={exp.bannerImage}
+                        alt={exp.bannerTitle || "Experience"}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
+                        No Image
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Experience Information */}
+                  <div className="min-w-0">
+                    <h4 className="font-semibold text-lg truncate">
+                      {exp.bannerTitle}
+                    </h4>
+
+                    <p className="text-sm text-gray-600 mt-1">
+                      <span className="font-medium">Destination:</span>{" "}
+                      {location.destinationName || "N/A"}
+                    </p>
+
+                    <p className="text-sm text-gray-600">
+                      <span className="font-medium">Region:</span>{" "}
+                      {location.regionName || "N/A"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-3 items-center flex-shrink-0">
+                  <button
+                    onClick={() => handleEdit(exp)}
+                    className="text-blue-500 hover:text-blue-700 cursor-pointer"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      router.push(`/dashboard/experiences/seo/${exp._id}`)
+                    }
+                    className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded cursor-pointer"
+                  >
+                    SEO
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      deleteExperience(exp._id).then(fetchExperiences)
+                    }
+                    className="text-red-500 hover:text-red-700 cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
