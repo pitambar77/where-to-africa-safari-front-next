@@ -85,7 +85,7 @@ export default function RegionsPage() {
               key={region._id}
               className="border rounded-xl p-5 flex items-center justify-between bg-white shadow-sm"
             >
-              {/* LEFT */}
+        
               <div className="flex items-center gap-4">
                 <img
                   src={region.image}
@@ -108,9 +108,9 @@ export default function RegionsPage() {
                 </div>
               </div>
 
-              {/* RIGHT */}
+          
               <div className="flex gap-3">
-                {/* EDIT */}
+              
                 <button
                   onClick={() =>
                     router.push(
@@ -122,7 +122,7 @@ export default function RegionsPage() {
                   Edit
                 </button>
 
-                {/* SEO */}
+       
                 <button
                   onClick={() =>
                     router.push(
@@ -134,7 +134,7 @@ export default function RegionsPage() {
                   SEO
                 </button>
 
-                {/* DELETE */}
+              
                 <button
                   onClick={() =>
                     handleDeleteRegion(region._id)
@@ -157,3 +157,6 @@ export default function RegionsPage() {
     </div>
   );
 }
+
+
+

@@ -1023,11 +1023,41 @@ const Destinations = () => {
                 </td>
                 <td className="border p-2">{dest.name}</td>
                 <td className="border p-2">{dest.slug}</td>
-                <td className="border p-2">
+                {/* <td className="border p-2">
                   {dest.regions?.length
                     ? dest.regions.map((r) => r.name).join(", ")
                     : "No regions"}
+                </td> */}
+
+                <td className="border p-2">
+                  {dest.regions?.length ? (
+                    <div className="space-y-2">
+                      {dest.regions.map((region) => (
+                        <div
+                          key={region._id}
+                          className="flex items-center justify-between gap-3"
+                        >
+                          <span className="font-medium">{region.name}</span>
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              router.push(
+                                `/dashboard/destinations/regions/seo/${region._id}`,
+                              )
+                            }
+                            className="bg-purple-600 text-white px-3 py-1 rounded text-sm"
+                          >
+                            SEO
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    "No regions"
+                  )}
                 </td>
+
                 <td className="border p-2 text-center justify-center items-center flex gap-4">
                   <button
                     onClick={() => handleEdit(dest)}
