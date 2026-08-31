@@ -59,6 +59,9 @@ const Experiences = () => {
 
   const [editId, setEditId] = useState(null);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const router = useRouter();
 
   // Fetch data
@@ -109,7 +112,7 @@ const Experiences = () => {
     };
   };
 
-  const handleDeleteGalleryImage = (imageId) => {
+  const handleDeleteGalleryImage = (imageId, imageUrl) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this gallery image?",
     );
@@ -117,7 +120,13 @@ const Experiences = () => {
     if (!confirmed) return;
 
     setExistingGalleryImages((prev) =>
-      prev.filter((img) => img._id !== imageId),
+      prev.filter((img) => {
+        if (imageId) {
+          return img._id !== imageId;
+        }
+
+        return img.image !== imageUrl;
+      }),
     );
   };
 
@@ -153,30 +162,11 @@ const Experiences = () => {
     setBannerImage(null);
     setBookNowUrl(exp.bookNowUrl || "");
 
-    // // Gallery
-    // setGalleryDescription(exp.galleryDescription || "");
-    // // Existing gallery images from database
-    // setExistingGalleryImages(exp.galleryImages || []);
-
-    // // Clear only newly selected files
-    // setGalleryImages([]);
-
     setGalleryDescription(exp.gallery?.description || "");
 
     setExistingGalleryImages(exp.gallery?.images || []);
 
     setGalleryImages([]);
-
-    // setGalleryDescription(exp.gallery?.description || "");
-
-    // // setExistingGalleryImages(
-    // //   (exp.gallery?.images || []).map((item) => item.image),
-    // // );
-
-    // setExistingGalleryImages(exp.gallery?.images || []);
-
-    // // New uploads should start empty
-    // setGalleryImages([]);
 
     // Experience Info
     setExperienceInfo(
@@ -227,17 +217,75 @@ const Experiences = () => {
     scrollDashboardToTop();
   };
 
+  const resetForm = () => {
+    setEditId(null);
+
+    // Destination / Region
+    setSelectedDestinationId("");
+    setSelectedRegionId("");
+
+    // Banner
+    setBannerTitle("");
+    setBannerDescription("");
+    setBannerSubtitle("");
+    setHighlightHeading("");
+    setImageHeading("");
+    setBookNowUrl("");
+    setBannerImage(null);
+    setBannerPreview(null);
+
+    // Gallery
+    setGalleryDescription("");
+    setGalleryImages([]);
+    setExistingGalleryImages([]);
+
+    // Experience Info
+    setExperienceInfo({
+      days: "",
+      pricePerPerson: "",
+      location: "",
+      journeyType: "",
+    });
+
+    // Overview
+    setOverview({
+      title: "",
+      subTitle: "",
+      description: "",
+    });
+
+    // Includes
+    setIncludes([
+      {
+        name: "",
+        icon: null,
+      },
+    ]);
+
+    // Game Drives
+    setGameDrives([
+      {
+        name: "",
+        description: "",
+        pricePerPerson: "",
+        image: null,
+      },
+    ]);
+
+    // Highlights
+    setHighlights([
+      {
+        name: "",
+        description: "",
+        image: null,
+      },
+    ]);
+  };
+
   // Submit handler
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    //     for (const h of highlights) {
-    //   if (!h.existingImage && !h.image) {
-    //     alert("Please upload image for all new highlights");
-    //     return;
-    //   }
-    // }
 
     if (!selectedDestinationId) {
       alert("Please select a destination!");
@@ -249,107 +297,125 @@ const Experiences = () => {
       return;
     }
 
-    const formData = new FormData();
+    setIsSubmitting(true);
 
-    // Link destination + region
-    formData.append("destinationId", selectedDestinationId);
-    formData.append("regionId", selectedRegionId);
+    try {
+      const formData = new FormData();
 
-    // Basic info
-    formData.append("bannerTitle", bannerTitle);
-    formData.append("bannerDescription", bannerDescription);
-    formData.append("galleryDescription", galleryDescription);
+      // Link destination + region
+      formData.append("destinationId", selectedDestinationId);
+      formData.append("regionId", selectedRegionId);
 
-    formData.append("bannersubtitle", bannersubtitle);
-    formData.append("highlightheading", highlightheading);
-    formData.append("imageheading", imageheading);
-    formData.append("bookNowUrl", bookNowUrl);
+      // Basic info
+      formData.append("bannerTitle", bannerTitle);
+      formData.append("bannerDescription", bannerDescription);
+      formData.append("galleryDescription", galleryDescription);
 
-    // Uploads
-    if (bannerImage) formData.append("bannerImage", bannerImage);
+      formData.append("bannersubtitle", bannersubtitle);
+      formData.append("highlightheading", highlightheading);
+      formData.append("imageheading", imageheading);
+      formData.append("bookNowUrl", bookNowUrl);
 
-    // Gallery
-    formData.append(
-      "existingGalleryImages",
-      JSON.stringify(existingGalleryImages),
-    );
+      // Uploads
+      if (bannerImage) formData.append("bannerImage", bannerImage);
 
-    galleryImages.forEach((img) => formData.append("galleryImages", img));
+      // Gallery
+      formData.append(
+        "existingGalleryImages",
+        JSON.stringify(existingGalleryImages),
+      );
 
-    // Nested JSON
-    formData.append("experienceInfo", JSON.stringify(experienceInfo));
-    formData.append("overview", JSON.stringify(overview));
+      galleryImages.forEach((img) => formData.append("galleryImages", img));
 
-    // Includes, Game Drives, Highlights (JSON)
-    // const includesData = includes.map((inc, i) => ({
-    //   name: inc.name,
-    //   icon: inc.icon ? `includeIcons[${i}]` : "",
-    // }));
+      // Nested JSON
+      formData.append("experienceInfo", JSON.stringify(experienceInfo));
+      formData.append("overview", JSON.stringify(overview));
 
-    const includesData = includes.map((inc) => ({
-      name: inc.name,
-    }));
+      const includesData = includes.map((inc) => ({
+        name: inc.name,
+      }));
 
-    const gameDriveData = gameDrives.map((g, i) => ({
-      name: g.name,
-      description: g.description,
-      pricePerPerson: g.pricePerPerson,
-      // image: g.image ? `gameDriveImages[${i}]` : "",
-      image: g.existingImage || "",
-    }));
-    // const highlightData = highlights.map((h, i) => ({
-    //   name: h.name,
-    //   description: h.description,
+      const gameDriveData = gameDrives.map((g, i) => ({
+        name: g.name,
+        description: g.description,
+        pricePerPerson: g.pricePerPerson,
+        // image: g.image ? `gameDriveImages[${i}]` : "",
+        image: g.existingImage || "",
+      }));
 
-    //   // image: h.image ? `highlightImages[${i}]` : "",
-    //   image: h.existingImage || "", // keep existing URL
-    // }));
+      const highlightData = highlights.map((h) => ({
+        name: h.name,
+        description: h.description,
+        image: h.existingImage || "",
+        hasNewImage: Boolean(h.image),
+      }));
 
-    const highlightData = highlights.map((h) => ({
-      name: h.name,
-      description: h.description,
-      image: h.existingImage || "",
-      hasNewImage: Boolean(h.image),
-    }));
+      formData.append("includes", JSON.stringify(includesData));
+      formData.append("gameDrives", JSON.stringify(gameDriveData));
+      formData.append("highlights", JSON.stringify(highlightData));
 
-    formData.append("includes", JSON.stringify(includesData));
-    formData.append("gameDrives", JSON.stringify(gameDriveData));
-    formData.append("highlights", JSON.stringify(highlightData));
+      // Attach files
+      includes.forEach(
+        (inc) => inc.icon && formData.append("includeIcons", inc.icon),
+      );
+      gameDrives.forEach(
+        (g) => g.image && formData.append("gameDriveImages", g.image),
+      );
+      highlights.forEach(
+        (h) => h.image && formData.append("highlightImages", h.image),
+      );
 
-    // Attach files
-    includes.forEach(
-      (inc) => inc.icon && formData.append("includeIcons", inc.icon),
-    );
-    gameDrives.forEach(
-      (g) => g.image && formData.append("gameDriveImages", g.image),
-    );
-    highlights.forEach(
-      (h) => h.image && formData.append("highlightImages", h.image),
-    );
+      // await createExperience(formData);
 
-    // await createExperience(formData);
+      if (editId) {
+        await updateExperience(editId, formData);
+        alert("Experience updated successfully!");
+      } else {
+        await createExperience(formData);
+        alert("Experience created successfully!");
+      }
 
-    if (editId) {
-      await updateExperience(editId, formData);
-      alert("Experience updated successfully!");
-    } else {
-      await createExperience(formData);
-      alert("Experience created successfully!");
+      // setEditId(null);
+      // fetchExperiences();
+
+      resetForm();
+
+      await fetchExperiences();
+    } catch (error) {
+      console.error("Experience submit error:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setEditId(null);
-    fetchExperiences();
   };
 
   // Helpers for dynamic fields
   const handleAdd = (setter, prevState, emptyObj) =>
     setter([...prevState, emptyObj]);
 
+  const handleRemove = (index, setter, prevState) => {
+    setter(prevState.filter((_, i) => i !== index));
+  };
+
   const handleChange = (index, key, value, setter, prevState) => {
     const updated = [...prevState];
     updated[index][key] = value;
     setter(updated);
   };
+
+  const filteredExperiences = experiences.filter((exp) => {
+    const location = getExperienceLocation(exp._id);
+
+    const search = searchTerm.toLowerCase().trim();
+
+    if (!search) return true;
+
+    return (
+      (exp.bannerTitle || "").toLowerCase().includes(search) ||
+      (location.destinationName || "").toLowerCase().includes(search) ||
+      (location.regionName || "").toLowerCase().includes(search)
+    );
+  });
 
   return (
     <div className="p-8">
@@ -360,7 +426,7 @@ const Experiences = () => {
         <div>
           <h3 className="font-semibold text-lg mb-2">Select Destination</h3>
           <select
-            className="border p-2 w-full"
+            className="border border-[#cbc7c0] rounded-lg p-2 w-full"
             value={selectedDestinationId}
             onChange={(e) => {
               setSelectedDestinationId(e.target.value);
@@ -381,7 +447,7 @@ const Experiences = () => {
           <div>
             <h3 className="font-semibold text-lg mb-2">Select Region</h3>
             <select
-              className="border p-2 w-full"
+              className="border border-[#cbc7c0] rounded-lg  p-2 w-full"
               value={selectedRegionId}
               onChange={(e) => setSelectedRegionId(e.target.value)}
             >
@@ -401,20 +467,20 @@ const Experiences = () => {
           <input
             type="text"
             placeholder="Banner Title"
-            className="border p-2 w-full"
+            className="border border-[#cbc7c0] rounded-lg p-2 w-full"
             value={bannerTitle}
             onChange={(e) => setBannerTitle(e.target.value)}
           />
           <input
             type="text"
             placeholder="Banner Subtitle"
-            className="border p-2 w-full mt-2"
+            className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
             value={bannersubtitle}
             onChange={(e) => setBannerSubtitle(e.target.value)}
           />
           <textarea
             placeholder="Banner Description"
-            className="border p-2 w-full mt-2"
+            className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
             value={bannerDescription}
             onChange={(e) => setBannerDescription(e.target.value)}
           />
@@ -429,7 +495,7 @@ const Experiences = () => {
 
           <input
             type="file"
-            className="border p-2 w-full mt-2"
+            className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
             onChange={(e) => setBannerImage(e.target.files[0])}
           />
         </div>
@@ -441,7 +507,7 @@ const Experiences = () => {
             <input
               type="text"
               placeholder="Duration"
-              className="border p-2"
+              className="border border-[#cbc7c0] rounded-lg p-2"
               value={experienceInfo.days}
               onChange={(e) =>
                 setExperienceInfo({ ...experienceInfo, days: e.target.value })
@@ -450,7 +516,7 @@ const Experiences = () => {
             <input
               type="text"
               placeholder="Price Per Person"
-              className="border p-2"
+              className="border border-[#cbc7c0] rounded-lg p-2"
               value={experienceInfo.pricePerPerson}
               onChange={(e) =>
                 setExperienceInfo({
@@ -462,7 +528,7 @@ const Experiences = () => {
             <input
               type="text"
               placeholder="Timing"
-              className="border p-2"
+              className="border border-[#cbc7c0] rounded-lg p-2"
               value={experienceInfo.location}
               onChange={(e) =>
                 setExperienceInfo({
@@ -474,7 +540,7 @@ const Experiences = () => {
             <input
               type="text"
               placeholder="Min/Max person"
-              className="border p-2"
+              className="border border-[#cbc7c0] rounded-lg p-2"
               value={experienceInfo.journeyType}
               onChange={(e) =>
                 setExperienceInfo({
@@ -486,7 +552,7 @@ const Experiences = () => {
             <input
               type="text"
               placeholder="Book Now URL"
-              className="border p-2 w-full mt-2"
+              className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
               value={bookNowUrl}
               onChange={(e) => setBookNowUrl(e.target.value)}
             />
@@ -499,7 +565,7 @@ const Experiences = () => {
           <input
             type="text"
             placeholder="Title"
-            className="border p-2 w-full"
+            className="border border-[#cbc7c0] rounded-lg p-2 w-full"
             value={overview.title}
             onChange={(e) =>
               setOverview({ ...overview, title: e.target.value })
@@ -508,7 +574,7 @@ const Experiences = () => {
           <input
             type="text"
             placeholder="Subtitle"
-            className="border p-2 w-full mt-2"
+            className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
             value={overview.subTitle}
             onChange={(e) =>
               setOverview({ ...overview, subTitle: e.target.value })
@@ -516,7 +582,7 @@ const Experiences = () => {
           />
           <textarea
             placeholder="Description"
-            className="border p-2 w-full mt-2"
+            className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
             value={overview.description}
             onChange={(e) =>
               setOverview({ ...overview, description: e.target.value })
@@ -528,12 +594,12 @@ const Experiences = () => {
         <div>
           <h3 className="font-semibold text-lg mb-2">Includes</h3>
 
-          {includes.map((inc, i) => (
+          {/* {includes.map((inc, i) => (
             <div key={i} className="flex gap-2 items-center mb-2">
               <input
                 type="text"
                 placeholder="Include Name"
-                className="border p-2 flex-1"
+                className="border border-[#cbc7c0] rounded-lg p-2 flex-1"
                 value={inc.name}
                 onChange={(e) =>
                   handleChange(i, "name", e.target.value, setIncludes, includes)
@@ -542,7 +608,7 @@ const Experiences = () => {
 
               <input
                 type="file"
-                className="border p-2"
+                className="border border-[#cbc7c0] rounded-lg p-2"
                 onChange={(e) =>
                   handleChange(
                     i,
@@ -554,7 +620,7 @@ const Experiences = () => {
                 }
               />
 
-              {/* Existing icon preview */}
+              
               {inc.existingIcon && !inc.icon && (
                 <img
                   src={inc.existingIcon}
@@ -562,6 +628,52 @@ const Experiences = () => {
                   alt="icon"
                 />
               )}
+            </div>
+          ))} */}
+
+          {includes.map((inc, i) => (
+            <div key={i} className="flex gap-2 items-center mb-2">
+              <input
+                type="text"
+                placeholder="Include Name"
+                className="border border-[#cbc7c0] rounded-lg p-2 flex-1"
+                value={inc.name}
+                onChange={(e) =>
+                  handleChange(i, "name", e.target.value, setIncludes, includes)
+                }
+              />
+
+              <input
+                type="file"
+                className="border border-[#cbc7c0] rounded-lg p-2"
+                onChange={(e) =>
+                  handleChange(
+                    i,
+                    "icon",
+                    e.target.files[0],
+                    setIncludes,
+                    includes,
+                  )
+                }
+              />
+
+              {/* Existing icon */}
+              {inc.existingIcon && !inc.icon && (
+                <img
+                  src={inc.existingIcon}
+                  className="w-8 h-8 object-contain"
+                  alt="icon"
+                />
+              )}
+
+              {/* Delete */}
+              <button
+                type="button"
+                onClick={() => handleRemove(i, setIncludes, includes)}
+                className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg cursor-pointer"
+              >
+                ×
+              </button>
             </div>
           ))}
 
@@ -579,12 +691,15 @@ const Experiences = () => {
         {/* Game Drives */}
         <div>
           <h3 className="font-semibold text-lg mb-2">Game Drives</h3>
-          {gameDrives.map((g, i) => (
-            <div key={i} className="border p-3 mb-3 rounded">
+          {/* {gameDrives.map((g, i) => (
+            <div
+              key={i}
+              className="border border-[#cbc7c0] rounded-lg p-3 mb-3 rounded"
+            >
               <input
                 type="text"
                 placeholder="Name"
-                className="border p-2 w-full"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full"
                 value={g.name}
                 onChange={(e) =>
                   handleChange(
@@ -599,7 +714,7 @@ const Experiences = () => {
 
               <textarea
                 placeholder="Description"
-                className="border p-2 w-full mt-2"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
                 value={g.description}
                 onChange={(e) =>
                   handleChange(
@@ -614,7 +729,7 @@ const Experiences = () => {
               <input
                 type="number"
                 placeholder="Price Per Person"
-                className="border p-2 w-full mt-2"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
                 value={g.pricePerPerson}
                 onChange={(e) =>
                   handleChange(
@@ -628,7 +743,87 @@ const Experiences = () => {
               />
               <input
                 type="file"
-                className="border p-2 w-full mt-2"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
+                onChange={(e) =>
+                  handleChange(
+                    i,
+                    "image",
+                    e.target.files[0],
+                    setGameDrives,
+                    gameDrives,
+                  )
+                }
+              />
+            </div>
+          ))} */}
+
+          {gameDrives.map((g, i) => (
+            <div
+              key={i}
+              className="border border-[#cbc7c0] rounded-lg p-3 mb-3"
+            >
+              <div className="flex justify-between items-center mb-3">
+                <h4 className="font-medium">Game Drive {i + 1}</h4>
+
+                <button
+                  type="button"
+                  onClick={() => handleRemove(i, setGameDrives, gameDrives)}
+                  className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg"
+                >
+                  Delete
+                </button>
+              </div>
+
+              <input
+                type="text"
+                placeholder="Name"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full"
+                value={g.name}
+                onChange={(e) =>
+                  handleChange(
+                    i,
+                    "name",
+                    e.target.value,
+                    setGameDrives,
+                    gameDrives,
+                  )
+                }
+              />
+
+              <textarea
+                placeholder="Description"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
+                value={g.description}
+                onChange={(e) =>
+                  handleChange(
+                    i,
+                    "description",
+                    e.target.value,
+                    setGameDrives,
+                    gameDrives,
+                  )
+                }
+              />
+
+              <input
+                type="number"
+                placeholder="Price Per Person"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
+                value={g.pricePerPerson}
+                onChange={(e) =>
+                  handleChange(
+                    i,
+                    "pricePerPerson",
+                    e.target.value,
+                    setGameDrives,
+                    gameDrives,
+                  )
+                }
+              />
+
+              <input
+                type="file"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
                 onChange={(e) =>
                   handleChange(
                     i,
@@ -641,6 +836,7 @@ const Experiences = () => {
               />
             </div>
           ))}
+
           <button
             type="button"
             onClick={() =>
@@ -663,16 +859,19 @@ const Experiences = () => {
           <input
             type="text"
             placeholder="Highlight Section Heading"
-            className="border p-2 w-full mb-3"
+            className="border border-[#cbc7c0] rounded-lg p-2 w-full mb-3"
             value={highlightheading}
             onChange={(e) => setHighlightHeading(e.target.value)}
           />
-          {highlights.map((h, i) => (
-            <div key={i} className="border p-3 mb-3 rounded">
+          {/* {highlights.map((h, i) => (
+            <div
+              key={i}
+              className="border border-[#cbc7c0] rounded-lg p-3 mb-3 rounded"
+            >
               <input
                 type="text"
                 placeholder="Name"
-                className="border p-2 w-full"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full"
                 value={h.name}
                 onChange={(e) =>
                   handleChange(
@@ -686,7 +885,7 @@ const Experiences = () => {
               />
               <textarea
                 placeholder="Description"
-                className="border p-2 w-full mt-2"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
                 value={h.description}
                 onChange={(e) =>
                   handleChange(
@@ -707,7 +906,79 @@ const Experiences = () => {
               )}
               <input
                 type="file"
-                className="border p-2 w-full mt-2"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
+                onChange={(e) =>
+                  handleChange(
+                    i,
+                    "image",
+                    e.target.files[0],
+                    setHighlights,
+                    highlights,
+                  )
+                }
+              />
+            </div>
+          ))} */}
+
+          {highlights.map((h, i) => (
+            <div
+              key={i}
+              className="border border-[#cbc7c0] rounded-lg p-3 mb-3"
+            >
+              <div className="flex justify-between items-center mb-3">
+                <h4 className="font-medium">Highlight {i + 1}</h4>
+
+                <button
+                  type="button"
+                  onClick={() => handleRemove(i, setHighlights, highlights)}
+                  className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg"
+                >
+                  Delete
+                </button>
+              </div>
+
+              <input
+                type="text"
+                placeholder="Name"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full"
+                value={h.name}
+                onChange={(e) =>
+                  handleChange(
+                    i,
+                    "name",
+                    e.target.value,
+                    setHighlights,
+                    highlights,
+                  )
+                }
+              />
+
+              <textarea
+                placeholder="Description"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
+                value={h.description}
+                onChange={(e) =>
+                  handleChange(
+                    i,
+                    "description",
+                    e.target.value,
+                    setHighlights,
+                    highlights,
+                  )
+                }
+              />
+
+              {(h.imagePreview || h.existingImage) && (
+                <img
+                  src={h.imagePreview || h.existingImage}
+                  className="w-48 mt-2 rounded"
+                  alt="Highlight"
+                />
+              )}
+
+              <input
+                type="file"
+                className="border border-[#cbc7c0] rounded-lg p-2 w-full mt-2"
                 onChange={(e) =>
                   handleChange(
                     i,
@@ -720,6 +991,7 @@ const Experiences = () => {
               />
             </div>
           ))}
+
           <button
             type="button"
             onClick={() =>
@@ -735,72 +1007,20 @@ const Experiences = () => {
           </button>
         </div>
 
-        {/* Gallery */}
-        {/* <div>
-          <h3 className="font-semibold text-lg mb-2">Gallery</h3>
-          <input
-            type="text"
-            placeholder="Gallery Heading"
-            className="border p-2 w-full mb-2"
-            value={imageheading}
-            onChange={(e) => setImageHeading(e.target.value)}
-          />
-          <textarea
-            placeholder="Gallery Description"
-            className="border p-2 w-full"
-            value={galleryDescription}
-            onChange={(e) => setGalleryDescription(e.target.value)}
-          />
-          <input
-            type="file"
-            multiple
-            className="border p-2 w-full mt-2"
-            onChange={(e) => setGalleryImages([...e.target.files])}
-          />
-          {existingGalleryImages.length > 0 && (
-            <div className="mt-4">
-              <h4 className="font-semibold mb-3">Existing Gallery Images</h4>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {existingGalleryImages.map((item) => (
-                  <div
-                    key={item._id}
-                    className="relative border rounded-lg overflow-hidden bg-gray-100"
-                  >
-                    <img
-                      src={item.image}
-                      alt="Gallery"
-                      className="w-full h-32 object-cover"
-                    />
-
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteGalleryImage(item._id)}
-                      className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white w-7 h-7 rounded-full flex items-center justify-center"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div> */}
-
         <div>
           <h3 className="font-semibold text-lg mb-2">Gallery</h3>
 
           <input
             type="text"
             placeholder="Gallery Heading"
-            className="border p-2 w-full mb-2"
+            className="border border-[#cbc7c0] rounded-lg p-2 w-full mb-2"
             value={imageheading}
             onChange={(e) => setImageHeading(e.target.value)}
           />
 
           <textarea
             placeholder="Gallery Description"
-            className="border p-2 w-full"
+            className="border border-[#cbc7c0] rounded-lg p-2 w-full"
             value={galleryDescription}
             onChange={(e) => setGalleryDescription(e.target.value)}
           />
@@ -814,7 +1034,7 @@ const Experiences = () => {
                 {existingGalleryImages.map((item, index) => (
                   <div
                     key={item._id || index}
-                    className="relative border rounded-lg overflow-hidden"
+                    className="relative border border-[#cbc7c0] rounded-lg rounded-lg overflow-hidden"
                   >
                     <img
                       src={item.image}
@@ -824,7 +1044,9 @@ const Experiences = () => {
 
                     <button
                       type="button"
-                      onClick={() => handleDeleteGalleryImage(index)}
+                      onClick={() =>
+                        handleDeleteGalleryImage(item._id, item.image)
+                      }
                       className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-red-700"
                     >
                       ×
@@ -837,13 +1059,17 @@ const Experiences = () => {
 
           {/* Add New Images */}
           <div className="mt-4">
-            <h4 className="font-medium mb-2">Add New Gallery Images</h4>
+            <h4 className="font-medium mb-2">
+              {editId
+                ? "Add More/New Gallery Images"
+                : `Add Gallery Images (*Select multiple images)`}
+            </h4>
 
             <input
               type="file"
               multiple
               accept="image/*"
-              className="border p-2 w-full"
+              className="border border-[#cbc7c0] rounded-lg p-2 w-full"
               onChange={(e) => {
                 setGalleryImages(Array.from(e.target.files));
               }}
@@ -854,7 +1080,10 @@ const Experiences = () => {
           {galleryImages.length > 0 && (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
               {galleryImages.map((file, index) => (
-                <div key={index} className="border rounded-lg overflow-hidden">
+                <div
+                  key={index}
+                  className="border border-[#cbc7c0] rounded-lg rounded-lg overflow-hidden"
+                >
                   <img
                     src={URL.createObjectURL(file)}
                     alt={`New gallery ${index + 1}`}
@@ -868,24 +1097,47 @@ const Experiences = () => {
 
         <button
           type="submit"
-          className="bg-green-600 text-white px-6 py-2 rounded"
+          disabled={isSubmitting}
+          className={`text-white px-6 py-2 rounded ${
+            isSubmitting
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-green-600 hover:bg-green-700"
+          }`}
         >
-          {editId ? "Update Experience" : "Create Experience"}
+          {isSubmitting
+            ? editId
+              ? "Updating..."
+              : "Creating..."
+            : editId
+              ? "Update Experience"
+              : "Create Experience"}
         </button>
       </form>
 
       {/* All Experiences */}
       <div className="mt-10">
-        <h3 className="text-xl font-semibold mb-4">All Experiences</h3>
+        <div className="flex items-center justify-between mb-4 gap-4">
+          <h3 className="text-xl font-semibold">All Experiences</h3>
+
+          <input
+            type="text"
+            placeholder="Search experience, destination or region..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="border border-[#cbc7c0] rounded-lg rounded-lg px-4 py-2 w-full max-w-md outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
         <div className="space-y-4">
-          {experiences.map((exp) => {
+          {filteredExperiences.map((exp) => {
+            // <div className="space-y-4">
+            //   {experiences.map((exp) => {
             const location = getExperienceLocation(exp._id);
 
             return (
               <div
                 key={exp._id}
-                className="border rounded-lg p-4 flex items-center justify-between gap-4 bg-white shadow-sm"
+                className="border border-[#cbc7c0] rounded-lg rounded-lg p-4 flex items-center justify-between gap-4 bg-white"
               >
                 <div className="flex items-center gap-4 min-w-0">
                   {/* Banner Image */}

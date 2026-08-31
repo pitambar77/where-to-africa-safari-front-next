@@ -1,16 +1,3 @@
-// import axios from "axios";
-
-// const API = axios.create({
-//   baseURL: "http://localhost:8000/api/itinerary", // your backend URL
-// });
-
-// export const getItineraries = () => API.get("/");
-// export const getItinerary = (id) => API.get(`/${id}`);
-// export const createItinerary = (formData) =>
-//   API.post("/", formData, { headers: { "Content-Type": "multipart/form-data" } });
-// export const updateItinerary = (id, formData) =>
-//   API.put(`/${id}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
-// export const deleteItinerary = (id) => API.delete(`/${id}`);
 
 
 import axios from "axios";
