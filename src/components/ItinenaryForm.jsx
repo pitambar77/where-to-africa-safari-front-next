@@ -1,6 +1,7 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 const ItinenaryForm = ({ onClose, trip }) => {
   const [formData, setFormData] = useState({
@@ -65,30 +66,67 @@ const ItinenaryForm = ({ onClose, trip }) => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+ 
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationErrors = validate();
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-    } else {
-      setErrors({});
+      return;
+    }
 
-      // ✅ ADD HERE
-      const fullPhoneNumber = formData.countryCode + formData.phone;
+    setErrors({});
 
-      const finalData = {
-        ...formData,
-        phone: fullPhoneNumber, // overwrite with full phone
-      };
+    const fullPhoneNumber = formData.countryCode + formData.phone;
 
-      console.log("Final Form Data:", finalData);
+    const finalData = {
+      ...formData,
 
-      alert("Form submitted successfully!");
+      phone: formData.phone,
 
-      // 👉 If calling backend:
-      // await axios.post("/api/itinerary", finalData);
+      tripId: trip?._id,
+
+      tripTitle: trip?.title,
+
+      tripSubtitle: trip?.subtitle,
+
+      fullPhone: fullPhoneNumber,
+    };
+
+    try {
+      const response = await axios.post(
+        "https://where-to-africa-safari-backend.whereto.africa/api/itineraryform",
+        // "http://localhost:8003/api/itineraryform",
+        finalData,
+      );
+
+      if (response.data.success) {
+        alert("Your package enquiry has been submitted successfully!");
+
+        setFormData({
+          travelDate: "",
+          firstName: "",
+          lastName: "",
+          email: "",
+          countryCode: "+91",
+          phone: "",
+          additionalInfo: "",
+          contactByEmail: false,
+          contactByPhone: false,
+          newsUpdates: false,
+          pastTraveller: false,
+          acceptPolicy: false,
+        });
+      }
+    } catch (error) {
+      console.error("Itinerary form error:", error);
+
+      alert(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again.",
+      );
     }
   };
 
@@ -343,10 +381,13 @@ const ItinenaryForm = ({ onClose, trip }) => {
                 </div>
 
                 <div className="flex gap-6 mt-6 text-sm text-gray-600">
-                  <Link href={"/privacy-policy"} type="button" className="underline">
+                  <Link
+                    href={"/privacy-policy"}
+                    type="button"
+                    className="underline"
+                  >
                     Privacy Policy
                   </Link>
-                 
                 </div>
               </div>
             </div>
