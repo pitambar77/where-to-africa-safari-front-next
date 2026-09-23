@@ -17,9 +17,11 @@ const ItinenaryForm = ({ onClose, trip }) => {
     newsUpdates: false,
     pastTraveller: false,
     acceptPolicy: false,
+    website: "",
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   // Handle Change
   const handleChange = (e) => {
@@ -66,7 +68,69 @@ const ItinenaryForm = ({ onClose, trip }) => {
     return newErrors;
   };
 
- 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const validationErrors = validate();
+
+  //   if (Object.keys(validationErrors).length > 0) {
+  //     setErrors(validationErrors);
+  //     return;
+  //   }
+
+  //   setErrors({});
+
+  //   const fullPhoneNumber = formData.countryCode + formData.phone;
+
+  //   const finalData = {
+  //     ...formData,
+
+  //     phone: formData.phone,
+
+  //     tripId: trip?._id,
+
+  //     tripTitle: trip?.title,
+
+  //     tripSubtitle: trip?.subtitle,
+
+  //     fullPhone: fullPhoneNumber,
+  //   };
+
+  //   try {
+  //     const response = await axios.post(
+  //       "https://where-to-africa-safari-backend.whereto.africa/api/itineraryform",
+  //       // "http://localhost:8003/api/itineraryform",
+  //       finalData,
+  //     );
+
+  //     if (response.data.success) {
+  //       alert("Your package enquiry has been submitted successfully!");
+
+  //       setFormData({
+  //         travelDate: "",
+  //         firstName: "",
+  //         lastName: "",
+  //         email: "",
+  //         countryCode: "+91",
+  //         phone: "",
+  //         additionalInfo: "",
+  //         contactByEmail: false,
+  //         contactByPhone: false,
+  //         newsUpdates: false,
+  //         pastTraveller: false,
+  //         acceptPolicy: false,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Itinerary form error:", error);
+
+  //     alert(
+  //       error.response?.data?.message ||
+  //         "Something went wrong. Please try again.",
+  //     );
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -78,27 +142,22 @@ const ItinenaryForm = ({ onClose, trip }) => {
     }
 
     setErrors({});
+    setLoading(true);
 
     const fullPhoneNumber = formData.countryCode + formData.phone;
 
     const finalData = {
       ...formData,
-
       phone: formData.phone,
-
       tripId: trip?._id,
-
       tripTitle: trip?.title,
-
       tripSubtitle: trip?.subtitle,
-
       fullPhone: fullPhoneNumber,
     };
 
     try {
       const response = await axios.post(
         "https://where-to-africa-safari-backend.whereto.africa/api/itineraryform",
-        // "http://localhost:8003/api/itineraryform",
         finalData,
       );
 
@@ -118,6 +177,7 @@ const ItinenaryForm = ({ onClose, trip }) => {
           newsUpdates: false,
           pastTraveller: false,
           acceptPolicy: false,
+          website: "",
         });
       }
     } catch (error) {
@@ -127,6 +187,8 @@ const ItinenaryForm = ({ onClose, trip }) => {
         error.response?.data?.message ||
           "Something went wrong. Please try again.",
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -497,13 +559,44 @@ const ItinenaryForm = ({ onClose, trip }) => {
               </div>
             </div>
           </div>
+
+          {/* Honeypot anti-spam field */}
+          <div
+            style={{
+              position: "absolute",
+              left: "-9999px",
+              top: "auto",
+              width: "1px",
+              height: "1px",
+              overflow: "hidden",
+            }}
+            aria-hidden="true"
+          >
+            <label htmlFor="website">Website</label>
+
+            <input
+              id="website"
+              type="text"
+              name="website"
+              value={formData.website}
+              onChange={handleChange}
+              tabIndex="-1"
+              autoComplete="off"
+            />
+          </div>
+
           {/* Submit */}
           <div className="flex justify-center mt-10">
             <button
               type="submit"
-              className="bg-[#ac9e86] text-white font-light tracking-widest py-3 px-8 text-xs sm:text-sm uppercase hover:bg-[#978973] rounded-sm transition duration-200 font-quicksand cursor-pointer"
+              disabled={loading}
+              className={`bg-[#ac9e86] text-white font-light tracking-widest py-3 px-8 text-xs sm:text-sm uppercase rounded-sm transition duration-200 font-quicksand ${
+                loading
+                  ? "opacity-60 cursor-not-allowed"
+                  : "hover:bg-[#978973] cursor-pointer"
+              }`}
             >
-              Book Now
+              {loading ? "Booking..." : "Book Now"}
             </button>
           </div>
         </form>
