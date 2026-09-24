@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const ItinenaryForm = ({ onClose, trip }) => {
   const [formData, setFormData] = useState({
@@ -22,6 +23,8 @@ const ItinenaryForm = ({ onClose, trip }) => {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   // Handle Change
   const handleChange = (e) => {
@@ -68,69 +71,6 @@ const ItinenaryForm = ({ onClose, trip }) => {
     return newErrors;
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const validationErrors = validate();
-
-  //   if (Object.keys(validationErrors).length > 0) {
-  //     setErrors(validationErrors);
-  //     return;
-  //   }
-
-  //   setErrors({});
-
-  //   const fullPhoneNumber = formData.countryCode + formData.phone;
-
-  //   const finalData = {
-  //     ...formData,
-
-  //     phone: formData.phone,
-
-  //     tripId: trip?._id,
-
-  //     tripTitle: trip?.title,
-
-  //     tripSubtitle: trip?.subtitle,
-
-  //     fullPhone: fullPhoneNumber,
-  //   };
-
-  //   try {
-  //     const response = await axios.post(
-  //       "https://where-to-africa-safari-backend.whereto.africa/api/itineraryform",
-  //       // "http://localhost:8003/api/itineraryform",
-  //       finalData,
-  //     );
-
-  //     if (response.data.success) {
-  //       alert("Your package enquiry has been submitted successfully!");
-
-  //       setFormData({
-  //         travelDate: "",
-  //         firstName: "",
-  //         lastName: "",
-  //         email: "",
-  //         countryCode: "+91",
-  //         phone: "",
-  //         additionalInfo: "",
-  //         contactByEmail: false,
-  //         contactByPhone: false,
-  //         newsUpdates: false,
-  //         pastTraveller: false,
-  //         acceptPolicy: false,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error("Itinerary form error:", error);
-
-  //     alert(
-  //       error.response?.data?.message ||
-  //         "Something went wrong. Please try again.",
-  //     );
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -162,7 +102,7 @@ const ItinenaryForm = ({ onClose, trip }) => {
       );
 
       if (response.data.success) {
-        alert("Your package enquiry has been submitted successfully!");
+        router.push("/thank-you");
 
         setFormData({
           travelDate: "",

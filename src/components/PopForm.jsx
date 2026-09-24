@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useRouter } from "next/navigation";
 
 export default function PopForm({ experienceName, destination }) {
   const [step, setStep] = useState(1);
@@ -25,9 +26,12 @@ export default function PopForm({ experienceName, destination }) {
     phone: "",
     country: "",
     acceptPolicy: false,
+    website: "",
   });
 
   const [openDropdown, setOpenDropdown] = useState(null);
+
+  const router = useRouter();
 
   const handleChange = (key, value) => {
     setForm((prev) => ({
@@ -106,6 +110,12 @@ export default function PopForm({ experienceName, destination }) {
   const submitForm = async () => {
     if (!validateStep2()) return;
 
+    // Honeypot check
+    if (form.website) {
+      console.log("Spam bot detected");
+      return;
+    }
+
     if (!captchaToken) {
       alert("Please verify the captcha.");
       return;
@@ -135,7 +145,8 @@ export default function PopForm({ experienceName, destination }) {
       }
 
       if (data.success) {
-        setStep(3);
+        router.push("/thank-you");
+        // setStep(3);
 
         // Optional: Reset form after successful submission
         setForm({
@@ -153,6 +164,7 @@ export default function PopForm({ experienceName, destination }) {
           phone: "",
           country: "",
           acceptPolicy: false,
+          website: "",
         });
       }
     } catch (error) {
@@ -384,7 +396,7 @@ export default function PopForm({ experienceName, destination }) {
               <div
                 className="absolute top-[7px] left-[8px] h-[1px] bg-[#f4b63d] transition-all duration-300"
                 style={{
-                  width: step === 1 ? "0%" : step === 2 ? "50%" : "100%",
+                  width: step === 1 ? "0%" : "100%",
                 }}
               ></div>
 
@@ -405,7 +417,7 @@ export default function PopForm({ experienceName, destination }) {
                 </div>
 
                 {/* Step 2 */}
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-end">
                   <div
                     className={`w-4 h-4 rounded-full border ${
                       step >= 2
@@ -419,7 +431,7 @@ export default function PopForm({ experienceName, destination }) {
                 </div>
 
                 {/* Step 3 */}
-                <div className="flex flex-col items-end">
+                {/* <div className="flex flex-col items-end">
                   <div
                     className={`w-4 h-4 rounded-full border ${
                       step === 3
@@ -430,7 +442,7 @@ export default function PopForm({ experienceName, destination }) {
                   <p className="mt-4  text-sm tracking-[3px] text-gray-700">
                     SEND INQUIRY
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -728,6 +740,24 @@ export default function PopForm({ experienceName, destination }) {
               {/* ================= 8. Your Details ================= */}
               <div className="mb-10">
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
+                  {/* Honeypot anti-spam field */}
+                  <div
+                    className="absolute left-[-9999px] top-auto w-[1px] h-[1px] overflow-hidden"
+                    aria-hidden="true"
+                  >
+                    <label htmlFor="website">Website</label>
+
+                    <input
+                      id="website"
+                      type="text"
+                      name="website"
+                      value={form.website}
+                      onChange={(e) => handleChange("website", e.target.value)}
+                      tabIndex="-1"
+                      autoComplete="off"
+                    />
+                  </div>
+
                   {/* First Name */}
                   <div>
                     <label className=" text-sm capitalize mb-2 block">
@@ -910,14 +940,14 @@ export default function PopForm({ experienceName, destination }) {
             </>
           )}
 
-          {step === 3 && (
+          {/* {step === 3 && (
             <div className="text-center py-20">
               <h2 className="text-xl font-semibold">Thank you!</h2>
               <p className="text-gray-500 mt-2">
                 Your inquiry has been submitted.
               </p>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </>
