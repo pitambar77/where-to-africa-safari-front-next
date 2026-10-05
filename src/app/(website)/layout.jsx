@@ -44,7 +44,7 @@ export default async function WebsiteLayout({ children }) {
       {/* Google Analytics */}
 
       <Script
-        src="https://www.googletagmanager.com/gtag/js?id=UA-174652433-1"
+        src="https://www.googletagmanager.com/gtag/js?id=G-6DM8VGPQ0M"
         strategy="afterInteractive"
       />
 
@@ -53,10 +53,9 @@ export default async function WebsiteLayout({ children }) {
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'UA-174652433-1');
+          gtag('config', 'G-6DM8VGPQ0M');
         `}
       </Script>
-
       <Header destinations={destinations} />
       {children}
       <Testimonial />
