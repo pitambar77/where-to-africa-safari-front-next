@@ -138,7 +138,7 @@ const DestinationDetails = ({
           data={accommodations.map((acc) => ({
             id: acc.slug,
             image: acc.bannerImages?.[0],
-            nights: `Nights ${acc.nightsStay || ""}`,
+            nights: `Ratings ${acc.nightsStay || ""}`,
             title: acc.name,
             location: acc.location,
             tag: acc.accommodationType,
