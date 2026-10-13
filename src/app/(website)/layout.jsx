@@ -7,7 +7,7 @@ import Testimonial from "@/components/Testimonial";
 
 export const metadata = {
   verification: {
-    google: "rzoWX3TnJMVHfK3RdmL8v-A7KVPFldmNUsAyzFnbu0M",
+    google: "oIA9XRcGyCqT7fFuK4mAYI0t5P7gE1e21yu-vyBrRls",
   },
 };
 
