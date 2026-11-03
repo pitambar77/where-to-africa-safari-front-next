@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -28,8 +28,8 @@ const Header = ({ destinations = [] }) => {
   // }, []);
 
   const sortedDestinations = [...destinations].sort((a, b) =>
-  a.name.localeCompare(b.name)
-);
+    a.name.localeCompare(b.name),
+  );
 
   // Detect screen size
   useEffect(() => {
@@ -126,12 +126,21 @@ const Header = ({ destinations = [] }) => {
 
           {/* Right Side */}
           <div className="flex items-center space-x-3">
-            <Link
+            {/* <Link
               href="/contact-us"
               className="hidden md:inline-block bg-[#aaa086] text-white px-4 py-2 rounded-md text-sm hover:bg-[#f25922]"
             >
               Contact Us
-            </Link>
+            </Link> */}
+
+            <a
+              href="https://johnmc349538.typeform.com/to/X3VDKqdb"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:inline-block bg-[#aaa086] text-white px-4 py-2 rounded-md text-sm hover:bg-[#f25922] transition-colors"
+            >
+              Help Me Plan
+            </a>
 
             {/* Hamburger */}
             <button
@@ -207,7 +216,10 @@ const Header = ({ destinations = [] }) => {
               <Link href="/packages" onClick={() => setIsMobileMenu(false)}>
                 Journey
               </Link>
-              <Link href="/accommodations" onClick={() => setIsMobileMenu(false)}>
+              <Link
+                href="/accommodations"
+                onClick={() => setIsMobileMenu(false)}
+              >
                 Retreats
               </Link>
               <Link href="/experiences" onClick={() => setIsMobileMenu(false)}>
@@ -223,13 +235,23 @@ const Header = ({ destinations = [] }) => {
                 Blog
               </Link>
 
-              <Link
+              {/* <Link
                 href="/contact-us"
                 onClick={() => setIsMobileMenu(false)}
                 className="bg-[#aaa086] text-white px-4 py-2 rounded-md text-center mt-4"
               >
                 Contact Us
-              </Link>
+              </Link> */}
+
+              <a
+                href="https://johnmc349538.typeform.com/to/X3VDKqdb"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMobileMenu(false)}
+                className="bg-[#aaa086] text-white px-4 py-2 rounded-md text-center mt-4"
+              >
+                Help Me Plan
+              </a>
             </div>
           </motion.div>
         )}
